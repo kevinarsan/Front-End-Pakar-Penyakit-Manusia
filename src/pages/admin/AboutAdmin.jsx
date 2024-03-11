@@ -1,0 +1,667 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {
+  Table,
+  Button,
+  NavDropdown,
+  Modal,
+  Form,
+  Alert,
+} from "react-bootstrap";
+import { FaSearch, FaFilter, FaPlus } from "react-icons/fa";
+
+const AboutAdmin = () => {
+  const [show, setShow] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
+  const [alert, setAlert] = useState({
+    show: false,
+    variant: "success",
+    message: "",
+  });
+
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    show: false,
+    idToDelete: null,
+  });
+
+  const handleClose = () => {
+    setShow(false);
+    setAlert({ show: false, variant: "success", message: "" });
+  };
+  const handleShow = () => setShow(true);
+
+  const handleDeleteConfirmationClose = () => {
+    setDeleteConfirmation({ show: false, idToDelete: null });
+  };
+  const handleDeleteConfirmationShow = (id) => {
+    setDeleteConfirmation({ show: true, idToDelete: id });
+  };
+
+  const [data, setData] = useState([]);
+  const [dataType, setDataType] = useState("Visi & Misi");
+
+  const [formData, setFormData] = useState({
+    name: "",
+    bab: "",
+    description: "",
+    linkVideo: "",
+    picture: null,
+  });
+
+  useEffect(() => {
+    fetchData();
+  }, [dataType, selectedData]);
+
+  const fetchData = async () => {
+    try {
+      let url = "";
+
+      if (dataType === "Visi & Misi") {
+        url = "http://localhost:5000/api/v1/about/visi-misi";
+      } else if (dataType === "Teams") {
+        url = "http://localhost:5000/api/v1/about/teams";
+      } else if (dataType === "Moto") {
+        url = "http://localhost:5000/api/v1/about/description-team";
+      } else if (dataType === "Tutorials") {
+        url = "http://localhost:5000/api/v1/about/tutorials";
+      }
+
+      const response = await axios.get(url);
+
+      if (response.status === 200) {
+        setData(
+          response.data.existingVisi ||
+            response.data.teams ||
+            response.data.about ||
+            response.data.videos ||
+            []
+        );
+      } else {
+        setData([]);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setData([]);
+    }
+  };
+
+  const handleUpdateClick = (item) => {
+    setSelectedData(item);
+    setFormData(item);
+    handleShow();
+  };
+
+  const handleDeleteClick = async (id) => {
+    handleDeleteConfirmationShow(id);
+  };
+
+  const handleDeleteConfirmed = async () => {
+    let deleteUrl = "";
+
+    if (dataType === "Visi & Misi") {
+      deleteUrl = `http://localhost:5000/api/v1/about/visi-misi/${deleteConfirmation.idToDelete}`;
+    } else if (dataType === "Teams") {
+      deleteUrl = `http://localhost:5000/api/v1/about/teams/${deleteConfirmation.idToDelete}`;
+    } else if (dataType === "Moto") {
+      deleteUrl = `http://localhost:5000/api/v1/about/moto-team/${deleteConfirmation.idToDelete}`;
+    } else if (dataType === "Tutorials") {
+      deleteUrl = `http://localhost:5000/api/v1/about/tutorials/${deleteConfirmation.idToDelete}`;
+    }
+
+    try {
+      const response = await axios.delete(deleteUrl);
+
+      if (response.status === 200) {
+        console.log("Data berhasil dihapus");
+        setAlert({
+          show: true,
+          variant: "success",
+          message: "Data berhasil dihapus.",
+        });
+        fetchData();
+      } else {
+        console.log("Gagal menghapus data");
+        setAlert({
+          show: true,
+          variant: "danger",
+          message: "Gagal menghapus data.",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setAlert({
+        show: true,
+        variant: "danger",
+        message: "Terjadi kesalahan. Mohon coba lagi.",
+      });
+    }
+
+    handleDeleteConfirmationClose();
+  };
+
+  const handleTambahClick = (dataType) => {
+    setSelectedData(null);
+    setFormData({
+      name: "",
+      bab: "",
+      description: "",
+      linkVideo: "",
+      picture: null,
+    });
+
+    handleShow();
+  };
+
+  const handleFormChange = (e) => {
+    const { name, value, files } = e.target;
+
+    if (name === "picture") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: files[0],
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    let url = "";
+    let config = {};
+
+    if (selectedData) {
+      if (dataType === "Visi & Misi") {
+        url = `http://localhost:5000/api/v1/about/visi-misi/${selectedData.id}`;
+        config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      } else if (dataType === "Teams") {
+        url = `http://localhost:5000/api/v1/about/teams/${selectedData.id}`;
+        config = {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        };
+      } else if (dataType === "Moto") {
+        url = `http://localhost:5000/api/v1/about/moto-team/${selectedData.id}`;
+        config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      } else if (dataType === "Tutorials") {
+        url = `http://localhost:5000/api/v1/about/tutorials/${selectedData.id}`;
+        config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      }
+    } else {
+      if (dataType === "Visi & Misi") {
+        url = "http://localhost:5000/api/v1/about/visi-misi";
+        config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      } else if (dataType === "Teams") {
+        url = "http://localhost:5000/api/v1/about/teams";
+        config = {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        };
+      } else if (dataType === "Moto") {
+        url = "http://localhost:5000/api/v1/about/description-team";
+        config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      } else if (dataType === "Tutorials") {
+        url = "http://localhost:5000/api/v1/about/tutorials";
+        config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      }
+    }
+
+    try {
+      let response;
+
+      if (
+        dataType === "Visi & Misi" ||
+        dataType === "Moto" ||
+        dataType === "Tutorials"
+      ) {
+        response = selectedData
+          ? await axios.put(url, formData, config)
+          : await axios.post(url, formData, config);
+      } else if (dataType === "Teams") {
+        const formDataToSend = new FormData();
+
+        for (const key in formData) {
+          formDataToSend.append(key, formData[key]);
+        }
+
+        response = selectedData
+          ? await axios.put(url, formDataToSend, config)
+          : await axios.post(url, formDataToSend, config);
+      }
+
+      if (response.status === 200) {
+        console.log("Data berhasil disimpan");
+        setAlert({
+          show: true,
+          variant: "success",
+          message: "Data berhasil disimpan.",
+        });
+        handleClose();
+        fetchData();
+      } else {
+        console.log("Gagal menyimpan data");
+        setAlert({
+          show: true,
+          variant: "danger",
+          message: "Gagal menyimpan data.",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setAlert({
+        show: true,
+        variant: "danger",
+        message: "Terjadi kesalahan. Mohon coba lagi.",
+      });
+    }
+  };
+
+  const renderFormFields = () => {
+    if (dataType === "Visi & Misi") {
+      return (
+        <>
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>Nama</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="bab">
+            <Form.Label>Tujuan</Form.Label>
+            <Form.Control
+              type="text"
+              name="bab"
+              value={formData.bab}
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="description">
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              name="description"
+              value={formData.description}
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+        </>
+      );
+    } else if (dataType === "Teams") {
+      return (
+        <>
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>Nama</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="picture">
+            <Form.Label>Foto</Form.Label>
+            <Form.Control
+              type="file"
+              accept="image/*"
+              name="picture"
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="description">
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              name="description"
+              value={formData.description}
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+        </>
+      );
+    } else if (dataType === "Moto") {
+      return (
+        <>
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="area"
+              name="name"
+              value={formData.name}
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="description">
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              name="description"
+              value={formData.description}
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+        </>
+      );
+    } else if (dataType === "Tutorials") {
+      return (
+        <>
+          <Form.Group className="mb-3" controlId="linkVideo">
+            <Form.Label>Link Video</Form.Label>
+            <Form.Control
+              type="text"
+              name="linkVideo"
+              value={formData.linkVideo}
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="description">
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              name="description"
+              value={formData.description}
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+        </>
+      );
+    }
+  };
+
+  const renderTable = () => {
+    if (!data || data.length === 0) {
+      return <p>Data tidak ditemukan</p>;
+    }
+
+    return (
+      <div className="table-admin overflow-auto">
+        <Table>
+          <thead>
+            <tr>
+              <th className="">No</th>
+              {dataType === "Visi & Misi" ? (
+                <>
+                  <th className="col-1">Visi/Misi</th>
+                  <th className="col-3">Tujuan</th>
+                  <th className="col-6">Description</th>
+                </>
+              ) : dataType === "Teams" ? (
+                <>
+                  <th className="col-2">Nama</th>
+                  <th className="col-2">Foto</th>
+                  <th className="col-6">Description</th>
+                </>
+              ) : dataType === "Moto" ? (
+                <>
+                  <th className="col-2">Name</th>
+                  <th className="col-8">Description</th>
+                </>
+              ) : dataType === "Tutorials" ? (
+                <>
+                  <th className="col-4">Link Video</th>
+                  <th className="col-6">Deskripsi</th>
+                </>
+              ) : null}
+              <th className="col-2">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                {dataType === "Visi & Misi" ? (
+                  <>
+                    <td>{item.name}</td>
+                    <td>{item.bab}</td>
+                    <td>{item.description}</td>
+                    <td>
+                      <div className="d-flex">
+                        <Button
+                          className="update d-flex justify-content-center align-items-center me-1"
+                          onClick={() => handleUpdateClick(item)}
+                        >
+                          Ubah
+                        </Button>
+                        <Button
+                          className="delete d-flex justify-content-center align-items-center ms-1"
+                          onClick={() => handleDeleteClick(item.id)}
+                        >
+                          Hapus
+                        </Button>
+                      </div>
+                    </td>
+                  </>
+                ) : dataType === "Teams" ? (
+                  <>
+                    <td>{item.name}</td>
+                    <td>
+                      <img
+                        className="w-100"
+                        src={item.picture}
+                        alt={item.name}
+                      />
+                    </td>
+                    <td>{item.description}</td>
+                    <td>
+                      <div className="d-flex">
+                        <Button
+                          className="update d-flex justify-content-center align-items-center me-1"
+                          onClick={() => handleUpdateClick(item)}
+                        >
+                          Ubah
+                        </Button>
+                        <Button
+                          className="delete d-flex justify-content-center align-items-center ms-1"
+                          onClick={() => handleDeleteClick(item.id)}
+                        >
+                          Hapus
+                        </Button>
+                      </div>
+                    </td>
+                  </>
+                ) : dataType === "Moto" ? (
+                  <>
+                    <td>{item.name}</td>
+                    <td>{item.description}</td>
+                    <td>
+                      <div className="d-flex">
+                        <Button
+                          className="update d-flex justify-content-center align-items-center me-1"
+                          onClick={() => handleUpdateClick(item)}
+                        >
+                          Ubah
+                        </Button>
+                        <Button
+                          className="delete d-flex justify-content-center align-items-center ms-1"
+                          onClick={() => handleDeleteClick(item.id)}
+                        >
+                          Hapus
+                        </Button>
+                      </div>
+                    </td>
+                  </>
+                ) : dataType === "Tutorials" ? (
+                  <>
+                    <td>{item.linkVideo}</td>
+                    <td>{item.description}</td>
+                    <td>
+                      <div className="d-flex">
+                        <Button
+                          className="update d-flex justify-content-center align-items-center me-1"
+                          onClick={() => handleUpdateClick(item)}
+                        >
+                          Ubah
+                        </Button>
+                        <Button
+                          className="delete d-flex justify-content-center align-items-center ms-1"
+                          onClick={() => handleDeleteClick(item.id)}
+                        >
+                          Hapus
+                        </Button>
+                      </div>
+                    </td>
+                  </>
+                ) : null}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    );
+  };
+
+  const renderButton = () => {
+    let text = "";
+    if (dataType === "Visi & Misi") {
+      text = "Tambah Visi & Misi";
+    } else if (dataType === "Teams") {
+      text = "Tambah Teams";
+    } else if (dataType === "Moto") {
+      text = "Tambah Moto";
+    } else if (dataType === "Tutorials") {
+      text = "Tambah Tutorials";
+    }
+
+    return (
+      <>
+        <Button
+          className="tambah me-2 fw-semibold d-flex align-items-center"
+          onClick={() => handleTambahClick(dataType)}
+        >
+          <FaPlus className="me-2" />
+          {text}
+        </Button>
+      </>
+    );
+  };
+
+  return (
+    <div className="col-10 offset-1 mt-4">
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title className="fw-semibold">
+            Tambah Data {dataType}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleFormSubmit}>
+            {renderFormFields()}
+            <Button className="save" type="submit">
+              Simpan
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      {/* KONFIRMASI HAPUS DATA */}
+      <Modal
+        show={deleteConfirmation.show}
+        onHide={handleDeleteConfirmationClose}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className="fw-semibold">
+            Konfirmasi Penghapusan
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Yakin ingin menghapus data?</Modal.Body>
+        <Modal.Footer>
+          <Button className="cencel" onClick={handleDeleteConfirmationClose}>
+            Batal
+          </Button>
+          <Button className="hapus" onClick={handleDeleteConfirmed}>
+            Hapus
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Alert
+        show={alert.show}
+        variant={alert.variant}
+        onClose={() =>
+          setAlert({ show: false, variant: "success", message: "" })
+        }
+        dismissible
+      >
+        {alert.message}
+      </Alert>
+
+      <div className="d-flex mb-2">
+        <NavDropdown
+          className="mt-2 fs-5 fw-bold text-black col-4"
+          title={dataType}
+          id="basic-nav-dropdown"
+        >
+          <NavDropdown.Item onClick={() => setDataType("Visi & Misi")}>
+            Visi & Misi
+          </NavDropdown.Item>
+          <NavDropdown.Item onClick={() => setDataType("Teams")}>
+            Teams
+          </NavDropdown.Item>
+          <NavDropdown.Item onClick={() => setDataType("Moto")}>
+            Moto
+          </NavDropdown.Item>
+          <NavDropdown.Item onClick={() => setDataType("Tutorials")}>
+            Tutorials
+          </NavDropdown.Item>
+        </NavDropdown>
+        <div className="col-8 d-flex justify-content-end mt-2">
+          {renderButton()}
+          <Button className="filter me-2 ms-2 fw-semibold d-flex align-items-center">
+            <FaFilter className="me-2" />
+            Filter
+          </Button>
+          <FaSearch className="logo-search fs-5 ms-1 d-flex align-items-center mt-1" />
+        </div>
+      </div>
+      {renderTable()}
+    </div>
+  );
+};
+
+export default AboutAdmin;
