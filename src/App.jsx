@@ -1,4 +1,3 @@
-// App.jsx
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
@@ -17,6 +16,9 @@ import Hospitals from "./pages/admin/Hospitals";
 import LoginAdmin from "./pages/admin/LoginAdmin";
 import DashboardAdmin from "./pages/admin/DashboardAdmin";
 import GejalaAdmin from "./pages/admin/GejalaAdmin";
+
+// DETAILS
+import DetailDokterPages from "./pages/details/DokterDetailPages";
 
 function App() {
   return (
@@ -103,6 +105,15 @@ function App() {
       <Route path="/admin/login-admin" element={<LoginAdmin />} />
 
       {/* ADMIN END */}
+
+      {/* DETAILS */}
+
+      <Route
+        path="/admin/daftar-dokter/details/:id"
+        element={<DetailDokterPages />}
+      />
+
+      {/* DETAILS END */}
     </Routes>
   );
 }

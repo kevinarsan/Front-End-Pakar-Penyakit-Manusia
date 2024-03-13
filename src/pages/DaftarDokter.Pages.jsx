@@ -23,7 +23,6 @@ const DaftarDokterPages = () => {
   const [displayedCities, setDisplayedCities] = useState([]);
   const [displayedSpesialis, setDisplayedSpesialis] = useState([]);
 
-  // Menentukan batas jumlah yang ditampilkan
   const MAX_DISPLAY_COUNT = 5;
 
   const [showAllProvinces, setShowAllProvinces] = useState(false);
@@ -98,6 +97,23 @@ const DaftarDokterPages = () => {
     }
   };
 
+  const resetFilters = () => {
+    setDisplayedProvinces(
+      showAllProvinces ? uniqueProvinces.slice(0, MAX_DISPLAY_COUNT) : []
+    );
+    setShowAllProvinces(false);
+
+    setDisplayedCities(
+      showAllCities ? uniqueCities.slice(0, MAX_DISPLAY_COUNT) : []
+    );
+    setShowAllCities(false);
+
+    setDisplayedSpesialis(
+      showAllSpesialis ? uniqueSpesialis.slice(0, MAX_DISPLAY_COUNT) : []
+    );
+    setShowAllSpesialis(false);
+  };
+
   return (
     <div className="daftar-dokter w-100 overflow-hidden mb-5">
       {dataDokter.map((item) => (
@@ -149,104 +165,108 @@ const DaftarDokterPages = () => {
 
         <Row className="container">
           <Col lg="4">
-            <div>
-              <h5 className="fw-bold">Provinsi</h5>
-              {displayedProvinces.map((province, index) => (
-                <Form key={index}>
-                  <div className="mb-3">
-                    <Form.Check
-                      type="checkbox"
-                      id={`province-${index}`}
-                      label={province}
-                    />
-                  </div>
-                </Form>
-              ))}
-              {uniqueProvinces.length > MAX_DISPLAY_COUNT && (
-                <Button
-                  className="mb-3"
-                  variant="link"
-                  onClick={() => toggleShowAll("provinces")}
-                >
-                  {showAllProvinces ? (
-                    <>
-                      Sembunyikan <FaAngleUp />
-                    </>
-                  ) : (
-                    <>
-                      Lihat Lainnya <FaAngleDown />
-                    </>
-                  )}
-                </Button>
-              )}
-            </div>
+            <div className="bg-filter col-8">
+              <div className="mb-4 ms-4">
+                <h5 className="fw-bold">Provinsi</h5>
+                {displayedProvinces.map((province, index) => (
+                  <Form key={index}>
+                    <div className="mb-3">
+                      <Form.Check
+                        type="checkbox"
+                        id={`province-${index}`}
+                        label={province}
+                      />
+                    </div>
+                  </Form>
+                ))}
+                {uniqueProvinces.length > MAX_DISPLAY_COUNT && (
+                  <Button
+                    variant="link"
+                    onClick={() => toggleShowAll("provinces")}
+                  >
+                    {showAllProvinces ? (
+                      <>
+                        Sembunyikan <FaAngleUp />
+                      </>
+                    ) : (
+                      <>
+                        Lihat Lainnya <FaAngleDown />
+                      </>
+                    )}
+                  </Button>
+                )}
+              </div>
 
-            <div>
-              <h5 className="fw-bold">Kota</h5>
-              {displayedCities.map((city, index) => (
-                <Form key={index}>
-                  <div className="mb-3">
-                    <Form.Check
-                      type="checkbox"
-                      id={`city-${index}`}
-                      label={city}
-                    />
-                  </div>
-                </Form>
-              ))}
-              {uniqueCities.length > MAX_DISPLAY_COUNT && (
-                <Button
-                  className="mb-3"
-                  variant="link"
-                  onClick={() => toggleShowAll("cities")}
-                >
-                  {showAllCities ? (
-                    <>
-                      Sembunyikan <FaAngleUp />
-                    </>
-                  ) : (
-                    <>
-                      Lihat Lainnya <FaAngleDown />
-                    </>
-                  )}
-                </Button>
-              )}
-            </div>
+              <div className="mb-4 ms-4">
+                <h5 className="fw-bold">Kota</h5>
+                {displayedCities.map((city, index) => (
+                  <Form key={index}>
+                    <div className="mb-3">
+                      <Form.Check
+                        type="checkbox"
+                        id={`city-${index}`}
+                        label={city}
+                      />
+                    </div>
+                  </Form>
+                ))}
+                {uniqueCities.length > MAX_DISPLAY_COUNT && (
+                  <Button
+                    variant="link"
+                    onClick={() => toggleShowAll("cities")}
+                  >
+                    {showAllCities ? (
+                      <>
+                        Sembunyikan <FaAngleUp />
+                      </>
+                    ) : (
+                      <>
+                        Lihat Lainnya <FaAngleDown />
+                      </>
+                    )}
+                  </Button>
+                )}
+              </div>
 
-            <div className="mb-5">
-              <h5 className="fw-bold">Dokter Spesialis</h5>
-              {displayedSpesialis.map((spesialis, index) => (
-                <Form key={index}>
-                  <div className="mb-3">
-                    <Form.Check
-                      type="checkbox"
-                      id={`spesialis-${index}`}
-                      label={spesialis}
-                    />
-                  </div>
-                </Form>
-              ))}
-              {uniqueSpesialis.length > MAX_DISPLAY_COUNT && (
-                <Button
-                  className="mb-3"
-                  variant="link"
-                  onClick={() => toggleShowAll("spesialis")}
-                >
-                  {showAllSpesialis ? (
-                    <>
-                      Sembunyikan <FaAngleUp />
-                    </>
-                  ) : (
-                    <>
-                      Lihat Lainnya <FaAngleDown />
-                    </>
-                  )}
-                </Button>
-              )}
-            </div>
+              <div className="mb-4 ms-4">
+                <h5 className="fw-bold">Dokter Spesialis</h5>
+                {displayedSpesialis.map((spesialis, index) => (
+                  <Form key={index}>
+                    <div className="mb-3">
+                      <Form.Check
+                        type="checkbox"
+                        id={`spesialis-${index}`}
+                        label={spesialis}
+                      />
+                    </div>
+                  </Form>
+                ))}
+                {uniqueSpesialis.length > MAX_DISPLAY_COUNT && (
+                  <Button
+                    variant="link"
+                    onClick={() => toggleShowAll("spesialis")}
+                  >
+                    {showAllSpesialis ? (
+                      <>
+                        Sembunyikan <FaAngleUp />
+                      </>
+                    ) : (
+                      <>
+                        Lihat Lainnya <FaAngleDown />
+                      </>
+                    )}
+                  </Button>
+                )}
+              </div>
 
-            <div className="dokter col-6 mt-5">
-              <p className="text-center">Hapus Filter</p>
+              <div className="d-flex justify-content-center">
+                <Button
+                  className="hps-filter text-center text-danger fw-semibold"
+                  onClick={resetFilters}
+                >
+                  Hapus Filter
+                </Button>
+              </div>
             </div>
           </Col>
 
@@ -263,7 +283,9 @@ const DaftarDokterPages = () => {
                     <Card.Body>
                       <div className="d-flex">
                         <Card.Title className="col-10 fs-6 fw-bold mb-0">
-                          {item.name}
+                          <Link to={`/admin/daftar-dokter/details/${item.id}`}>
+                            {item.name}
+                          </Link>
                         </Card.Title>
                         <div className="col-2 d-flex">
                           <FaStar className="star me-1 mt-1 fs-6" />
@@ -273,18 +295,28 @@ const DaftarDokterPages = () => {
                         </div>
                       </div>
                       <div>
-                        <p className="spesialis fw-semibold mb-0 overflow-ellipsis">
+                        <p className="spesialis fw-semibold mb-0 overflow-ellipsis text-danger">
                           {item.spesialis}
                         </p>
                         <p className="mb-0 fw-normal overflow-ellipsis">
                           {item.description}
                         </p>
-                        <p className="location fw-semibold overflow-ellipsis">
+                        <p
+                          className="location fw-semibold overflow-ellipsis"
+                          style={{
+                            color: "var(--logo-color-1)",
+                            fontSize: "0.8rem",
+                          }}
+                        >
                           <FaLocationDot className="me-1" />
                           {item.details}
                         </p>
                       </div>
-                      <Button className="order d-flex align-items-center justify-content-center">
+                      <Button
+                        as={Link}
+                        to="/login"
+                        className="order d-flex align-items-center justify-content-center"
+                      >
                         <FaSketch className="me-2" />
                         Pesan
                       </Button>
