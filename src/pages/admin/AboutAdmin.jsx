@@ -47,6 +47,7 @@ const AboutAdmin = () => {
     linkVideo: "",
     pertanyaan: "",
     jawaban: "",
+    email: "",
     picture: null,
   });
 
@@ -68,6 +69,8 @@ const AboutAdmin = () => {
         url = "http://localhost:5000/api/v1/about/tutorials";
       } else if (dataType === "FAQ") {
         url = "http://localhost:5000/api/v1/about/faq";
+      } else if (dataType === "Kontak") {
+        url = "http://localhost:5000/api/v1/about/contact";
       }
 
       const response = await axios.get(url);
@@ -79,6 +82,7 @@ const AboutAdmin = () => {
             response.data.about ||
             response.data.videos ||
             response.data.FAQ ||
+            response.data.contacts ||
             []
         );
       } else {
@@ -113,6 +117,8 @@ const AboutAdmin = () => {
       deleteUrl = `http://localhost:5000/api/v1/about/tutorials/${deleteConfirmation.idToDelete}`;
     } else if (dataType === "FAQ") {
       deleteUrl = `http://localhost:5000/api/v1/about/faq/${deleteConfirmation.idToDelete}`;
+    } else if (dataType === "Kontak") {
+      deleteUrl = `http://localhost:5000/api/v1/about/contact/${deleteConfirmation.idToDelete}`;
     }
 
     try {
@@ -155,6 +161,7 @@ const AboutAdmin = () => {
       linkVideo: "",
       pertanyaan: "",
       jawaban: "",
+      email: "",
       picture: null,
     });
 
@@ -219,6 +226,13 @@ const AboutAdmin = () => {
             "Content-Type": "application/json",
           },
         };
+      } else if (dataType === "Kontak") {
+        url = `http://localhost:5000/api/v1/about/contact/${selectedData.id}`;
+        config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
       }
     } else {
       if (dataType === "Visi & Misi") {
@@ -256,6 +270,13 @@ const AboutAdmin = () => {
             "Content-Type": "application/json",
           },
         };
+      } else if (dataType === "Kontak") {
+        url = "http://localhost:5000/api/v1/about/contact";
+        config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
       }
     }
 
@@ -267,7 +288,8 @@ const AboutAdmin = () => {
         dataType === "Moto" ||
         dataType === "FAQ" ||
         dataType === "Tutorials" ||
-        dataType === "Teams"
+        dataType === "Teams" ||
+        dataType === "Kontak"
       ) {
         response = selectedData
           ? await axios.put(url, formData, config)
@@ -464,6 +486,31 @@ const AboutAdmin = () => {
           </Form.Group>
         </>
       );
+    } else if (dataType === "Kontak") {
+      return (
+        <>
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>Kontak</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="email">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="text"
+              name="email"
+              value={formData.email}
+              onChange={handleFormChange}
+              required
+            />
+          </Form.Group>
+        </>
+      );
     }
   };
 
@@ -504,6 +551,11 @@ const AboutAdmin = () => {
                 <>
                   <th className="col-4">Pertanyaan</th>
                   <th className="col-6">Jawaban</th>
+                </>
+              ) : dataType === "Kontak" ? (
+                <>
+                  <th className="col-5">Kontak</th>
+                  <th className="col-5">Email</th>
                 </>
               ) : null}
               <th className="col-2">Aksi</th>
@@ -626,6 +678,27 @@ const AboutAdmin = () => {
                       </div>
                     </td>
                   </>
+                ) : dataType === "Kontak" ? (
+                  <>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>
+                      <div className="d-flex">
+                        <Button
+                          className="update d-flex justify-content-center align-items-center me-1"
+                          onClick={() => handleUpdateClick(item)}
+                        >
+                          Ubah
+                        </Button>
+                        <Button
+                          className="delete d-flex justify-content-center align-items-center ms-1"
+                          onClick={() => handleDeleteClick(item.id)}
+                        >
+                          Hapus
+                        </Button>
+                      </div>
+                    </td>
+                  </>
                 ) : null}
               </tr>
             ))}
@@ -647,6 +720,8 @@ const AboutAdmin = () => {
       text = "Tambah Tutorials";
     } else if (dataType === "FAQ") {
       text = "Tambah FAQ";
+    } else if (dataType === "Kontak") {
+      text = "Tambah Kontak";
     }
 
     return (
@@ -732,6 +807,9 @@ const AboutAdmin = () => {
           </NavDropdown.Item>
           <NavDropdown.Item onClick={() => setDataType("FAQ")}>
             FAQ
+          </NavDropdown.Item>
+          <NavDropdown.Item onClick={() => setDataType("Kontak")}>
+            Kontak
           </NavDropdown.Item>
         </NavDropdown>
         <div className="col-8 d-flex justify-content-end mt-2">

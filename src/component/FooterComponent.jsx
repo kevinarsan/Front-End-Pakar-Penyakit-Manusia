@@ -1,4 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import logo from "../../public/nm.png";
 import fb from "../../public/FB.png";
 import yt from "../../public/yt.png";
@@ -22,13 +23,13 @@ const FooterComponent = () => {
               Program Diagnosify
             </div>
             <div className="mb-1">
-              <a href="#">Diagnosify Diagnosa</a>
+              <Link href="/">Diagnosify Diagnosa</Link>
             </div>
             <div className="mb-1">
-              <a href="#">Diagnosify GoHome</a>
+              <Link href="/daftar-dokter">Diagnosify GoHome</Link>
             </div>
             <div className="mb-1">
-              <a href="#">Diagnosify Konsul</a>
+              <Link href="/daftar-dokter">Diagnosify Konsul</Link>
             </div>
           </Col>
           <Col lg="4">
@@ -36,13 +37,13 @@ const FooterComponent = () => {
               Tentang Diagnosify
             </div>
             <div className="mb-1">
-              <a href="#">Tentang Kami</a>
+              <Link to="/">Tentang Kami</Link>
             </div>
             <div className="mb-1">
-              <a href="#">Cara Penggunaan</a>
+              <Link to="cara-penggunaan">Cara Penggunaan</Link>
             </div>
             <div className="mb-1">
-              <a href="#">FAQ</a>
+              <Link to="/faq">FAQ</Link>
             </div>
           </Col>
           <Col lg="4">
@@ -50,23 +51,32 @@ const FooterComponent = () => {
               Bagaimana Kami Membantu Anda?
             </div>
             <div className="mb-1">
-              <a href="#">Kontak Kami</a>
+              <Link to="/kontak-kami">Kontak Kami</Link>
             </div>
           </Col>
         </Row>
         <div className="line w-100 border-bottom border-black mb-3"></div>
         <div className="contact d-flex mb-3 d-flex justify-content-end">
           <p className="mt-1">Ikuti kami dan dapatkan info menarik!</p>
-          <a href="" className="ms-2">
+          <a href="https://www.youtube.com/@kevinarsn12_" className="ms-2">
             <img src={yt} alt="" />
           </a>
-          <a href="" className="ms-2">
+          <a
+            href="https://www.instagram.com/kevinarsn_?igsh=dWtmd21mYzN5dHZh"
+            className="ms-2"
+          >
             <img src={ig} alt="" />
           </a>
-          <a href="" className="ms-2">
+          <a
+            href="https://www.facebook.com/profile.php?id=100009230145954&mibextid=ZbWKwL"
+            className="ms-2"
+          >
             <img src={fb} alt="" />
           </a>
-          <a href="" className="ms-2">
+          <a
+            href="https://www.linkedin.com/in/kevin-arsan-kamto"
+            className="ms-2"
+          >
             <img src={ln} alt="" />
           </a>
         </div>

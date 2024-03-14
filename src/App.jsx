@@ -9,6 +9,7 @@ import AboutPage from "./pages/AboutPages";
 import LoginPages from "./pages/LoginPage";
 import RegisterUserPage from "./pages/RegisterUserPage";
 import FaqPage from "./pages/FaqPage";
+import ContactKami from "./pages/ContactPage";
 
 // ADMIN
 import AboutAdmin from "./pages/admin/AboutAdmin";
@@ -73,6 +74,15 @@ function App() {
         element={
           <Layout>
             <FaqPage />
+          </Layout>
+        }
+      />
+
+      <Route
+        path="/kontak-kami"
+        element={
+          <Layout>
+            <ContactKami />
           </Layout>
         }
       />
@@ -158,7 +168,11 @@ function App() {
 
       <Route
         path="/admin/daftar-dokter/details/:id"
-        element={<DetailDokterPages />}
+        element={
+          <Layout>
+            <DetailDokterPages />
+          </Layout>
+        }
       />
 
       {/* DETAILS END */}
