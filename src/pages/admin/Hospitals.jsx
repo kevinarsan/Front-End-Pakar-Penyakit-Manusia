@@ -3,7 +3,7 @@ import axios from "axios";
 import { Table, Button, NavDropdown } from "react-bootstrap";
 import { FaSearch, FaFilter, FaPlus } from "react-icons/fa";
 
-const AboutAdmin = () => {
+const HospitalsAdmin = () => {
   const [data, setData] = useState([]);
   const [dataType, setDataType] = useState("Visi & Misi");
 
@@ -67,4 +67,4 @@ const AboutAdmin = () => {
   );
 };
 
-export default AboutAdmin;
+export default HospitalsAdmin;

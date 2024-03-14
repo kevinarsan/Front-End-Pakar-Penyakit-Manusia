@@ -164,7 +164,7 @@ const DaftarDokterPages = () => {
         </Row>
 
         <Row className="container">
-          <Col lg="4">
+          <Col lg="4" className="mb-4">
             <div className="bg-filter col-8">
               <div className="mb-4 ms-4">
                 <h5 className="fw-bold">Provinsi</h5>

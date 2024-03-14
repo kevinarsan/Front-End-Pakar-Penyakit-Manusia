@@ -6,10 +6,11 @@ import logo from "../../public/nm.png";
 import { FaArrowRightToBracket } from "react-icons/fa6";
 
 const navLinks = [
-  { to: "/", label: "Program Sify" },
+  { to: "/", label: "Tentang Kami" },
   { to: "/daftar-dokter", label: "Daftar Dokter" },
+  { to: "/diagnosa", label: "Diagnosa" },
   { to: "/cara-penggunaan", label: "Cara Penggunaan" },
-  { to: "/about", label: "Tentang Kami" },
+  { to: "/faq", label: "FAQ" },
 ];
 
 const NavbarComponent = () => {

@@ -16,7 +16,7 @@ const FooterComponent = () => {
           </Col>
         </Row>
 
-        <Row>
+        <Row className="mb-2">
           <Col lg="4">
             <div className="program fs-5 fw-semibold mb-2">
               Program Diagnosify
@@ -25,36 +25,32 @@ const FooterComponent = () => {
               <a href="#">Diagnosify Diagnosa</a>
             </div>
             <div className="mb-1">
-              <a href="#">Diagnosify Konsul</a>
+              <a href="#">Diagnosify GoHome</a>
             </div>
             <div className="mb-1">
-              <a href="#">Diagnosify GoHome</a>
+              <a href="#">Diagnosify Konsul</a>
             </div>
           </Col>
           <Col lg="4">
             <div className="program fs-5 fw-semibold mb-2">
-              layanan Diagnosify
+              Tentang Diagnosify
             </div>
             <div className="mb-1">
-              <a href="#">Diagnosify Diagnosa</a>
+              <a href="#">Tentang Kami</a>
             </div>
             <div className="mb-1">
-              <a href="#">Diagnosify Konsul</a>
+              <a href="#">Cara Penggunaan</a>
             </div>
             <div className="mb-1">
-              <a href="#">Diagnosify GoHome</a>
+              <a href="#">FAQ</a>
             </div>
           </Col>
           <Col lg="4">
-            <div className="program fs-5 fw-semibold mb-2">Tentang Kami</div>
-            <div className="mb-1">
-              <a href="#">Diagnosify Diagnosa</a>
+            <div className="program fs-5 fw-semibold mb-2">
+              Bagaimana Kami Membantu Anda?
             </div>
             <div className="mb-1">
-              <a href="#">Diagnosify Konsul</a>
-            </div>
-            <div className="mb-1">
-              <a href="#">Diagnosify GoHome</a>
+              <a href="#">Kontak Kami</a>
             </div>
           </Col>
         </Row>

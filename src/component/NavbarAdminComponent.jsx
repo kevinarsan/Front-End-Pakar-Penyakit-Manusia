@@ -10,7 +10,7 @@ const adminLinks = [
   { to: "/admin/dashboard", label: "Dashboard" },
   { to: "/admin/daftar-penyakit", label: "Daftar Penyakit" },
   { to: "/admin/daftar-gejala", label: "Daftar Gejala" },
-  { to: "/admin/daftar-aturan", label: "Daftar Aturan" },
+  { to: "/admin/basis-aturan", label: "Daftar Aturan" },
   { to: "/admin/transaksi", label: "Transaksi" },
   { to: "/admin/laporan", label: "Laporan" },
   { to: "/admin/about", label: "About Us" },
