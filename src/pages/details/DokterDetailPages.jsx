@@ -2,9 +2,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { FaArrowLeft, FaStar, FaWhatsapp } from "react-icons/fa";
+import {
+  FaArrowLeft,
+  FaStar,
+  FaWhatsapp,
+  FaGripLinesVertical,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { Container, Col, Row, Button } from "react-bootstrap";
+import { Container, Col, Row, Button, Form, Nav } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -88,16 +93,63 @@ const DetailDokterPages = () => {
       </Row>
 
       <Container className="">
-        <Row>
+        <Row className="mt-3">
           <Col lg="9">
             <div>
-              <h1>KONTEN</h1>
+              <div className="sekilas">
+                <div className="d-flex justify-content-center">
+                  <div className="d-flex align-items-center col-11">
+                    <FaGripLinesVertical className="line mb-2 mt-4" />
+                    <h5 className="mb-0 fw-bold text-black mb-2 mt-4">
+                      {" "}
+                      Sekilas
+                    </h5>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-center ms-3">
+                  <p className="col-11 mb-4">{detailDokter.description}</p>
+                </div>
+              </div>
+
+              <div className="tentang-dokter mt-2">
+                <div className="mb-0 informasi">
+                  <Nav variant="underline" defaultActiveKey="/home">
+                    <Nav.Item className="me-2">
+                      <Nav.Link className="fw-bold fs-5" to="/">
+                        Informasi Umum
+                      </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item className="ms-2">
+                      <Nav.Link className="fw-bold fs-5" to="/">
+                        Reviews
+                      </Nav.Link>
+                    </Nav.Item>
+                  </Nav>
+                </div>
+
+                <div className="d-flex align-items-center">
+                  <FaGripLinesVertical className="line mb-2 mt-3" />
+                  <h5 className="mb-0 fw-bold text-black mb-2 mt-3">
+                    Tentang Dokter
+                  </h5>
+                </div>
+
+                <div className="me-3">
+                  <p>{detailDokter.aboutDoctor}</p>
+                </div>
+              </div>
             </div>
           </Col>
+
           <Col lg="3">
-            <div>
-              <h5>Tanggal perjanjian</h5>
-              <div className="d-flex align-items-center">
+            <div className="mt-3 mb-3">
+              <h5 className="fw-bold">Perjanjian Pasien</h5>
+              <p>
+                Biaya yang tertera belum termasuk administrasi serta dapat
+                berubah sewaktu - waktu
+              </p>
+              <h6 className="fw-semibold">Tanggal perjanjian</h6>
+              <div className="d-flex align-items-center mb-3">
                 <div
                   style={{ cursor: "pointer" }}
                   onClick={() => setShowCalendar(!showCalendar)}
@@ -116,6 +168,23 @@ const DetailDokterPages = () => {
                     }}
                   />
                 </div>
+              </div>
+
+              <h6 className="fw-semibold">Jam Perjanjian</h6>
+              <div className="d-flex align-items-center mb-3">
+                <div>
+                  <Form.Control type="text" placeholder="Cek Jadwal" />
+                </div>
+              </div>
+
+              <h6 className="fw-bold text-danger">
+                $ Mulai dari Rp. 100.000,00
+              </h6>
+
+              <div className="col-12">
+                <Button className="btn-order ms-2 fs-6 fw-semibold col-11">
+                  Lanjutkan Pemesanan
+                </Button>
               </div>
             </div>
           </Col>
