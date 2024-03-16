@@ -1,4 +1,3 @@
-// DetailDokter.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -7,6 +6,8 @@ import {
   FaStar,
   FaWhatsapp,
   FaGripLinesVertical,
+  FaCircle,
+  FaPhone,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Container, Col, Row, Button, Form, Nav } from "react-bootstrap";
@@ -18,12 +19,13 @@ const DetailDokterPages = () => {
   const [detailDokter, setDetailDokter] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
+  const [activeTab, setActiveTab] = useState("informasi-umum");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/reviews/overal/${id}`
+          `http://localhost:5000/api/v1/profiles/doctor/${id}`
         );
         setDetailDokter(response.data.get);
       } catch (error) {
@@ -41,6 +43,215 @@ const DetailDokterPages = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
     setShowCalendar(false);
+  };
+
+  const renderContent = () => {
+    if (activeTab === "informasi-umum") {
+      return (
+        <>
+          <div>
+            <div>
+              <div className="d-flex align-items-center">
+                <FaGripLinesVertical className="line mb-2 mt-3" />
+                <h5 className="mb-0 fw-bold text-black mb-2 mt-3">
+                  Tentang Dokter
+                </h5>
+              </div>
+              <div className="me-3">
+                <p>{detailDokter.aboutUs}</p>
+              </div>
+            </div>
+
+            <div className="bio mt-4">
+              <div className="d-flex">
+                <div className="col-6">
+                  <div className="d-flex align-items-center mb-3">
+                    <FaGripLinesVertical className="line mb-2 mt-3" />
+                    <h5 className="mb-0 fw-bold mb-2 mt-3">Pengalaman</h5>
+                  </div>
+                  <div>
+                    <div className="mb-3">
+                      <div className="d-flex align-items-center">
+                        <FaCircle className="me-2 circle mb-2" />
+                        <h6>Dokter Spesialis Anak</h6>
+                      </div>
+                      <p className="ms-3">Brawijaya Hospitals Duren Tiga</p>
+                    </div>
+                    <div className="mb-3">
+                      <div className="d-flex align-items-center">
+                        <FaCircle className="me-2 circle mb-2" />
+                        <h6>Dokter Spesialis Anak</h6>
+                      </div>
+                      <p className="ms-3">Mayapada Hospitals Kuningan</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="d-flex align-items-center mb-3">
+                    <FaGripLinesVertical className="line mb-2 mt-3" />
+                    <h5 className="mb-0 fw-bold mb-2 mt-3">Pendidikan</h5>
+                  </div>
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center">
+                      <FaCircle className="me-2 circle mb-2" />
+                      <h6>Universitas Gadjah Mada</h6>
+                    </div>
+                    <p className="ms-3 mb-1">Kedokteran Umum</p>
+                    <p className="ms-3 ">2005 - 2011</p>
+                  </div>
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center">
+                      <FaCircle className="me-2 circle mb-2" />
+                      <h6>Universitas Gadjah Mada</h6>
+                    </div>
+                    <p className="ms-3 mb-1">Spesialis Anak</p>
+                    <p className="ms-3">2015 - 2019</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="d-flex">
+                <div className="col-6">
+                  <div className="d-flex align-items-center mb-3">
+                    <FaGripLinesVertical className="line mb-2 mt-3" />
+                    <h5 className="mb-0 fw-bold mb-2 mt-3">Keanggotaan</h5>
+                  </div>
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center">
+                      <FaCircle className="me-2 circle mb-2" />
+                      <h6>Ikatan Dokter Indonesia (IDI)</h6>
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center">
+                      <FaCircle className="me-2 circle mb-2" />
+                      <h6>Ikatan Dokter Anak Indonesia (IDAI)</h6>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="d-flex align-items-center mb-3">
+                    <FaGripLinesVertical className="line mb-2 mt-3" />
+                    <h5 className="mb-0 fw-bold mb-2 mt-3">
+                      Bahasa yang diucapkan
+                    </h5>
+                  </div>
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center">
+                      <FaCircle className="me-2 circle mb-2" />
+                      <h6>Indonesia</h6>
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center">
+                      <FaCircle className="me-2 circle mb-2" />
+                      <h6>Iggris</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="rs mt-3">
+              <div className="d-flex align-items-center mb-3">
+                <FaGripLinesVertical className="line mb-2 mt-3" />
+                <h5 className="mb-0 fw-bold text-black mb-2 mt-3">
+                  Info Rumah Sakit
+                </h5>
+              </div>
+              {detailDokter.hospitalDoctor.map((hospital, index) => (
+                <div key={index}>
+                  <iframe
+                    className="maps col-12"
+                    title={`Google Maps Location ${index}`}
+                    src={`https://www.google.com/maps/embed/v1/place?q=${encodeURIComponent(
+                      hospital.hospital.location
+                    )}&key=YOUR_API_KEY`}
+                    height="350"
+                    loading="lazy"
+                  ></iframe>
+                  <div className="detail-maps">
+                    <h5 className="mt-3 ms-4">{hospital.hospital.name}</h5>
+                    <p className="ms-4">{hospital.hospital.details}</p>
+                    <Button className="btn-maps ms-4 mb-3 fs-6 fw-semibold">
+                      <FaPhone className="me-2 mb-1" /> Masuk Untuk Menelepon
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="jam mt-4">
+              <div>
+                <div className="d-flex align-items-center mb-3">
+                  <FaGripLinesVertical className="line mb-2 mt-3" />
+                  <h5 className="mb-0 fw-bold mb-2 mt-3">Jam Reguler</h5>
+                </div>
+                {detailDokter.practiceDoctor.map((practice, index) => (
+                  <div key={index} className="d-flex">
+                    <div className="col-4">
+                      <p>{practice.practice.days}</p>
+                    </div>
+                    <div className="col-5 d-flex">
+                      <p>{practice.practice.open} - </p>
+                      <p> {practice.practice.close}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="asuransi">
+              <div className="d-flex align-items-center mb-3">
+                <FaGripLinesVertical className="line mb-2 mt-3" />
+                <h5 className="mb-0 fw-bold mb-2 mt-3">Asuransi</h5>
+              </div>
+              <div>
+                <p>
+                  Semua penyedia layanan di HHG wajib mencantumkan paket
+                  asuransi dalam jaringan secara akurat. Jika terdapat masalah,
+                  tim Layanan kami akan membantu menghubungkan Anda dengan
+                  penyedia layanan.
+                </p>
+              </div>
+            </div>
+          </div>
+        </>
+      );
+    } else if (activeTab === "reviews") {
+      return (
+        <>
+          <div className="mb-4">
+            {detailDokter.review.map((review, index) => (
+              <div key={index} className="review d-flex">
+                <div>
+                  <img
+                    src={
+                      review.user.profile
+                        ? review.user.profile.picture
+                        : review.user.profileDoctor
+                        ? review.user.profileDoctor.picture
+                        : ""
+                    }
+                    alt="picture-dokter"
+                    className="me-3 ms-3 mt-3"
+                  />
+                </div>
+                <div>
+                  <p className="mb-0 mt-3">{review.user.username}</p>
+                  <div className="rating mb-2">
+                    {[...Array(review.value)].map((_, i) => (
+                      <FaStar key={i} className="star" />
+                    ))}
+                  </div>
+                  <p className="mb-0">{review.feedback}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      );
+    }
   };
 
   return (
@@ -66,8 +277,11 @@ const DetailDokterPages = () => {
                 <p
                   className=" text-end fs-5 mb-1"
                   style={{ cursor: "pointer" }}
+                  onClick={() => setActiveTab("reviews")}
                 >
-                  {detailDokter.overallRating.toFixed(1)}
+                  {detailDokter.rating && detailDokter.rating.length > 0
+                    ? detailDokter.rating[0].overalRating.toFixed(1)
+                    : "0"}
                   <FaStar className="star ms-2 mb-1 fs-5" />
                 </p>
               </div>
@@ -101,7 +315,6 @@ const DetailDokterPages = () => {
                   <div className="d-flex align-items-center col-11">
                     <FaGripLinesVertical className="line mb-2 mt-4" />
                     <h5 className="mb-0 fw-bold text-black mb-2 mt-4">
-                      {" "}
                       Sekilas
                     </h5>
                   </div>
@@ -115,28 +328,28 @@ const DetailDokterPages = () => {
                 <div className="mb-0 informasi">
                   <Nav variant="underline" defaultActiveKey="/home">
                     <Nav.Item className="me-2">
-                      <Nav.Link className="fw-bold fs-5" to="/">
+                      <Nav.Link
+                        className={`fw-bold fs-5 ${
+                          activeTab === "informasi-umum" ? "active" : ""
+                        }`}
+                        onClick={() => setActiveTab("informasi-umum")}
+                      >
                         Informasi Umum
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-2">
-                      <Nav.Link className="fw-bold fs-5" to="/">
+                      <Nav.Link
+                        className={`fw-bold fs-5 ${
+                          activeTab === "reviews" ? "active" : ""
+                        }`}
+                        onClick={() => setActiveTab("reviews")}
+                      >
                         Reviews
                       </Nav.Link>
                     </Nav.Item>
                   </Nav>
                 </div>
-
-                <div className="d-flex align-items-center">
-                  <FaGripLinesVertical className="line mb-2 mt-3" />
-                  <h5 className="mb-0 fw-bold text-black mb-2 mt-3">
-                    Tentang Dokter
-                  </h5>
-                </div>
-
-                <div className="me-3">
-                  <p>{detailDokter.aboutDoctor}</p>
-                </div>
+                {renderContent()}
               </div>
             </div>
           </Col>

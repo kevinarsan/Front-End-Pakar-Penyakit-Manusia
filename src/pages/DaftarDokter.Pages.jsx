@@ -69,7 +69,7 @@ const DaftarDokterPages = () => {
         );
 
         const responseReview = await axios.get(
-          "http://localhost:5000/api/v1/reviews/overal"
+          "http://localhost:5000/api/v1/profiles/doctor"
         );
 
         setReviewData(responseReview.data.get);
@@ -290,7 +290,9 @@ const DaftarDokterPages = () => {
                         <div className="col-2 d-flex">
                           <FaStar className="star me-1 mt-1 fs-6" />
                           <p className="fw-semibold fs-6">
-                            {item.overalRating.toFixed(1)}
+                            {item.rating && item.rating.length > 0
+                              ? item.rating[0].overalRating.toFixed(1)
+                              : "0"}
                           </p>
                         </div>
                       </div>
