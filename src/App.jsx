@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
 import LayoutAdmin from "./LayoutAdmin";
-import Diagnosa from "./pages/Diagnosa";
+import DiagnosaPage from "./pages/DiagnosaPage";
 import DaftarDokterPages from "./pages/DaftarDokter.Pages";
 import TutorialPages from "./pages/TutorialPages";
 import AboutPage from "./pages/AboutPages";
@@ -55,7 +55,7 @@ function App() {
         path="/diagnosa"
         element={
           <Layout>
-            <Diagnosa />
+            <DiagnosaPage />
           </Layout>
         }
       />
