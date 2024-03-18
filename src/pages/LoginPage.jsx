@@ -1,8 +1,18 @@
 import { Container, Row, Col, Form, Button, Nav } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import logo from "../../public/nm.png";
 const LoginPages = () => {
   const navigate = useNavigate();
+
+  const handleGoogleLoginSuccess = (credentialResponse) => {
+    console.log(credentialResponse);
+    navigate("/");
+  };
+
+  const handleGoogleLoginError = () => {
+    console.log("Login Gagal");
+  };
 
   return (
     <div className="login w-100 overflow-hidden">
@@ -43,6 +53,13 @@ const LoginPages = () => {
               >
                 Daftar Disini
               </a>
+            </div>
+
+            <div className="d-flex justify-content-center mt-3">
+              <GoogleLogin
+                onSuccess={handleGoogleLoginSuccess}
+                onError={handleGoogleLoginError}
+              />
             </div>
           </Form>
         </Col>

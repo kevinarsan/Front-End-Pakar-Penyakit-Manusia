@@ -1,5 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 import Layout from "./Layout";
 import LayoutAdmin from "./LayoutAdmin";
 import DiagnosaPage from "./pages/DiagnosaPage";
@@ -29,7 +31,15 @@ import DetailDokterPages from "./pages/details/DokterDetailPages";
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPages />} />
+      {/* <Route path="/login" element={<LoginPages />} /> */}
+      <Route
+        path="/login"
+        element={
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+            <LoginPages />
+          </GoogleOAuthProvider>
+        }
+      />
 
       <Route path="/register-user" element={<RegisterUserPage />} />
 
