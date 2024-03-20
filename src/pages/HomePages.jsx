@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import HeroImage from "../assets/img/hero.png";
 import { kelasTerbaru } from "../data/index";
 
-const Diagnosa = () => {
+const HomePages = () => {
   return (
     <div className="homepage">
       <header className="w-100 min-vh-100 d-flex align-items-center">
@@ -74,4 +74,4 @@ const Diagnosa = () => {
   );
 };
 
-export default Diagnosa;
+export default HomePages;

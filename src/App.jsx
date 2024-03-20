@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import Layout from "./Layout";
@@ -21,12 +21,20 @@ import LaporanAdmin from "./pages/admin/LaporanAdmin";
 import PenyakitAdmin from "./pages/admin/PenyakitAdmin";
 import AturanAdmin from "./pages/admin/AturanAdmin";
 import TransaksiAdmin from "./pages/admin/TransaksiAdmin";
+import DoctorActive from "./pages/admin/DoctorActive";
+import HospitalsAdmin from "./pages/admin/HospitalsAdmin";
+import UserActive from "./pages/admin/UsersActive";
 
 import LoginAdmin from "./pages/admin/LoginAdmin";
-import Hospitals from "./pages/admin/Hospitals";
+
+// DOKTER
+import DashboardDokter from "./pages/dokter/DashboardDokter";
 
 // DETAILS
 import DetailDokterPages from "./pages/details/DokterDetailPages";
+
+// HOME PAGES LOGIN
+import HomePages from "./pages/HomePages";
 
 function App() {
   return (
@@ -41,7 +49,14 @@ function App() {
         }
       />
 
-      <Route path="/register-user" element={<RegisterUserPage />} />
+      <Route
+        path="/register-user"
+        element={
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+            <RegisterUserPage />
+          </GoogleOAuthProvider>
+        }
+      />
 
       <Route
         path="/"
@@ -103,72 +118,130 @@ function App() {
       <Route
         path="/admin/about"
         element={
-          <LayoutAdmin>
-            <AboutAdmin />
-          </LayoutAdmin>
+          localStorage.getItem("role") === "admin" ? (
+            <LayoutAdmin>
+              <AboutAdmin />
+            </LayoutAdmin>
+          ) : (
+            <Navigate to="/admin/login-admin" />
+          )
         }
       />
 
       <Route
         path="/admin/dashboard"
         element={
-          <LayoutAdmin>
-            <DashboardAdmin />
-          </LayoutAdmin>
+          localStorage.getItem("role") === "admin" ? (
+            <LayoutAdmin>
+              <DashboardAdmin />
+            </LayoutAdmin>
+          ) : (
+            <Navigate to="/admin/login-admin" />
+          )
         }
       />
 
       <Route
         path="/admin/daftar-gejala"
         element={
-          <LayoutAdmin>
-            <GejalaAdmin />
-          </LayoutAdmin>
+          localStorage.getItem("role") === "admin" ? (
+            <LayoutAdmin>
+              <GejalaAdmin />
+            </LayoutAdmin>
+          ) : (
+            <Navigate to="/admin/login-admin" />
+          )
         }
       />
 
       <Route
         path="/admin/daftar-penyakit"
         element={
-          <LayoutAdmin>
-            <PenyakitAdmin />
-          </LayoutAdmin>
+          localStorage.getItem("role") === "admin" ? (
+            <LayoutAdmin>
+              <PenyakitAdmin />
+            </LayoutAdmin>
+          ) : (
+            <Navigate to="/admin/login-admin" />
+          )
         }
       />
 
       <Route
         path="/admin/basis-aturan"
         element={
-          <LayoutAdmin>
-            <AturanAdmin />
-          </LayoutAdmin>
+          localStorage.getItem("role") === "admin" ? (
+            <LayoutAdmin>
+              <AturanAdmin />
+            </LayoutAdmin>
+          ) : (
+            <Navigate to="/admin/login-admin" />
+          )
         }
       />
 
       <Route
         path="/admin/laporan"
         element={
-          <LayoutAdmin>
-            <LaporanAdmin />
-          </LayoutAdmin>
+          localStorage.getItem("role") === "admin" ? (
+            <LayoutAdmin>
+              <LaporanAdmin />
+            </LayoutAdmin>
+          ) : (
+            <Navigate to="/admin/login-admin" />
+          )
         }
       />
 
       <Route
         path="/admin/transaksi"
         element={
-          <LayoutAdmin>
-            <TransaksiAdmin />
-          </LayoutAdmin>
+          localStorage.getItem("role") === "admin" ? (
+            <LayoutAdmin>
+              <TransaksiAdmin />
+            </LayoutAdmin>
+          ) : (
+            <Navigate to="/admin/login-admin" />
+          )
         }
       />
 
       <Route
         path="/admin/daftar-hospitals"
         element={
-          <LayoutAdmin>
-            <Hospitals />
-          </LayoutAdmin>
+          localStorage.getItem("role") === "admin" ? (
+            <LayoutAdmin>
+              <HospitalsAdmin />
+            </LayoutAdmin>
+          ) : (
+            <Navigate to="/admin/login-admin" />
+          )
+        }
+      />
+
+      <Route
+        path="/admin/daftar-doctors"
+        element={
+          localStorage.getItem("role") === "admin" ? (
+            <LayoutAdmin>
+              <DoctorActive />
+            </LayoutAdmin>
+          ) : (
+            <Navigate to="/admin/login-admin" />
+          )
+        }
+      />
+
+      <Route
+        path="/admin/daftar-users"
+        element={
+          localStorage.getItem("role") === "admin" ? (
+            <LayoutAdmin>
+              <UserActive />
+            </LayoutAdmin>
+          ) : (
+            <Navigate to="/admin/login-admin" />
+          )
         }
       />
 
@@ -177,7 +250,7 @@ function App() {
       {/* DETAILS */}
 
       <Route
-        path="/admin/daftar-dokter/details/:id"
+        path="/daftar-dokter/details/:id"
         element={
           <Layout>
             <DetailDokterPages />
@@ -186,6 +259,18 @@ function App() {
       />
 
       {/* DETAILS END */}
+
+      {/* DASHBOARD HOME LOGIN */}
+
+      <Route path="/dashboard/home" element={<HomePages />} />
+
+      {/* DASHBOARD HOME LOGIN END */}
+
+      {/* DOKTER */}
+
+      <Route path="/dokter/dashboard" element={<DashboardDokter />} />
+
+      {/* DOKTER END */}
     </Routes>
   );
 }

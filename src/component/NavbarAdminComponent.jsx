@@ -1,10 +1,9 @@
 import { Nav, Navbar, Form, Card, Row, Col } from "react-bootstrap";
 
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "../../public/nm.png";
 import { BiSearchAlt } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
-import { Children } from "react";
 
 const adminLinks = [
   { to: "/admin/dashboard", label: "Dashboard" },
@@ -17,6 +16,16 @@ const adminLinks = [
 ];
 
 const NavbarAdminComponent = ({ children }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Hapus token dari local storage
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    // Redirect pengguna ke halaman login
+    navigate("/admin/login-admin");
+  };
+
   return (
     <div>
       <Row className="admin-nav">
@@ -26,7 +35,7 @@ const NavbarAdminComponent = ({ children }) => {
               href="#home"
               className="brand fs-5 fw-bold text-white"
             >
-              <img src={logo} alt="" className="mb-1" />
+              <img src={logo} alt="" className="mb-1 me-2" />
               DIAGNOSIFY
             </Navbar.Brand>
           </div>
@@ -47,11 +56,7 @@ const NavbarAdminComponent = ({ children }) => {
             ))}
           </Nav>
           <div className="logout mb-0">
-            <Nav.Link
-              as={Link}
-              to="/admin/login-admin"
-              className="text-center mt-1"
-            >
+            <Nav.Link onClick={handleLogout} className="text-center mt-1">
               Logout
             </Nav.Link>
           </div>
@@ -77,51 +82,66 @@ const NavbarAdminComponent = ({ children }) => {
 
           <div className="col-12 d-flex justify-content-center">
             <Card className="card-users-1 col-3 ms-3 me-3 rounded-4">
-              <Card.Body className="d-flex align-items-center">
-                <div className="me-2 ms-3 border border-white rounded-4 bg-white">
-                  <BsPeople className="users fs-3 ms-2 me-2 mb-2 mt-2" />
-                </div>
-                <div className="ms-2">
-                  <Card.Title className="fs-5 mb-0 mt-2 text-white mb-1">
-                    450
-                  </Card.Title>
-                  <Card.Subtitle className="mb-2 fs-7 text-white fw-bold mt-1">
-                    Active Users
-                  </Card.Subtitle>
-                </div>
-              </Card.Body>
+              <Link
+                to="/admin/daftar-users"
+                className="d-flex align-items-center"
+              >
+                <Card.Body className="d-flex align-items-center">
+                  <div className="me-2 ms-3 border border-white rounded-4 bg-white">
+                    <BsPeople className="users fs-3 ms-2 me-2 mb-2 mt-2" />
+                  </div>
+                  <div className="ms-2">
+                    <Card.Title className="fs-5 mb-0 mt-2 text-white mb-1">
+                      450
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 fs-7 text-white fw-bold mt-1">
+                      Active Users
+                    </Card.Subtitle>
+                  </div>
+                </Card.Body>
+              </Link>
             </Card>
 
             <Card className="card-users-2 col-3 ms-3 me-3 rounded-4">
-              <Card.Body className="d-flex align-items-center">
-                <div className="me-2 ms-3 border border-white rounded-4 bg-white">
-                  <BsPeople className="users fs-3 ms-2 me-2 mb-2 mt-2" />
-                </div>
-                <div className="ms-2">
-                  <Card.Title className="fs-5 mb-0 mt-2 text-white mb-1">
-                    50
-                  </Card.Title>
-                  <Card.Subtitle className="mb-2 fs-7 text-white fw-bold mt-1">
-                    Active Doctor
-                  </Card.Subtitle>
-                </div>
-              </Card.Body>
+              <Link
+                to="/admin/daftar-doctors"
+                className="d-flex align-items-center"
+              >
+                <Card.Body className="d-flex align-items-center">
+                  <div className="me-2 ms-3 border border-white rounded-4 bg-white">
+                    <BsPeople className="users fs-3 ms-2 me-2 mb-2 mt-2" />
+                  </div>
+                  <div className="ms-2">
+                    <Card.Title className="fs-5 mb-0 mt-2 text-white mb-1">
+                      50
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 fs-7 text-white fw-bold mt-1">
+                      Active Doctor
+                    </Card.Subtitle>
+                  </div>
+                </Card.Body>
+              </Link>
             </Card>
 
             <Card className="card-users-3 col-3 ms-3 me-3 rounded-4">
-              <Card.Body className="d-flex align-items-center">
-                <div className="me-2 ms-3 border border-white rounded-4 bg-white">
-                  <BsPeople className="users fs-3 ms-2 me-2 mb-2 mt-2" />
-                </div>
-                <div className="ms-2">
-                  <Card.Title className="fs-5 mb-0 mt-2 text-white mb-1">
-                    10
-                  </Card.Title>
-                  <Card.Subtitle className="mb-2 fs-7 text-white fw-bold mt-1">
-                    List Hospitals
-                  </Card.Subtitle>
-                </div>
-              </Card.Body>
+              <Link
+                to="/admin/daftar-hospitals"
+                className="d-flex align-items-center"
+              >
+                <Card.Body className="d-flex align-items-center">
+                  <div className="me-2 ms-3 border border-white rounded-4 bg-white">
+                    <BsPeople className="users fs-3 ms-2 me-2 mb-2 mt-2" />
+                  </div>
+                  <div className="ms-2">
+                    <Card.Title className="fs-5 mb-0 mt-2 text-white mb-1">
+                      10
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 fs-7 text-white fw-bold mt-1">
+                      List Hospitals
+                    </Card.Subtitle>
+                  </div>
+                </Card.Body>
+              </Link>
             </Card>
           </div>
           {children}

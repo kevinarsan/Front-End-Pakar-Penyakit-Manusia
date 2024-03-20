@@ -1,7 +1,5 @@
 import { Table, Button } from "react-bootstrap";
-import { FaSearch } from "react-icons/fa";
-import { FaFilter } from "react-icons/fa";
-import { FaPlus } from "react-icons/fa";
+import { FaSearch, FaFilter, FaPlus } from "react-icons/fa";
 
 const DashboardAdmin = () => {
   return (
