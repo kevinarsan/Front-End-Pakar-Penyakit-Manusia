@@ -250,7 +250,7 @@ function App() {
       {/* DETAILS */}
 
       <Route
-        path="/daftar-dokter/details/:id"
+        path="/admin/daftar-dokter/details/:id"
         element={
           <Layout>
             <DetailDokterPages />

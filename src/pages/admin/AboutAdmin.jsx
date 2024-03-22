@@ -9,6 +9,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import { FaSearch, FaFilter, FaPlus } from "react-icons/fa";
+import { FaAnglesRight, FaAnglesLeft } from "react-icons/fa6";
 
 const AboutAdmin = () => {
   const [show, setShow] = useState(false);
@@ -114,70 +115,240 @@ const AboutAdmin = () => {
     }
   };
 
-  const handleUpdateClick = (item) => {
-    setSelectedData(item);
-    setFormData(item);
-    handleShow();
-  };
-
-  const handleDeleteClick = async (id) => {
-    handleDeleteConfirmationShow(id);
-  };
-
-  const handleDeleteConfirmed = async () => {
-    let deleteUrl = "";
-
-    if (dataType === "Visi & Misi") {
-      deleteUrl = `http://localhost:5000/api/v1/about/visi-misi/${deleteConfirmation.idToDelete}`;
-    } else if (dataType === "Teams") {
-      deleteUrl = `http://localhost:5000/api/v1/about/teams/${deleteConfirmation.idToDelete}`;
-    } else if (dataType === "Moto") {
-      deleteUrl = `http://localhost:5000/api/v1/about/moto-team/${deleteConfirmation.idToDelete}`;
-    } else if (dataType === "Tutorials") {
-      deleteUrl = `http://localhost:5000/api/v1/about/tutorials/${deleteConfirmation.idToDelete}`;
-    } else if (dataType === "FAQ") {
-      deleteUrl = `http://localhost:5000/api/v1/about/faq/${deleteConfirmation.idToDelete}`;
-    } else if (dataType === "Kontak") {
-      deleteUrl = `http://localhost:5000/api/v1/about/contact/${deleteConfirmation.idToDelete}`;
+  const renderTable = () => {
+    if (!data || data.length === 0) {
+      return <p>Data tidak ditemukan</p>;
     }
 
-    try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
+    const currentData = data.slice(startIndex, endIndex);
 
-      const response = await axios.delete(deleteUrl, config);
-
-      if (response.status === 200) {
-        console.log("Data berhasil dihapus");
-        setAlert({
-          show: true,
-          variant: "success",
-          message: "Data berhasil dihapus.",
-        });
-        fetchData();
-      } else {
-        console.log("Gagal menghapus data");
-        setAlert({
-          show: true,
-          variant: "danger",
-          message: "Gagal menghapus data.",
-        });
+    const handleNextPage = () => {
+      if (currentPage < totalPages) {
+        setCurrentPage(currentPage + 1);
       }
-    } catch (error) {
-      console.error("Error:", error);
-      setAlert({
-        show: true,
-        variant: "danger",
-        message: "Terjadi kesalahan. Mohon coba lagi.",
-      });
-    }
+    };
 
-    handleDeleteConfirmationClose();
+    const handlePrevPage = () => {
+      if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    };
+
+    return (
+      <div>
+        {" "}
+        <div className="table-admin overflow-auto">
+          <Table>
+            <thead>
+              <tr>
+                <th className="">No</th>
+                {dataType === "Visi & Misi" ? (
+                  <>
+                    <th className="col-1">Visi/Misi</th>
+                    <th className="col-3">Tujuan</th>
+                    <th className="col-6">Description</th>
+                  </>
+                ) : dataType === "Teams" ? (
+                  <>
+                    <th className="col-2">Nama</th>
+                    <th className="col-2">Foto</th>
+                    <th className="col-6">Description</th>
+                  </>
+                ) : dataType === "Moto" ? (
+                  <>
+                    <th className="col-2">Name</th>
+                    <th className="col-8">Description</th>
+                  </>
+                ) : dataType === "Tutorials" ? (
+                  <>
+                    <th className="col-4">Link Video</th>
+                    <th className="col-6">Deskripsi</th>
+                  </>
+                ) : dataType === "FAQ" ? (
+                  <>
+                    <th className="col-4">Pertanyaan</th>
+                    <th className="col-6">Jawaban</th>
+                  </>
+                ) : dataType === "Kontak" ? (
+                  <>
+                    <th className="col-5">Kontak</th>
+                    <th className="col-5">Email</th>
+                  </>
+                ) : null}
+                <th className="col-2">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentData.map((item, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  {dataType === "Visi & Misi" ? (
+                    <>
+                      <td>{item.name}</td>
+                      <td>{item.bab}</td>
+                      <td>{item.description}</td>
+                      <td>
+                        <div className="d-flex">
+                          <Button
+                            className="update d-flex justify-content-center align-items-center me-1"
+                            onClick={() => handleUpdateClick(item)}
+                          >
+                            Ubah
+                          </Button>
+                          <Button
+                            className="delete d-flex justify-content-center align-items-center ms-1"
+                            onClick={() => handleDeleteClick(item.id)}
+                          >
+                            Hapus
+                          </Button>
+                        </div>
+                      </td>
+                    </>
+                  ) : dataType === "Teams" ? (
+                    <>
+                      <td>{item.name}</td>
+                      <td>
+                        <img
+                          className="w-100"
+                          src={item.picture}
+                          alt={item.name}
+                        />
+                      </td>
+                      <td>{item.description}</td>
+                      <td>
+                        <div className="d-flex">
+                          <Button
+                            className="update d-flex justify-content-center align-items-center me-1"
+                            onClick={() => handleUpdateClick(item)}
+                          >
+                            Ubah
+                          </Button>
+                          <Button
+                            className="delete d-flex justify-content-center align-items-center ms-1"
+                            onClick={() => handleDeleteClick(item.id)}
+                          >
+                            Hapus
+                          </Button>
+                        </div>
+                      </td>
+                    </>
+                  ) : dataType === "Moto" ? (
+                    <>
+                      <td>{item.name}</td>
+                      <td>{item.description}</td>
+                      <td>
+                        <div className="d-flex">
+                          <Button
+                            className="update d-flex justify-content-center align-items-center me-1"
+                            onClick={() => handleUpdateClick(item)}
+                          >
+                            Ubah
+                          </Button>
+                          <Button
+                            className="delete d-flex justify-content-center align-items-center ms-1"
+                            onClick={() => handleDeleteClick(item.id)}
+                          >
+                            Hapus
+                          </Button>
+                        </div>
+                      </td>
+                    </>
+                  ) : dataType === "Tutorials" ? (
+                    <>
+                      <td>{item.linkVideo}</td>
+                      <td>{item.description}</td>
+                      <td>
+                        <div className="d-flex">
+                          <Button
+                            className="update d-flex justify-content-center align-items-center me-1"
+                            onClick={() => handleUpdateClick(item)}
+                          >
+                            Ubah
+                          </Button>
+                          <Button
+                            className="delete d-flex justify-content-center align-items-center ms-1"
+                            onClick={() => handleDeleteClick(item.id)}
+                          >
+                            Hapus
+                          </Button>
+                        </div>
+                      </td>
+                    </>
+                  ) : dataType === "FAQ" ? (
+                    <>
+                      <td>{item.pertanyaan}</td>
+                      <td>{item.jawaban}</td>
+                      <td>
+                        <div className="d-flex">
+                          <Button
+                            className="update d-flex justify-content-center align-items-center me-1"
+                            onClick={() => handleUpdateClick(item)}
+                          >
+                            Ubah
+                          </Button>
+                          <Button
+                            className="delete d-flex justify-content-center align-items-center ms-1"
+                            onClick={() => handleDeleteClick(item.id)}
+                          >
+                            Hapus
+                          </Button>
+                        </div>
+                      </td>
+                    </>
+                  ) : dataType === "Kontak" ? (
+                    <>
+                      <td>{item.name}</td>
+                      <td>{item.email}</td>
+                      <td>
+                        <div className="d-flex">
+                          <Button
+                            className="update d-flex justify-content-center align-items-center me-1"
+                            onClick={() => handleUpdateClick(item)}
+                          >
+                            Ubah
+                          </Button>
+                          <Button
+                            className="delete d-flex justify-content-center align-items-center ms-1"
+                            onClick={() => handleDeleteClick(item.id)}
+                          >
+                            Hapus
+                          </Button>
+                        </div>
+                      </td>
+                    </>
+                  ) : null}
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+        <div className="pagination mt-3 d-flex justify-content-end">
+          <Button
+            className="me-2"
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+          >
+            <FaAnglesLeft />
+          </Button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <Button
+              key={index + 1}
+              onClick={() => setCurrentPage(index + 1)}
+              disabled={currentPage === index + 1}
+            >
+              {index + 1}
+            </Button>
+          ))}
+          <Button
+            className="ms-2"
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <FaAnglesRight />
+          </Button>
+        </div>
+      </div>
+    );
   };
 
   const handleTambahClick = (dataType) => {
@@ -553,226 +724,70 @@ const AboutAdmin = () => {
     }
   };
 
-  const renderTable = () => {
-    if (!data || data.length === 0) {
-      return <p>Data tidak ditemukan</p>;
+  const handleUpdateClick = (item) => {
+    setSelectedData(item);
+    setFormData(item);
+    handleShow();
+  };
+
+  const handleDeleteClick = async (id) => {
+    handleDeleteConfirmationShow(id);
+  };
+
+  const handleDeleteConfirmed = async () => {
+    let deleteUrl = "";
+
+    if (dataType === "Visi & Misi") {
+      deleteUrl = `http://localhost:5000/api/v1/about/visi-misi/${deleteConfirmation.idToDelete}`;
+    } else if (dataType === "Teams") {
+      deleteUrl = `http://localhost:5000/api/v1/about/teams/${deleteConfirmation.idToDelete}`;
+    } else if (dataType === "Moto") {
+      deleteUrl = `http://localhost:5000/api/v1/about/moto-team/${deleteConfirmation.idToDelete}`;
+    } else if (dataType === "Tutorials") {
+      deleteUrl = `http://localhost:5000/api/v1/about/tutorials/${deleteConfirmation.idToDelete}`;
+    } else if (dataType === "FAQ") {
+      deleteUrl = `http://localhost:5000/api/v1/about/faq/${deleteConfirmation.idToDelete}`;
+    } else if (dataType === "Kontak") {
+      deleteUrl = `http://localhost:5000/api/v1/about/contact/${deleteConfirmation.idToDelete}`;
     }
 
-    const currentData = data.slice(startIndex, endIndex);
+    try {
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
-    return (
-      <div>
-        {" "}
-        <div className="table-admin overflow-auto">
-          <Table>
-            <thead>
-              <tr>
-                <th className="">No</th>
-                {dataType === "Visi & Misi" ? (
-                  <>
-                    <th className="col-1">Visi/Misi</th>
-                    <th className="col-3">Tujuan</th>
-                    <th className="col-6">Description</th>
-                  </>
-                ) : dataType === "Teams" ? (
-                  <>
-                    <th className="col-2">Nama</th>
-                    <th className="col-2">Foto</th>
-                    <th className="col-6">Description</th>
-                  </>
-                ) : dataType === "Moto" ? (
-                  <>
-                    <th className="col-2">Name</th>
-                    <th className="col-8">Description</th>
-                  </>
-                ) : dataType === "Tutorials" ? (
-                  <>
-                    <th className="col-4">Link Video</th>
-                    <th className="col-6">Deskripsi</th>
-                  </>
-                ) : dataType === "FAQ" ? (
-                  <>
-                    <th className="col-4">Pertanyaan</th>
-                    <th className="col-6">Jawaban</th>
-                  </>
-                ) : dataType === "Kontak" ? (
-                  <>
-                    <th className="col-5">Kontak</th>
-                    <th className="col-5">Email</th>
-                  </>
-                ) : null}
-                <th className="col-2">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentData.map((item, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  {dataType === "Visi & Misi" ? (
-                    <>
-                      <td>{item.name}</td>
-                      <td>{item.bab}</td>
-                      <td>{item.description}</td>
-                      <td>
-                        <div className="d-flex">
-                          <Button
-                            className="update d-flex justify-content-center align-items-center me-1"
-                            onClick={() => handleUpdateClick(item)}
-                          >
-                            Ubah
-                          </Button>
-                          <Button
-                            className="delete d-flex justify-content-center align-items-center ms-1"
-                            onClick={() => handleDeleteClick(item.id)}
-                          >
-                            Hapus
-                          </Button>
-                        </div>
-                      </td>
-                    </>
-                  ) : dataType === "Teams" ? (
-                    <>
-                      <td>{item.name}</td>
-                      <td>
-                        <img
-                          className="w-100"
-                          src={item.picture}
-                          alt={item.name}
-                        />
-                      </td>
-                      <td>{item.description}</td>
-                      <td>
-                        <div className="d-flex">
-                          <Button
-                            className="update d-flex justify-content-center align-items-center me-1"
-                            onClick={() => handleUpdateClick(item)}
-                          >
-                            Ubah
-                          </Button>
-                          <Button
-                            className="delete d-flex justify-content-center align-items-center ms-1"
-                            onClick={() => handleDeleteClick(item.id)}
-                          >
-                            Hapus
-                          </Button>
-                        </div>
-                      </td>
-                    </>
-                  ) : dataType === "Moto" ? (
-                    <>
-                      <td>{item.name}</td>
-                      <td>{item.description}</td>
-                      <td>
-                        <div className="d-flex">
-                          <Button
-                            className="update d-flex justify-content-center align-items-center me-1"
-                            onClick={() => handleUpdateClick(item)}
-                          >
-                            Ubah
-                          </Button>
-                          <Button
-                            className="delete d-flex justify-content-center align-items-center ms-1"
-                            onClick={() => handleDeleteClick(item.id)}
-                          >
-                            Hapus
-                          </Button>
-                        </div>
-                      </td>
-                    </>
-                  ) : dataType === "Tutorials" ? (
-                    <>
-                      <td>{item.linkVideo}</td>
-                      <td>{item.description}</td>
-                      <td>
-                        <div className="d-flex">
-                          <Button
-                            className="update d-flex justify-content-center align-items-center me-1"
-                            onClick={() => handleUpdateClick(item)}
-                          >
-                            Ubah
-                          </Button>
-                          <Button
-                            className="delete d-flex justify-content-center align-items-center ms-1"
-                            onClick={() => handleDeleteClick(item.id)}
-                          >
-                            Hapus
-                          </Button>
-                        </div>
-                      </td>
-                    </>
-                  ) : dataType === "FAQ" ? (
-                    <>
-                      <td>{item.pertanyaan}</td>
-                      <td>{item.jawaban}</td>
-                      <td>
-                        <div className="d-flex">
-                          <Button
-                            className="update d-flex justify-content-center align-items-center me-1"
-                            onClick={() => handleUpdateClick(item)}
-                          >
-                            Ubah
-                          </Button>
-                          <Button
-                            className="delete d-flex justify-content-center align-items-center ms-1"
-                            onClick={() => handleDeleteClick(item.id)}
-                          >
-                            Hapus
-                          </Button>
-                        </div>
-                      </td>
-                    </>
-                  ) : dataType === "Kontak" ? (
-                    <>
-                      <td>{item.name}</td>
-                      <td>{item.email}</td>
-                      <td>
-                        <div className="d-flex">
-                          <Button
-                            className="update d-flex justify-content-center align-items-center me-1"
-                            onClick={() => handleUpdateClick(item)}
-                          >
-                            Ubah
-                          </Button>
-                          <Button
-                            className="delete d-flex justify-content-center align-items-center ms-1"
-                            onClick={() => handleDeleteClick(item.id)}
-                          >
-                            Hapus
-                          </Button>
-                        </div>
-                      </td>
-                    </>
-                  ) : null}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-        <div className="pagination mt-3 d-flex justify-content-end">
-          <Button
-            className="me-2"
-            onClick={() => setCurrentPage(currentPage - 1)}
-          >
-            Sebelumnya
-          </Button>
-          {Array.from({ length: totalPages }, (_, index) => (
-            <Button
-              key={index + 1}
-              onClick={() => setCurrentPage(index + 1)}
-              disabled={currentPage === index + 1}
-            >
-              {index + 1}
-            </Button>
-          ))}
-          <Button
-            className="ms-2"
-            onClick={() => setCurrentPage(currentPage + 1)}
-          >
-            Selanjutnya
-          </Button>
-        </div>
-      </div>
-    );
+      const response = await axios.delete(deleteUrl, config);
+
+      if (response.status === 200) {
+        console.log("Data berhasil dihapus");
+        setAlert({
+          show: true,
+          variant: "success",
+          message: "Data berhasil dihapus.",
+        });
+        fetchData();
+      } else {
+        console.log("Gagal menghapus data");
+        setAlert({
+          show: true,
+          variant: "danger",
+          message: "Gagal menghapus data.",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setAlert({
+        show: true,
+        variant: "danger",
+        message: "Terjadi kesalahan. Mohon coba lagi.",
+      });
+    }
+
+    handleDeleteConfirmationClose();
   };
 
   const renderButton = () => {

@@ -1,5 +1,6 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Nav, Navbar, Form, Card, Row, Col } from "react-bootstrap";
-
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "../../public/nm.png";
 import { BiSearchAlt } from "react-icons/bi";
@@ -17,13 +18,58 @@ const adminLinks = [
 
 const NavbarAdminComponent = ({ children }) => {
   const navigate = useNavigate();
+  const [activeCard, setActiveCard] = useState(null);
+  const [totalUsers, setTotalUser] = useState(0);
+  const [totalDokter, setTotalDokter] = useState(0);
+  const [totalHospital, setTotalHospital] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        const responseUser = await axios.get(
+          "http://localhost:5000/api/v1/profiles/get",
+          config
+        );
+
+        const totalUserItem = responseUser.data.userGet.filter(
+          (user) => user.role === "user"
+        ).length;
+        setTotalUser(totalUserItem);
+
+        const totalDokterItem = responseUser.data.userGet.filter(
+          (dokter) => dokter.role === "dokter"
+        ).length;
+        setTotalDokter(totalDokterItem);
+
+        const responseHospitals = await axios.get(
+          "http://localhost:5000/api/v1/hospitals/get",
+          config
+        );
+
+        setTotalHospital(responseHospitals.data.hospitals.length);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleLogout = () => {
-    // Hapus token dari local storage
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    // Redirect pengguna ke halaman login
     navigate("/admin/login-admin");
+  };
+
+  const handleCardClick = (cardIndex) => {
+    setActiveCard(cardIndex);
   };
 
   return (
@@ -81,7 +127,12 @@ const NavbarAdminComponent = ({ children }) => {
           </div>
 
           <div className="col-12 d-flex justify-content-center">
-            <Card className="card-users-1 col-3 ms-3 me-3 rounded-4">
+            <Card
+              className={`card-users-1 col-3 ms-3 me-3 rounded-4 ${
+                activeCard === 1 ? "active" : ""
+              }`}
+              onClick={() => handleCardClick(1)}
+            >
               <Link
                 to="/admin/daftar-users"
                 className="d-flex align-items-center"
@@ -92,17 +143,22 @@ const NavbarAdminComponent = ({ children }) => {
                   </div>
                   <div className="ms-2">
                     <Card.Title className="fs-5 mb-0 mt-2 text-white mb-1">
-                      450
+                      {totalUsers}
                     </Card.Title>
                     <Card.Subtitle className="mb-2 fs-7 text-white fw-bold mt-1">
-                      Active Users
+                      Pengguna Aktif
                     </Card.Subtitle>
                   </div>
                 </Card.Body>
               </Link>
             </Card>
 
-            <Card className="card-users-2 col-3 ms-3 me-3 rounded-4">
+            <Card
+              className={`card-users-2 col-3 ms-3 me-3 rounded-4 ${
+                activeCard === 2 ? "active" : ""
+              }`}
+              onClick={() => handleCardClick(2)}
+            >
               <Link
                 to="/admin/daftar-doctors"
                 className="d-flex align-items-center"
@@ -113,17 +169,22 @@ const NavbarAdminComponent = ({ children }) => {
                   </div>
                   <div className="ms-2">
                     <Card.Title className="fs-5 mb-0 mt-2 text-white mb-1">
-                      50
+                      {totalDokter}
                     </Card.Title>
                     <Card.Subtitle className="mb-2 fs-7 text-white fw-bold mt-1">
-                      Active Doctor
+                      Dokter Aktif
                     </Card.Subtitle>
                   </div>
                 </Card.Body>
               </Link>
             </Card>
 
-            <Card className="card-users-3 col-3 ms-3 me-3 rounded-4">
+            <Card
+              className={`card-users-3 col-3 ms-3 me-3 rounded-4 ${
+                activeCard === 3 ? "active" : ""
+              }`}
+              onClick={() => handleCardClick(3)}
+            >
               <Link
                 to="/admin/daftar-hospitals"
                 className="d-flex align-items-center"
@@ -134,10 +195,10 @@ const NavbarAdminComponent = ({ children }) => {
                   </div>
                   <div className="ms-2">
                     <Card.Title className="fs-5 mb-0 mt-2 text-white mb-1">
-                      10
+                      {totalHospital}
                     </Card.Title>
                     <Card.Subtitle className="mb-2 fs-7 text-white fw-bold mt-1">
-                      List Hospitals
+                      Daftar Rumah Sakit
                     </Card.Subtitle>
                   </div>
                 </Card.Body>
