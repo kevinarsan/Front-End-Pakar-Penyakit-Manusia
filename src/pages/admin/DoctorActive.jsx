@@ -5,7 +5,7 @@ import { FaSearch, FaFilter, FaPlus } from "react-icons/fa";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 
 const UserActive = () => {
-  const [users, setUsers] = useState([]);
+  const [dokter, setDokter] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -29,11 +29,11 @@ const UserActive = () => {
       );
 
       if (response.data.success === "Profile retrieved succesfully") {
-        const userData = response.data.userGet.filter(
-          (item) => item.role === "user"
+        const dokterData = response.data.userGet.filter(
+          (item) => item.role === "dokter"
         );
 
-        setUsers(userData);
+        setDokter(dokterData);
       } else {
         console.error("Failed to fetch user data:", response.data.error);
       }
@@ -42,11 +42,15 @@ const UserActive = () => {
     }
   };
 
+  const tableStyle = {
+    overflowX: "auto",
+  };
+
   const renderTable = () => {
-    const totalPages = Math.ceil(users.length / itemsPerPage);
+    const totalPages = Math.ceil(dokter.length / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentData = users.slice(indexOfFirstItem, indexOfLastItem);
+    const currentData = dokter.slice(indexOfFirstItem, indexOfLastItem);
 
     const handleNextPage = () => {
       if (currentPage < totalPages) {
@@ -62,20 +66,22 @@ const UserActive = () => {
 
     return (
       <div>
-        <div className="table-admin overflow-auto">
-          <Table>
+        <div className="table-dokter overflow-auto" style={tableStyle}>
+          <Table className="tabel-dkt">
             <thead>
               <tr>
-                <th className="col-1">Username</th>
-                <th className="col-2">Email</th>
-                <th className="col-1">Role</th>
-                <th className="col-2">Name</th>
-                <th className="col-1">Phone</th>
-                <th className="col-1">Picture</th>
-                <th className="col-1">City</th>
-                <th className="col-1">Province</th>
-                <th className="col-1">Country</th>
-                <th className="col-1">Aksi</th>
+                <th>Username</th>
+                <th style={{ minWidth: "11rem" }}>Email</th>
+                <th style={{ minWidth: "6rem" }}>Nama Dokter</th>
+                <th>Phone</th>
+                <th>Picture</th>
+                <th>Spesialis</th>
+                <th style={{ minWidth: "10rem" }}>Deskripsi</th>
+                <th style={{ minWidth: "13rem" }}>Tentang Dokter</th>
+                <th style={{ minWidth: "7.8rem" }}>Alamat</th>
+                <th style={{ minWidth: "7rem" }}>Rumah Sakit</th>
+                <th style={{ minWidth: "8rem" }}>Jadwal Praktek</th>
+                <th className="text-center">Aksi</th>
               </tr>
             </thead>
 
@@ -84,7 +90,6 @@ const UserActive = () => {
                 <tr key={item.id}>
                   <td>{item.username}</td>
                   <td>{item.email}</td>
-                  <td>{item.role}</td>
                   <td>{item.profile.name}</td>
                   <td>{item.profile.phone}</td>
                   <td>
@@ -94,9 +99,23 @@ const UserActive = () => {
                       style={{ height: "50px", width: "50px" }}
                     />
                   </td>
-                  <td>{item.profile.city}</td>
-                  <td>{item.profile.province}</td>
-                  <td>{item.profile.country}</td>
+                  <td>{item.profile.spesialis}</td>
+                  <td>{item.profile.description}</td>
+                  <td>{item.profile.aboutUs}</td>
+                  <td>
+                    {item.profile.city}, {item.profile.province},{" "}
+                    {item.profile.country}, {item.profile.details}
+                  </td>
+                  <td>RS. Umum Daerah Wates</td>
+                  <td>
+                    <p>Senin : 18:00-19:00</p>
+                    <p>Selasa : 18:00-19:00</p>
+                    <p>Rabu : 18:00-19:00</p>
+                    <p>Kamis : 18:00-19:00</p>
+                    <p>Jum'at : 18:00-19:00</p>
+                    <p>Sabtu : 18:00-19:00</p>
+                    <p>Minggu : Libur</p>
+                  </td>
                   <td>
                     <div className="d-flex">
                       <Button
@@ -106,7 +125,7 @@ const UserActive = () => {
                         Ubah
                       </Button>
                       <Button
-                        className="delete d-flex justify-content-center align-items-center ms-1"
+                        className="delete d-flex justify-content-center align-items-center"
                         // onClick={() => handleDeleteUser(item.id)}
                       >
                         Hapus
