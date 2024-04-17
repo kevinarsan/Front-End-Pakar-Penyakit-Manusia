@@ -382,171 +382,217 @@ const HospitalsAdmin = () => {
   return (
     <div>
       {/* TAMBAH DATA */}
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title className="fw-semibold">
-            Tambah Data Rumah Sakit
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {alert.show && <Alert variant={alert.variant}>{alert.message}</Alert>}
-          <Form onSubmit={handleFormSubmit}>
-            <Form.Group className="mb-3" control="name">
-              <Form.Label>Nama Rumah Sakit</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" control="picture">
-              <Form.Label>Picture</Form.Label>
-              <Form.Control
-                type="file"
-                name="picture"
-                onChange={handlePictureChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" control="city">
-              <Form.Label>Kota</Form.Label>
-              <Form.Control
-                type="city"
-                name="city"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" control="province">
-              <Form.Label>Provinsi</Form.Label>
-              <Form.Control
-                type="text"
-                name="province"
-                value={province}
-                onChange={(e) => setProvince(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" control="country">
-              <Form.Label>Negara</Form.Label>
-              <Form.Control
-                type="text"
-                name="country"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" control="details">
-              <Form.Label>Detail Alamat</Form.Label>
-              <Form.Control
-                type="text"
-                name="details"
-                value={details}
-                onChange={(e) => setDetails(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" control="location">
-              <Form.Label>Lokasi Google Maps</Form.Label>
-              <Form.Control
-                type="text"
-                name="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Button className="save" type="submit">
-              Simpan
-            </Button>
-          </Form>
-        </Modal.Body>
+      <Modal size="lg" show={show} onHide={handleClose}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Title className="fw-semibold text-center">
+          Tambah Data Rumah Sakit
+        </Modal.Title>
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-sm-9">
+              <Modal.Body>
+                <Form onSubmit={handleFormSubmit}>
+                  <Form.Group className="mb-3" control="name">
+                    <Form.Label className="fw-semibold">
+                      Nama Rumah Sakit
+                    </Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Nama Rumah Sakit..."
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" control="picture">
+                    <Form.Label className="fw-semibold">Picture</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="file"
+                      name="picture"
+                      onChange={handlePictureChange}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" control="city">
+                    <Form.Label className="fw-semibold">Kota</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="city"
+                      name="city"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      placeholder="Kota..."
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" control="province">
+                    <Form.Label className="fw-semibold">Provinsi</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="province"
+                      value={province}
+                      onChange={(e) => setProvince(e.target.value)}
+                      placeholder="Provinsi..."
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" control="country">
+                    <Form.Label className="fw-semibold">Negara</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="country"
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      placeholder="Negara..."
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" control="details">
+                    <Form.Label className="fw-semibold">
+                      Detail Alamat
+                    </Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="details"
+                      value={details}
+                      onChange={(e) => setDetails(e.target.value)}
+                      placeholder="Detail Alamat..."
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" control="location">
+                    <Form.Label className="fw-semibold">
+                      Lokasi Google Maps
+                    </Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="location"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                      placeholder="Lokasi Google Maps..."
+                      required
+                    />
+                  </Form.Group>
+                  <Button className="save mb-4 fw-bold" type="submit">
+                    Simpan
+                  </Button>
+                </Form>
+              </Modal.Body>
+            </div>
+          </div>
+        </div>
       </Modal>
 
       {/* UPDATE DATA */}
-      <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title className="fw-semibold">Update Data Users</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {alert.show && <Alert variant={alert.variant}>{alert.message}</Alert>}
-          <Form onSubmit={handleFormUpdate}>
-            <Form.Group className="mb-3" controlId="name">
-              <Form.Label>Nama Rmah Sakit</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                value={updateHospitalsData.name}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="picture">
-              <Form.Label>Picture</Form.Label>
-              <Form.Control
-                type="file"
-                name="picture"
-                onChange={handlePictureUpdate}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="city">
-              <Form.Label>Kota</Form.Label>
-              <Form.Control
-                type="text"
-                name="city"
-                value={updateHospitalsData.city}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="province">
-              <Form.Label>Provinsi</Form.Label>
-              <Form.Control
-                type="text"
-                name="province"
-                value={updateHospitalsData.province}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="country">
-              <Form.Label>Negara</Form.Label>
-              <Form.Control
-                type="text"
-                name="country"
-                value={updateHospitalsData.country}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="details">
-              <Form.Label>Alamat Detail</Form.Label>
-              <Form.Control
-                type="text"
-                name="details"
-                value={updateHospitalsData.details}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="location">
-              <Form.Label>Lokasi Google Maps</Form.Label>
-              <Form.Control
-                type="text"
-                name="location"
-                value={updateHospitalsData.location}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Button className="save" type="submit">
-              Simpan
-            </Button>
-          </Form>
-        </Modal.Body>
+      <Modal
+        size="lg"
+        show={showUpdateModal}
+        onHide={() => setShowUpdateModal(false)}
+      >
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Title className="fw-semibold text-center">
+          Update Data Users
+        </Modal.Title>
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-sm-9">
+              <Modal.Body>
+                <Form onSubmit={handleFormUpdate}>
+                  <Form.Group className="mb-3" controlId="name">
+                    <Form.Label className="fw-semibold">
+                      Nama Rmah Sakit
+                    </Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="name"
+                      value={updateHospitalsData.name}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="picture">
+                    <Form.Label className="fw-semibold">Picture</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="file"
+                      name="picture"
+                      onChange={handlePictureUpdate}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="city">
+                    <Form.Label className="fw-semibold">Kota</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="city"
+                      value={updateHospitalsData.city}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="province">
+                    <Form.Label className="fw-semibold">Provinsi</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="province"
+                      value={updateHospitalsData.province}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="country">
+                    <Form.Label className="fw-semibold">Negara</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="country"
+                      value={updateHospitalsData.country}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="details">
+                    <Form.Label className="fw-semibold">
+                      Alamat Detail
+                    </Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="details"
+                      value={updateHospitalsData.details}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="location">
+                    <Form.Label className="fw-semibold">
+                      Lokasi Google Maps
+                    </Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="location"
+                      value={updateHospitalsData.location}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Button className="save mb-4 fw-bold" type="submit">
+                    Simpan
+                  </Button>
+                </Form>
+              </Modal.Body>
+            </div>
+          </div>
+        </div>
       </Modal>
 
       {/* CONFIRMATION DELETE */}
@@ -561,16 +607,29 @@ const HospitalsAdmin = () => {
         </Modal.Header>
         <Modal.Body>Yakin ingin menghapus data?</Modal.Body>
         <Modal.Footer>
-          <Button className="cencel" onClick={handleDeleteConfirmationClose}>
+          <Button
+            className="cencel fw-bold"
+            onClick={handleDeleteConfirmationClose}
+          >
             Batal
           </Button>
-          <Button className="hapus" onClick={handleDeleteConfirmed}>
+          <Button className="hapus fw-bold" onClick={handleDeleteConfirmed}>
             Hapus
           </Button>
         </Modal.Footer>
       </Modal>
 
       <div className="col-10 offset-1 mt-4">
+        <Alert
+          show={alert.show}
+          variant={alert.variant}
+          onClose={() =>
+            setAlert({ show: false, variant: "success", message: "" })
+          }
+          dismissible
+        >
+          {alert.message}
+        </Alert>
         <div className="d-flex mb-1">
           <h5 className="mt-2 fw-bold text-black col-4">Daftar Hospital</h5>
           <div className="col-8 d-flex justify-content-end align-items-center">
@@ -579,7 +638,7 @@ const HospitalsAdmin = () => {
               onClick={handleTambahClick}
             >
               <FaPlus className="me-2" />
-              Tambah Users
+              Tambah Rumah Sakit
             </Button>
             <Button className="filter me-2 ms-2 fw-semibold d-flex align-items-center">
               <FaFilter className="me-2" />

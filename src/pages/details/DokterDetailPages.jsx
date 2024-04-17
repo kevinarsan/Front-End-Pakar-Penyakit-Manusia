@@ -69,44 +69,36 @@ const DetailDokterPages = () => {
                     <FaGripLinesVertical className="line mb-2 mt-3" />
                     <h5 className="mb-0 fw-bold mb-2 mt-3">Pengalaman</h5>
                   </div>
-                  <div>
-                    <div className="mb-3">
-                      <div className="d-flex align-items-center">
-                        <FaCircle className="me-2 circle mb-2" />
-                        <h6>Dokter Spesialis Anak</h6>
+                  {detailDokter.experience.map((experience, index) => (
+                    <div key={index}>
+                      <div className="mb-3">
+                        <div className="d-flex align-items-center">
+                          <FaCircle className="me-2 circle mb-2" />
+                          <h6>{experience.position}</h6>
+                        </div>
+                        <p className="ms-3">{experience.office}</p>
                       </div>
-                      <p className="ms-3">Brawijaya Hospitals Duren Tiga</p>
                     </div>
-                    <div className="mb-3">
-                      <div className="d-flex align-items-center">
-                        <FaCircle className="me-2 circle mb-2" />
-                        <h6>Dokter Spesialis Anak</h6>
-                      </div>
-                      <p className="ms-3">Mayapada Hospitals Kuningan</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
                 <div className="col-6">
                   <div className="d-flex align-items-center mb-3">
                     <FaGripLinesVertical className="line mb-2 mt-3" />
                     <h5 className="mb-0 fw-bold mb-2 mt-3">Pendidikan</h5>
                   </div>
-                  <div className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <FaCircle className="me-2 circle mb-2" />
-                      <h6>Universitas Gadjah Mada</h6>
+
+                  {detailDokter.education.map((education, index) => (
+                    <div key={index}>
+                      <div className="mb-3">
+                        <div className="d-flex align-items-center">
+                          <FaCircle className="me-2 circle mb-2" />
+                          <h6>{education.name}</h6>
+                        </div>
+                        <p className="ms-3 mb-1">{education.programStudy}</p>
+                        <p className="ms-3 ">{education.year}</p>
+                      </div>
                     </div>
-                    <p className="ms-3 mb-1">Kedokteran Umum</p>
-                    <p className="ms-3 ">2005 - 2011</p>
-                  </div>
-                  <div className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <FaCircle className="me-2 circle mb-2" />
-                      <h6>Universitas Gadjah Mada</h6>
-                    </div>
-                    <p className="ms-3 mb-1">Spesialis Anak</p>
-                    <p className="ms-3">2015 - 2019</p>
-                  </div>
+                  ))}
                 </div>
               </div>
 
@@ -116,19 +108,18 @@ const DetailDokterPages = () => {
                     <FaGripLinesVertical className="line mb-2 mt-3" />
                     <h5 className="mb-0 fw-bold mb-2 mt-3">Keanggotaan</h5>
                   </div>
-                  <div className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <FaCircle className="me-2 circle mb-2" />
-                      <h6>Ikatan Dokter Indonesia (IDI)</h6>
+                  {detailDokter.biodata.map((biodata, index) => (
+                    <div key={index}>
+                      <div className="mb-3">
+                        <div className="d-flex align-items-center">
+                          <FaCircle className="me-2 circle mb-2" />
+                          <h6>{biodata.organization}</h6>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <FaCircle className="me-2 circle mb-2" />
-                      <h6>Ikatan Dokter Anak Indonesia (IDAI)</h6>
-                    </div>
-                  </div>
+                  ))}
                 </div>
+
                 <div className="col-6">
                   <div className="d-flex align-items-center mb-3">
                     <FaGripLinesVertical className="line mb-2 mt-3" />
@@ -136,18 +127,17 @@ const DetailDokterPages = () => {
                       Bahasa yang diucapkan
                     </h5>
                   </div>
-                  <div className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <FaCircle className="me-2 circle mb-2" />
-                      <h6>Indonesia</h6>
+
+                  {detailDokter.biodata.map((biodata, index) => (
+                    <div key={index}>
+                      <div className="mb-3">
+                        <div className="d-flex align-items-center">
+                          <FaCircle className="me-2 circle mb-2" />
+                          <h6>{biodata.language}</h6>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <FaCircle className="me-2 circle mb-2" />
-                      <h6>Iggris</h6>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>

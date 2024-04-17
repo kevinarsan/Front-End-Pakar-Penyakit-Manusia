@@ -15,7 +15,7 @@ const UserActive = () => {
   const [show, setShow] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [data, setData] = useState([]);
-  const [dataType, setDataType] = useState("Daftar Dokter Aktif");
+  const [dataType, setDataType] = useState("Biodata Dokter");
   const [alert, setAlert] = useState({
     show: false,
     variant: "success",
@@ -30,6 +30,7 @@ const UserActive = () => {
   const handleShow = () => setShow(true);
 
   const [formData, setFormData] = useState({
+    practiceId: "",
     username: "",
     email: "",
     name: "",
@@ -45,11 +46,13 @@ const UserActive = () => {
     days: "",
     open: "",
     close: "",
+    doctorId: "",
   });
 
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [updateUserData, setUpdateUserData] = useState({
     id: null,
+    practiceId: "",
     username: "",
     email: "",
     name: "",
@@ -65,6 +68,7 @@ const UserActive = () => {
     days: "",
     open: "",
     close: "",
+    doctorId: "",
   });
 
   const [deleteConfirmation, setDeleteConfirmation] = useState({
@@ -75,6 +79,7 @@ const UserActive = () => {
   const handleDeleteConfirmationClose = () => {
     setDeleteConfirmation({ show: false, idToDelete: null });
   };
+
   const handleDeleteConfirmationShow = (id) => {
     setDeleteConfirmation({ show: true, idToDelete: id });
   };
@@ -99,10 +104,10 @@ const UserActive = () => {
     try {
       let url = "";
 
-      if (dataType === "Daftar Dokter Aktif") {
+      if (dataType === "Biodata Dokter") {
         url = "http://localhost:5000/api/v1/profiles/get";
-      } else if (dataType === "Daftar Praktek Dokter") {
-        url = "http://localhost:5000/api/v1/practice/get";
+      } else if (dataType === "Jadwal Dokter") {
+        url = "http://localhost:5000/api/v1/profiles/doctor";
       }
 
       const token = localStorage.getItem("token");
@@ -116,12 +121,12 @@ const UserActive = () => {
       const response = await axios.get(url, config);
 
       if (response.status === 200) {
-        if (dataType === "Daftar Dokter Aktif") {
+        if (dataType === "Biodata Dokter") {
           setData(
             response.data.userGet.filter((item) => item.role === "dokter") || []
           );
-        } else if (dataType === "Daftar Praktek Dokter") {
-          setData(response.data.existingPractice || []);
+        } else if (dataType === "Jadwal Dokter") {
+          setData(response.data.get || []);
         }
       } else {
         setData([]);
@@ -158,7 +163,7 @@ const UserActive = () => {
           <Table>
             <thead>
               <tr>
-                {dataType === "Daftar Dokter Aktif" ? (
+                {dataType === "Biodata Dokter" ? (
                   <>
                     <th>Username</th>
                     <th style={{ minWidth: "13rem" }}>Email</th>
@@ -170,11 +175,13 @@ const UserActive = () => {
                     <th style={{ minWidth: "17rem" }}>Tentang Dokter</th>
                     <th style={{ minWidth: "10rem" }}>Alamat</th>
                   </>
-                ) : dataType === "Daftar Praktek Dokter" ? (
+                ) : dataType === "Jadwal Dokter" ? (
                   <>
+                    <th className="col-3">Nama Dokter</th>
+                    <th className="col-3">Nama Rumah Sakit</th>
                     <th className="col-2">Hari</th>
-                    <th className="col-2">Jam Buka</th>
-                    <th className="col-6">Jam Tutup</th>
+                    <th className="col-1">Jam Buka</th>
+                    <th className="col-1">Jam Tutup</th>
                   </>
                 ) : null}
                 <th className="col-2">Aksi</th>
@@ -182,9 +189,9 @@ const UserActive = () => {
             </thead>
             <tbody>
               {currentData.map((item, index) => (
-                <tr key={index}>
-                  {dataType === "Daftar Dokter Aktif" ? (
-                    <>
+                <React.Fragment key={index}>
+                  {dataType === "Biodata Dokter" ? (
+                    <tr>
                       <td>{item.username}</td>
                       <td>{item.email}</td>
                       <td>{item.profile && item.profile.name}</td>
@@ -221,31 +228,56 @@ const UserActive = () => {
                           </Button>
                         </div>
                       </td>
-                    </>
-                  ) : dataType === "Daftar Praktek Dokter" ? (
+                    </tr>
+                  ) : dataType === "Jadwal Dokter" ? (
                     <>
-                      <td>{item.days}</td>
-                      <td>{item.open}</td>
-                      <td>{item.close}</td>
-                      <td>
-                        <div className="d-flex">
-                          <Button
-                            className="update d-flex justify-content-center align-items-center me-1"
-                            onClick={() => handleUpdateClick(item)}
-                          >
-                            Ubah
-                          </Button>
-                          <Button
-                            className="delete d-flex justify-content-center align-items-center ms-1"
-                            onClick={() => handleDeleteClick(item.id)}
-                          >
-                            Hapus
-                          </Button>
-                        </div>
-                      </td>
+                      {item.practiceDoctor &&
+                        item.practiceDoctor.map((practice, index) => (
+                          <tr key={index}>
+                            {index === 0 ? (
+                              <td rowSpan={item.practiceDoctor.length}>
+                                {item.name}
+                              </td>
+                            ) : null}
+                            {index === 0 ? (
+                              <td rowSpan={item.practiceDoctor.length}>
+                                {item.hospitalDoctor &&
+                                  item.hospitalDoctor.length > 0 &&
+                                  item.hospitalDoctor[0].hospital &&
+                                  item.hospitalDoctor[0].hospital.name}
+                              </td>
+                            ) : null}
+                            <td>{practice.practice.days || "-"}</td>
+                            <td>{practice.practice.open || "-"}</td>
+                            <td>{practice.practice.close || "-"}</td>
+                            <td>
+                              <div className="d-flex">
+                                <Button
+                                  className="update d-flex justify-content-center align-items-center me-1"
+                                  onClick={() =>
+                                    handleUpdateClicks(
+                                      item,
+                                      practice.practice.id
+                                    )
+                                  }
+                                >
+                                  Ubah
+                                </Button>
+                                <Button
+                                  className="delete d-flex justify-content-center align-items-center ms-1"
+                                  onClick={() =>
+                                    handleDeleteClick(practice.practice.id)
+                                  }
+                                >
+                                  Hapus
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
                     </>
                   ) : null}
-                </tr>
+                </React.Fragment>
               ))}
             </tbody>
           </Table>
@@ -299,6 +331,7 @@ const UserActive = () => {
       days: "",
       open: "",
       close: "",
+      doctorId: "",
     });
 
     handleShow();
@@ -326,14 +359,14 @@ const UserActive = () => {
     let url = "";
     let config = {};
 
-    if (dataType === "Daftar Dokter Aktif") {
+    if (dataType === "Biodata Dokter") {
       url = "http://localhost:5000/api/v1/auth/register-admin";
       config = {
         headers: {
           "Content-Type": "application/json",
         },
       };
-    } else if (dataType === "Daftar Praktek Dokter") {
+    } else if (dataType === "Jadwal Dokter") {
       url = "http://localhost:5000/api/v1/practice/create";
       config = {
         headers: {
@@ -346,10 +379,10 @@ const UserActive = () => {
     try {
       let response;
 
-      if (dataType === "Daftar Dokter Aktif") {
+      if (dataType === "Biodata Dokter") {
         formData.role = "dokter";
         response = await axios.post(url, formData, config);
-      } else if (dataType === "Daftar Praktek Dokter") {
+      } else if (dataType === "Jadwal Dokter") {
         response = await axios.post(url, formData, config);
       }
 
@@ -382,10 +415,10 @@ const UserActive = () => {
 
   const renderButton = () => {
     let text = "";
-    if (dataType === "Daftar Dokter Aktif") {
+    if (dataType === "Biodata Dokter") {
       text = "Tambah Data Dokter";
-    } else if (dataType === "Daftar Praktek Dokter") {
-      text = "Tambah Daftar Praktek Dokter";
+    } else if (dataType === "Jadwal Dokter") {
+      text = "Tambah Jadwal Dokter";
     }
 
     return (
@@ -402,7 +435,7 @@ const UserActive = () => {
   };
 
   const renderFormFields = () => {
-    if (dataType === "Daftar Dokter Aktif") {
+    if (dataType === "Biodata Dokter") {
       return (
         <>
           <Form.Group className="mb-3 mt-4" control="username">
@@ -468,9 +501,27 @@ const UserActive = () => {
           </Form.Group>
         </>
       );
-    } else if (dataType === "Daftar Praktek Dokter") {
+    } else if (dataType === "Jadwal Dokter") {
       return (
         <>
+          <Form.Group className="mb-3" controlId="doctorId">
+            <Form.Label className="fw-semibold">Pilih Dokter</Form.Label>
+            <Form.Select
+              size="lg"
+              name="doctorId"
+              value={formData.doctorId}
+              onChange={handleFormChange}
+            >
+              <option key="" value="">
+                Pilih Dokter
+              </option>
+              {data.map((doctor) => (
+                <option key={doctor.id} value={doctor.id}>
+                  {doctor.name}
+                </option>
+              ))}
+            </Form.Select>
+          </Form.Group>
           <Form.Group className="mb-3" control="days">
             <Form.Label className="fw-semibold">Hari</Form.Label>
             <Form.Control
@@ -528,7 +579,35 @@ const UserActive = () => {
     }
   };
 
-  const handleUpdateClick = (item) => {
+  const handleUpdateClicks = (item, practiceId) => {
+    const previousData = item.practiceDoctor.find(
+      (practice) => practice.practice.id === practiceId
+    );
+    if (!previousData) {
+      setUpdateUserData({
+        ...updateUserData,
+        id: item.id,
+        doctorId: item.id,
+        days: "",
+        open: "",
+        close: "",
+        practiceId: practiceId,
+      });
+    } else {
+      setUpdateUserData({
+        ...updateUserData,
+        id: item.id,
+        doctorId: item.id,
+        days: previousData.practice.days,
+        open: previousData.practice.open,
+        close: previousData.practice.close,
+        practiceId: practiceId,
+      });
+    }
+    setShowUpdateModal(true);
+  };
+
+  const handleUpdateClick = (item, practiceId) => {
     setUpdateUserData({
       id: item.id,
       username: item.username,
@@ -543,9 +622,6 @@ const UserActive = () => {
       province: item.profile && item.profile.province,
       country: item.profile && item.profile.country,
       details: item.profile && item.profile.details,
-      days: item.days,
-      open: item.open,
-      close: item.close,
     });
     setShowUpdateModal(true);
   };
@@ -556,7 +632,7 @@ const UserActive = () => {
     let url = "";
     let config = {};
 
-    if (dataType === "Daftar Dokter Aktif") {
+    if (dataType === "Biodata Dokter") {
       url = `http://localhost:5000/api/v1/profiles/update-doctor/${updateUserData.id}`;
       config = {
         headers: {
@@ -564,8 +640,8 @@ const UserActive = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       };
-    } else if (dataType === "Daftar Praktek Dokter") {
-      url = `http://localhost:5000/api/v1/practice/update/${updateUserData.id}`;
+    } else if (dataType === "Jadwal Dokter") {
+      url = `http://localhost:5000/api/v1/practice/update/${updateUserData.practiceId}`;
       config = {
         headers: {
           "Content-Type": "application/json",
@@ -577,7 +653,7 @@ const UserActive = () => {
     try {
       let response;
 
-      if (dataType === "Daftar Dokter Aktif") {
+      if (dataType === "Biodata Dokter") {
         const formData = new FormData();
         formData.append("username", updateUserData.username);
         formData.append("email", updateUserData.email);
@@ -593,7 +669,7 @@ const UserActive = () => {
         formData.append("details", updateUserData.details);
 
         response = await axios.put(url, formData, config);
-      } else if (dataType === "Daftar Praktek Dokter") {
+      } else if (dataType === "Jadwal Dokter") {
         const body = {
           days: updateUserData.days,
           open: updateUserData.open,
@@ -631,7 +707,7 @@ const UserActive = () => {
   };
 
   const renderFormUpdate = () => {
-    if (dataType === "Daftar Dokter Aktif") {
+    if (dataType === "Biodata Dokter") {
       return (
         <>
           <Form.Group className="mb-3" controlId="username">
@@ -757,7 +833,7 @@ const UserActive = () => {
           </Form.Group>
         </>
       );
-    } else if (dataType === "Daftar Praktek Dokter") {
+    } else if (dataType === "Jadwal Dokter") {
       return (
         <>
           <Form.Group className="mb-3" controlId="days">
@@ -802,9 +878,9 @@ const UserActive = () => {
   const handleDeleteConfirmed = async () => {
     let deleteUrl = "";
 
-    if (dataType === "Daftar Dokter Aktif") {
+    if (dataType === "Biodata Dokter") {
       deleteUrl = `http://localhost:5000/api/v1/profiles/delete/${deleteConfirmation.idToDelete}`;
-    } else if (dataType === "Daftar Praktek Dokter") {
+    } else if (dataType === "Jadwal Dokter") {
       deleteUrl = `http://localhost:5000/api/v1/practice/delete/${deleteConfirmation.idToDelete}`;
     }
 
@@ -837,6 +913,9 @@ const UserActive = () => {
       }
     } catch (error) {
       console.error("Error:", error);
+      console.log(
+        "API Error, Delete User Doctor belum diperbaiki, Jika ingin menghapus data, hapus dulu praktek dan rumah sakit yang terhubung."
+      );
       setAlert({
         show: true,
         variant: "danger",
@@ -848,116 +927,116 @@ const UserActive = () => {
   };
 
   return (
-    <div className="col-10 offset-1 mt-4">
-      <Modal show={show} onHide={handleClose} size="lg">
-        <Modal.Header closeButton></Modal.Header>
-        <Modal.Title className="fw-semibold text-center">
-          Tambah {dataType}
-        </Modal.Title>
-        <Modal.Body>
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-sm-9">
-                <Form onSubmit={handleFormSubmit}>
-                  {renderFormFields()}
-                  <Button className="save mb-4 fw-bold" type="submit">
-                    Simpan
-                  </Button>
-                </Form>
-              </div>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-
-      <Modal
-        size="lg"
-        show={showUpdateModal}
-        onHide={() => setShowUpdateModal(false)}
-      >
-        <Modal.Header closeButton></Modal.Header>
-        <Modal.Title className="fw-semibold text-center">
-          Ubah {dataType}
-        </Modal.Title>
-        <Modal.Body>
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-sm-9">
-                <Form onSubmit={handleUpdateFormSubmit}>
-                  {renderFormUpdate()}
-                  <Button className="save mb-4 fw-bold" type="submit">
-                    Simpan
-                  </Button>
-                </Form>
-              </div>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-
-      {/* KONFIRMASI HAPUS DATA */}
-      <Modal
-        show={deleteConfirmation.show}
-        onHide={handleDeleteConfirmationClose}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title className="fw-semibold">
-            Konfirmasi Penghapusan
+    <div className="col-lg-12 d-flex justify-content-center">
+      <div className="col-sm-10 mt-4">
+        <Modal show={show} onHide={handleClose} size="lg">
+          <Modal.Header closeButton></Modal.Header>
+          <Modal.Title className="fw-semibold text-center">
+            Tambah {dataType}
           </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Yakin ingin menghapus data?</Modal.Body>
-        <Modal.Footer>
-          <Button
-            className="cencel fw-bold align-items-center"
-            onClick={handleDeleteConfirmationClose}
-          >
-            Batal
-          </Button>
-          <Button
-            className="hapus fw-bold align-items-center"
-            onClick={handleDeleteConfirmed}
-          >
-            Hapus
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          <Modal.Body>
+            <div className="container">
+              <div className="row justify-content-center">
+                <div className="col-sm-9">
+                  <Form onSubmit={handleFormSubmit}>
+                    {renderFormFields()}
+                    <Button className="save mb-4 fw-bold" type="submit">
+                      Simpan
+                    </Button>
+                  </Form>
+                </div>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
 
-      <Alert
-        show={alert.show}
-        variant={alert.variant}
-        onClose={() =>
-          setAlert({ show: false, variant: "success", message: "" })
-        }
-        dismissible
-      >
-        {alert.message}
-      </Alert>
-
-      <div className="d-flex mb-2">
-        <NavDropdown
-          className="mt-2 fs-5 fw-bold text-black col-4"
-          title={dataType}
-          id="basic-nav-dropdown"
+        <Modal
+          size="lg"
+          show={showUpdateModal}
+          onHide={() => setShowUpdateModal(false)}
         >
-          <NavDropdown.Item onClick={() => setDataType("Daftar Dokter Aktif")}>
-            Daftar Dokter Aktif
-          </NavDropdown.Item>
-          <NavDropdown.Item
-            onClick={() => setDataType("Daftar Praktek Dokter")}
+          <Modal.Header closeButton></Modal.Header>
+          <Modal.Title className="fw-semibold text-center">
+            Ubah {dataType}
+          </Modal.Title>
+          <Modal.Body>
+            <div className="container">
+              <div className="row justify-content-center">
+                <div className="col-sm-9">
+                  <Form onSubmit={handleUpdateFormSubmit}>
+                    {renderFormUpdate()}
+                    <Button className="save mb-4 fw-bold" type="submit">
+                      Simpan
+                    </Button>
+                  </Form>
+                </div>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+
+        {/* KONFIRMASI HAPUS DATA */}
+        <Modal
+          show={deleteConfirmation.show}
+          onHide={handleDeleteConfirmationClose}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title className="fw-semibold">
+              Konfirmasi Penghapusan
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Yakin ingin menghapus data?</Modal.Body>
+          <Modal.Footer>
+            <Button
+              className="cencel fw-bold align-items-center"
+              onClick={handleDeleteConfirmationClose}
+            >
+              Batal
+            </Button>
+            <Button
+              className="hapus fw-bold align-items-center"
+              onClick={handleDeleteConfirmed}
+            >
+              Hapus
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Alert
+          show={alert.show}
+          variant={alert.variant}
+          onClose={() =>
+            setAlert({ show: false, variant: "success", message: "" })
+          }
+          dismissible
+        >
+          {alert.message}
+        </Alert>
+
+        <div className="d-flex mb-2">
+          <NavDropdown
+            className="mt-2 fs-5 fw-bold text-black col-4"
+            title={dataType}
+            id="basic-nav-dropdown"
           >
-            Daftar Praktek Dokter
-          </NavDropdown.Item>
-        </NavDropdown>
-        <div className="col-8 d-flex justify-content-end mt-2">
-          {renderButton()}
-          <Button className="filter me-2 ms-2 fw-semibold d-flex align-items-center">
-            <FaFilter className="me-2" />
-            Filter
-          </Button>
-          <FaSearch className="logo-search fs-5 ms-1 d-flex align-items-center mt-1" />
+            <NavDropdown.Item onClick={() => setDataType("Biodata Dokter")}>
+              Biodata Dokter
+            </NavDropdown.Item>
+            <NavDropdown.Item onClick={() => setDataType("Jadwal Dokter")}>
+              Jadwal Dokter
+            </NavDropdown.Item>
+          </NavDropdown>
+          <div className="col-8 d-flex justify-content-end mt-2">
+            {renderButton()}
+            <Button className="filter me-2 ms-2 fw-semibold d-flex align-items-center">
+              <FaFilter className="me-2" />
+              Filter
+            </Button>
+            <FaSearch className="logo-search fs-5 ms-1 d-flex align-items-center mt-1" />
+          </div>
         </div>
+        {renderTable()}
       </div>
-      {renderTable()}
     </div>
   );
 };

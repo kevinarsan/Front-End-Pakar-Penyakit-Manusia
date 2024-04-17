@@ -548,33 +548,39 @@ const AboutAdmin = () => {
       return (
         <>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Nama</Form.Label>
+            <Form.Label className="fw-semibold">Visi/Misi</Form.Label>
             <Form.Control
+              size="lg"
               type="text"
               name="name"
               value={formData.name}
               onChange={handleFormChange}
+              placeholder="Visi/Misi..."
               required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="bab">
-            <Form.Label>Tujuan</Form.Label>
+            <Form.Label className="fw-semibold">Tujuan</Form.Label>
             <Form.Control
+              size="lg"
               type="text"
               name="bab"
               value={formData.bab}
               onChange={handleFormChange}
+              placeholder="Tujuan..."
               required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="description">
-            <Form.Label>Description</Form.Label>
+            <Form.Label className="fw-semibold">Deskripsi</Form.Label>
             <Form.Control
+              size="lg"
               as="textarea"
               rows={3}
               name="description"
               value={formData.description}
               onChange={handleFormChange}
+              placeholder="Deskripsi..."
               required
             />
           </Form.Group>
@@ -584,18 +590,21 @@ const AboutAdmin = () => {
       return (
         <>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Nama</Form.Label>
+            <Form.Label className="fw-semibold">Nama Team</Form.Label>
             <Form.Control
+              size="lg"
               type="text"
               name="name"
               value={formData.name}
               onChange={handleFormChange}
+              placeholder="Nama Team..."
               required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="picture">
-            <Form.Label>Foto</Form.Label>
+            <Form.Label className="fw-semibold">Foto</Form.Label>
             <Form.Control
+              size="lg"
               type="file"
               accept="image/*"
               name="picture"
@@ -604,13 +613,15 @@ const AboutAdmin = () => {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="description">
-            <Form.Label>Description</Form.Label>
+            <Form.Label className="fw-semibold">Deskripsi</Form.Label>
             <Form.Control
+              size="lg"
               as="textarea"
               rows={3}
               name="description"
               value={formData.description}
               onChange={handleFormChange}
+              placeholder="Deskripsi..."
               required
             />
           </Form.Group>
@@ -620,23 +631,27 @@ const AboutAdmin = () => {
       return (
         <>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Name</Form.Label>
+            <Form.Label className="fw-semibold">Moto</Form.Label>
             <Form.Control
+              size="lg"
               type="area"
               name="name"
               value={formData.name}
               onChange={handleFormChange}
+              placeholder="Moto..."
               required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="description">
-            <Form.Label>Description</Form.Label>
+            <Form.Label className="fw-semibold">Deskripsi</Form.Label>
             <Form.Control
+              size="lg"
               as="textarea"
               rows={3}
               name="description"
               value={formData.description}
               onChange={handleFormChange}
+              placeholder="Deskripsi..."
               required
             />
           </Form.Group>
@@ -646,23 +661,27 @@ const AboutAdmin = () => {
       return (
         <>
           <Form.Group className="mb-3" controlId="linkVideo">
-            <Form.Label>Link Video</Form.Label>
+            <Form.Label className="fw-semibold">Link Video</Form.Label>
             <Form.Control
+              size="lg"
               type="text"
               name="linkVideo"
               value={formData.linkVideo}
               onChange={handleFormChange}
+              placeholder="Link Video..."
               required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="description">
-            <Form.Label>Description</Form.Label>
+            <Form.Label className="fw-semibold">Deskripsi</Form.Label>
             <Form.Control
+              size="lg"
               as="textarea"
               rows={3}
               name="description"
               value={formData.description}
               onChange={handleFormChange}
+              placeholder="Deskripsi..."
               required
             />
           </Form.Group>
@@ -672,25 +691,29 @@ const AboutAdmin = () => {
       return (
         <>
           <Form.Group className="mb-3" controlId="pertanyaan">
-            <Form.Label>Pertanyaan</Form.Label>
+            <Form.Label className="fw-semibold">Pertanyaan</Form.Label>
             <Form.Control
+              size="lg"
               as="textarea"
               rows={3}
               name="pertanyaan"
               value={formData.pertanyaan}
               onChange={handleFormChange}
+              placeholder="Pertanyaan..."
               required
             />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="jawaban">
-            <Form.Label>Jawaban</Form.Label>
+            <Form.Label className="fw-semibold">Jawaban</Form.Label>
             <Form.Control
+              size="lg"
               as="textarea"
               rows={3}
               name="jawaban"
               value={formData.jawaban}
               onChange={handleFormChange}
+              placeholder="Jawaban..."
               required
             />
           </Form.Group>
@@ -700,22 +723,26 @@ const AboutAdmin = () => {
       return (
         <>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Kontak</Form.Label>
+            <Form.Label className="fw-semibold">Kontak</Form.Label>
             <Form.Control
+              size="lg"
               type="text"
               name="name"
               value={formData.name}
               onChange={handleFormChange}
+              placeholder="Kontak..."
               required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Email</Form.Label>
+            <Form.Label className="fw-semibold">Email</Form.Label>
             <Form.Control
+              size="lg"
               type="text"
               name="email"
               value={formData.email}
               onChange={handleFormChange}
+              placeholder="Email..."
               required
             />
           </Form.Group>
@@ -821,20 +848,25 @@ const AboutAdmin = () => {
 
   return (
     <div className="col-10 offset-1 mt-4">
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title className="fw-semibold">
-            Tambah Data {dataType}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleFormSubmit}>
-            {renderFormFields()}
-            <Button className="save" type="submit">
-              Simpan
-            </Button>
-          </Form>
-        </Modal.Body>
+      <Modal size="lg" show={show} onHide={handleClose}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Title className="fw-semibold text-center">
+          Tambah Data {dataType}
+        </Modal.Title>
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-sm-9">
+              <Modal.Body>
+                <Form onSubmit={handleFormSubmit}>
+                  {renderFormFields()}
+                  <Button className="save mb-4" type="submit">
+                    Simpan
+                  </Button>
+                </Form>
+              </Modal.Body>
+            </div>
+          </div>
+        </div>
       </Modal>
 
       {/* KONFIRMASI HAPUS DATA */}

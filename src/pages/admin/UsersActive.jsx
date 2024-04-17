@@ -432,151 +432,183 @@ const UserActive = () => {
   return (
     <div>
       {/* TAMBAH DATA */}
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title className="fw-semibold">Tambah Data Users</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {alert.show && <Alert variant={alert.variant}>{alert.message}</Alert>}
-          <Form onSubmit={handleFormSubmit}>
-            <Form.Group className="mb-3" control="username">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                name="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" control="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" control="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" control="phone">
-              <Form.Label>No Telepon</Form.Label>
-              <Form.Control
-                type="text"
-                name="phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Button className="save" type="submit">
-              Simpan
-            </Button>
-          </Form>
-        </Modal.Body>
+      <Modal size="lg" show={show} onHide={handleClose}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Title className="fw-semibold text-center">
+          Tambah Data Users
+        </Modal.Title>
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-sm-9">
+              <Modal.Body>
+                <Form onSubmit={handleFormSubmit}>
+                  <Form.Group className="mb-3" control="username">
+                    <Form.Label className="fw-semibold">Username</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="Username..."
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" control="email">
+                    <Form.Label className="fw-semibold">Email</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="email"
+                      name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Email..."
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" control="password">
+                    <Form.Label className="fw-semibold">Password</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="password"
+                      name="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Password..."
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" control="phone">
+                    <Form.Label className="fw-semibold">No Telepon</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="phone"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="Phone..."
+                      required
+                    />
+                  </Form.Group>
+                  <Button className="save mb-4 fw-bold" type="submit">
+                    Simpan
+                  </Button>
+                </Form>
+              </Modal.Body>
+            </div>
+          </div>
+        </div>
       </Modal>
 
       {/* UPDATE DATA */}
-      <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title className="fw-semibold">Update Data Users</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {alert.show && <Alert variant={alert.variant}>{alert.message}</Alert>}
-          <Form onSubmit={handleFormUpdate}>
-            <Form.Group className="mb-3" controlId="username">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                name="username"
-                value={updateUserData.username}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                value={updateUserData.email}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="name">
-              <Form.Label>Nama</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                value={updateUserData.name}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="phone">
-              <Form.Label>No Telepon</Form.Label>
-              <Form.Control
-                type="text"
-                name="phone"
-                value={updateUserData.phone}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="picture">
-              <Form.Label>Picture</Form.Label>
-              <Form.Control
-                type="file"
-                name="picture"
-                onChange={handlePictureChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="city">
-              <Form.Label>Kota</Form.Label>
-              <Form.Control
-                type="text"
-                name="city"
-                value={updateUserData.city}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="province">
-              <Form.Label>Provinsi</Form.Label>
-              <Form.Control
-                type="text"
-                name="province"
-                value={updateUserData.province}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="country">
-              <Form.Label>Negara</Form.Label>
-              <Form.Control
-                type="text"
-                name="country"
-                value={updateUserData.country}
-                onChange={handleUpdateInputChange}
-                required
-              />
-            </Form.Group>
-            <Button className="save" type="submit">
-              Simpan
-            </Button>
-          </Form>
-        </Modal.Body>
+      <Modal
+        size="lg"
+        show={showUpdateModal}
+        onHide={() => setShowUpdateModal(false)}
+      >
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Title className="fw-semibold text-center">
+          Update Data Users
+        </Modal.Title>
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-sm-9">
+              <Modal.Body>
+                <Form onSubmit={handleFormUpdate}>
+                  <Form.Group className="mb-3" controlId="username">
+                    <Form.Label className="fw-semibold">Username</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="username"
+                      value={updateUserData.username}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="email">
+                    <Form.Label className="fw-semibold">Email</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="email"
+                      name="email"
+                      value={updateUserData.email}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="name">
+                    <Form.Label className="fw-semibold">Nama</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="name"
+                      value={updateUserData.name}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="phone">
+                    <Form.Label className="fw-semibold">No Telepon</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="phone"
+                      value={updateUserData.phone}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="picture">
+                    <Form.Label className="fw-semibold">Picture</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="file"
+                      name="picture"
+                      onChange={handlePictureChange}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="city">
+                    <Form.Label className="fw-semibold">Kota</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="city"
+                      value={updateUserData.city}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="province">
+                    <Form.Label className="fw-semibold">Provinsi</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="province"
+                      value={updateUserData.province}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="country">
+                    <Form.Label className="fw-semibold">Negara</Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="country"
+                      value={updateUserData.country}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Button className="save mb-4 fw-bold" type="submit">
+                    Simpan
+                  </Button>
+                </Form>
+              </Modal.Body>
+            </div>
+          </div>
+        </div>
       </Modal>
 
       {/* CORFIRMATION DELETE */}
@@ -591,10 +623,13 @@ const UserActive = () => {
         </Modal.Header>
         <Modal.Body>Yakin ingin menghapus data?</Modal.Body>
         <Modal.Footer>
-          <Button className="cencel" onClick={handleDeleteConfirmationClose}>
+          <Button
+            className="cencel fw-bold"
+            onClick={handleDeleteConfirmationClose}
+          >
             Batal
           </Button>
-          <Button className="hapus" onClick={handleDeleteConfirmed}>
+          <Button className="hapus fw-bold" onClick={handleDeleteConfirmed}>
             Hapus
           </Button>
         </Modal.Footer>
@@ -602,6 +637,16 @@ const UserActive = () => {
 
       {/* GET DATA */}
       <div className="col-10 offset-1 mt-4">
+        <Alert
+          show={alert.show}
+          variant={alert.variant}
+          onClose={() =>
+            setAlert({ show: false, variant: "success", message: "" })
+          }
+          dismissible
+        >
+          {alert.message}
+        </Alert>
         <div className="d-flex mb-1">
           <h5 className="mt-2 fw-bold text-black col-4">User Aktif</h5>
           <div className="col-8 d-flex justify-content-end align-items-center">
