@@ -8,6 +8,7 @@ const GejalaAdmin = () => {
   const [show, setShow] = useState(false);
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
+  const [probability, setProbability] = useState("");
   const [gejala, setGejala] = useState([]);
   const [alert, setAlert] = useState({
     show: false,
@@ -27,6 +28,7 @@ const GejalaAdmin = () => {
     id: null,
     code: null,
     name: null,
+    probability: null,
   });
 
   const [deleteConfirmation, setDeleteConfirmation] = useState({
@@ -94,19 +96,21 @@ const GejalaAdmin = () => {
           <Table>
             <thead>
               <tr>
-                {/* <th className="col-1">No</th> */}
+                <th className="col-1">No</th>
                 <th className="col-2">Kode Gejala</th>
-                <th className="col-9">Nama Gejala</th>
+                <th className="col-7">Nama Gejala</th>
+                <th className="col-2">Nilai Probabilitas</th>
                 <th className="col-1">Aksi</th>
               </tr>
             </thead>
 
             <tbody>
-              {currentData.map((item) => (
+              {currentData.map((item, index) => (
                 <tr key={item.id}>
-                  {/* <td>{item + 1}</td> */}
+                  <td>{index + 1}</td>
                   <td>{item.code}</td>
                   <td>{item.name}</td>
+                  <td>{item.probability}</td>
                   <td>
                     <div className="d-flex">
                       <Button
@@ -170,6 +174,7 @@ const GejalaAdmin = () => {
         {
           code,
           name,
+          probability,
         }
       );
 
@@ -223,6 +228,7 @@ const GejalaAdmin = () => {
         id: gejalaToUpdate.id,
         code: gejalaToUpdate.code,
         name: gejalaToUpdate.name,
+        probability: gejalaToUpdate.probability,
       });
       setShowUpdateModal(true);
     }
@@ -251,6 +257,7 @@ const GejalaAdmin = () => {
       const formData = new FormData();
       formData.append("code", updateGejalaData.code);
       formData.append("name", updateGejalaData.name);
+      formData.append("probability", updateGejalaData.probability);
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -367,7 +374,7 @@ const GejalaAdmin = () => {
             <div className="col-sm-9">
               <Modal.Body>
                 <Form onSubmit={handleFormSubmit}>
-                  <Form.Group className="mb-3" control="code">
+                  {/* <Form.Group className="mb-3" control="code">
                     <Form.Label className="fw-semibold">Kode Gejala</Form.Label>
                     <Form.Control
                       size="lg"
@@ -378,7 +385,7 @@ const GejalaAdmin = () => {
                       placeholder="Kode Gejala..."
                       required
                     />
-                  </Form.Group>
+                  </Form.Group> */}
                   <Form.Group className="mb-3" control="name">
                     <Form.Label className="fw-semibold">Nama Gejala</Form.Label>
                     <Form.Control
@@ -388,6 +395,20 @@ const GejalaAdmin = () => {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Nama Gejala..."
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" control="probability">
+                    <Form.Label className="fw-semibold">
+                      Nilai Probabilitas
+                    </Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="probability"
+                      value={probability}
+                      onChange={(e) => setProbability(e.target.value)}
+                      placeholder="Nilai Probabilitas..."
                       required
                     />
                   </Form.Group>
@@ -416,7 +437,7 @@ const GejalaAdmin = () => {
             <div className="col-sm-9">
               <Modal.Body>
                 <Form onSubmit={handleFormUpdate}>
-                  <Form.Group className="mb-3" controlId="code">
+                  {/* <Form.Group className="mb-3" controlId="code">
                     <Form.Label className="fw-semibold">Kode Gejala</Form.Label>
                     <Form.Control
                       size="lg"
@@ -426,7 +447,7 @@ const GejalaAdmin = () => {
                       onChange={handleUpdateInputChange}
                       required
                     />
-                  </Form.Group>
+                  </Form.Group> */}
                   <Form.Group className="mb-3" controlId="name">
                     <Form.Label className="fw-semibold">Nama Gejala</Form.Label>
                     <Form.Control
@@ -434,6 +455,19 @@ const GejalaAdmin = () => {
                       type="text"
                       name="name"
                       value={updateGejalaData.name}
+                      onChange={handleUpdateInputChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" control="probability">
+                    <Form.Label className="fw-semibold">
+                      Nilai Probabilitas
+                    </Form.Label>
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      name="probability"
+                      value={updateGejalaData.probability}
                       onChange={handleUpdateInputChange}
                       required
                     />
