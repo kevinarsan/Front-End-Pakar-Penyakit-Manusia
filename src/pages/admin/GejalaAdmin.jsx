@@ -168,6 +168,14 @@ const GejalaAdmin = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/symptom/create",
@@ -175,7 +183,8 @@ const GejalaAdmin = () => {
           code,
           name,
           probability,
-        }
+        },
+        config
       );
 
       if (response.status === 200) {

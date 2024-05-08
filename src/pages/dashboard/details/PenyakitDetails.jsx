@@ -2,12 +2,17 @@ import { Container, Row, Col, Nav, Button, Form } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import logo from "../../public/p3k.png";
-import stunting from "../../public/conten.jpg";
-import mental from "../../public/mental.jpg";
+import logo from "../../../../public/p3k.png";
+import stunting from "../../../../public/conten.jpg";
+import mental from "../../../../public/mental.jpg";
+import diabet from "../../../../public/diabet.jpg";
+import liver from "../../../../public/Liver.jpg";
+import stroke from "../../../../public/stroke.webp";
+import hpv2 from "../../../../public/hpv.jpg";
+import ejakulasi from "../../../../public/ejakulasi.webp";
 import { render } from "react-dom";
 
-const DiagnosaPage = () => {
+const PenyakitDetails = () => {
   const [motoData, setMotoData] = useState([]);
   const [activeTab, setActiveTab] = useState("resiko-penyakit");
 
@@ -47,7 +52,38 @@ const DiagnosaPage = () => {
                 <Col lg="4">
                   <div className="card-diagnosa d-flex align-items-center mb-3">
                     <div className="me-3 mt-2 mb-2 ms-2">
-                      <img src={stunting} alt="" />
+                      <img src={hpv2} alt="" />
+                    </div>
+                    <div className="mt-2">
+                      <h5 className="fw-semibold">Deteksi Dini HPV</h5>
+                    </div>
+                  </div>
+                </Col>
+                <Col lg="4">
+                  <div className="card-diagnosa d-flex align-items-center mb-3">
+                    <div className="me-3 mt-2 mb-2 ms-2">
+                      <img src={liver} alt="" />
+                    </div>
+                    <div className="mt-2">
+                      <h5 className="fw-semibold">Deteksi Dini Kanker Hati</h5>
+                    </div>
+                  </div>
+                </Col>
+                <Col lg="4">
+                  <div className="card-diagnosa d-flex align-items-center mb-3">
+                    <div className="me-3 mt-2 mb-2 ms-2">
+                      <img src={diabet} alt="" />
+                    </div>
+                    <div className="mt-2">
+                      <h5 className="fw-semibold">Deteksi Dini Diabetes</h5>
+                    </div>
+                  </div>
+                </Col>
+
+                <Col lg="4">
+                  <div className="card-diagnosa d-flex align-items-center mb-3">
+                    <div className="me-3 mt-2 mb-2 ms-2">
+                      <img src={ejakulasi} alt="" />
                     </div>
                     <div className="mt-2">
                       <h5 className="fw-semibold">
@@ -59,20 +95,10 @@ const DiagnosaPage = () => {
                 <Col lg="4">
                   <div className="card-diagnosa d-flex align-items-center mb-3">
                     <div className="me-3 mt-2 mb-2 ms-2">
-                      <img src={stunting} alt="" />
+                      <img src={stroke} alt="" />
                     </div>
                     <div className="mt-2">
-                      <h5 className="fw-semibold">Deteksi Dini Stunting</h5>
-                    </div>
-                  </div>
-                </Col>
-                <Col lg="4">
-                  <div className="card-diagnosa d-flex align-items-center mb-3">
-                    <div className="me-3 mt-2 mb-2 ms-2">
-                      <img src={stunting} alt="" />
-                    </div>
-                    <div className="mt-2">
-                      <h5 className="fw-semibold">Deteksi Dini Stunting</h5>
+                      <h5 className="fw-semibold">Deteksi Dini Stroke</h5>
                     </div>
                   </div>
                 </Col>
@@ -193,4 +219,4 @@ const DiagnosaPage = () => {
   );
 };
 
-export default DiagnosaPage;
+export default PenyakitDetails;

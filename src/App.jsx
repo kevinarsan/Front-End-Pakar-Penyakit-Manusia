@@ -13,6 +13,14 @@ import RegisterUserPage from "./pages/RegisterUserPage";
 import FaqPage from "./pages/FaqPage";
 import ContactKami from "./pages/ContactPage";
 
+// DASHBOARD
+import LayoutDashboard from "./LayoutDashboard";
+import HomePage from "./pages/dashboard/HomePage";
+import NotificationPage from "./pages/dashboard/NotificationPage";
+import ProfilesPage from "./pages/dashboard/ProfilesPage";
+import PenyakitDetails from "./pages/dashboard/details/PenyakitDetails";
+import DiagnosaDetails from "./pages/dashboard/details/DiagnosaDetails";
+
 // ADMIN
 import AboutAdmin from "./pages/admin/AboutAdmin";
 import DashboardAdmin from "./pages/admin/DashboardAdmin";
@@ -111,6 +119,19 @@ function App() {
           </Layout>
         }
       />
+
+      {/* DETAILS */}
+
+      <Route
+        path="/admin/daftar-dokter/details/:id"
+        element={
+          <Layout>
+            <DetailDokterPages />
+          </Layout>
+        }
+      />
+
+      {/* DETAILS END */}
 
       {/* ADMIN */}
       <Route path="/admin/login-admin" element={<LoginAdmin />} />
@@ -247,18 +268,52 @@ function App() {
 
       {/* ADMIN END */}
 
-      {/* DETAILS */}
-
+      {/* DASHBOARD */}
       <Route
-        path="/admin/daftar-dokter/details/:id"
+        path="/dashboard/home-page"
         element={
-          <Layout>
-            <DetailDokterPages />
-          </Layout>
+          <LayoutDashboard>
+            <HomePage />
+          </LayoutDashboard>
         }
       />
 
-      {/* DETAILS END */}
+      <Route
+        path="/dashboard/notification"
+        element={
+          <LayoutDashboard>
+            <NotificationPage />
+          </LayoutDashboard>
+        }
+      />
+
+      <Route
+        path="/dashboard/profiles"
+        element={
+          <LayoutDashboard>
+            <ProfilesPage />
+          </LayoutDashboard>
+        }
+      />
+
+      <Route
+        path="/dashboard/detail-penyakit"
+        element={
+          <LayoutDashboard>
+            <PenyakitDetails />
+          </LayoutDashboard>
+        }
+      />
+
+      <Route
+        path="/dashboard/detail-diagnosa"
+        element={
+          <LayoutDashboard>
+            <DiagnosaDetails />
+          </LayoutDashboard>
+        }
+      />
+      {/* DASHBOARD END */}
 
       {/* DASHBOARD HOME LOGIN */}
 

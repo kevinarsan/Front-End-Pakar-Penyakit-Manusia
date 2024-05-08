@@ -109,9 +109,9 @@ const AturanAdmin = () => {
           <Table>
             <thead>
               <tr>
-                <th className="col-5">Nama Penyakit</th>
-                <th className="col-5">Nama Gejala</th>
-                <th className="col-2">Aksi</th>
+                <th className="col-3">Nama Penyakit</th>
+                <th className="col-8">Nama Gejala</th>
+                <th className="col-1">Aksi</th>
               </tr>
             </thead>
             <tbody>

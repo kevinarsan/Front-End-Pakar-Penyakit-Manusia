@@ -26,7 +26,7 @@ const LoginPages = () => {
       );
 
       localStorage.setItem("token", response.data.data.token);
-      navigate("/dashboard/home");
+      navigate("/dashboard/home-page");
     } catch (error) {
       if (error.response && error.response.status === 403) {
         setError("Maaf, kata sandi salah");
@@ -45,7 +45,7 @@ const LoginPages = () => {
 
   const handleGoogleLoginSuccess = (credentialResponse) => {
     console.log(credentialResponse);
-    navigate("/dashboard/home");
+    navigate("/dashboard/home-page");
   };
 
   const handleGoogleLoginError = () => {
