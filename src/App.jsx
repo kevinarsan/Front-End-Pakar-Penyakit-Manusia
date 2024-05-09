@@ -306,7 +306,7 @@ function App() {
       />
 
       <Route
-        path="/dashboard/detail-diagnosa"
+        path="/dashboard/detail-diagnosa/:id"
         element={
           <LayoutDashboard>
             <DiagnosaDetails />

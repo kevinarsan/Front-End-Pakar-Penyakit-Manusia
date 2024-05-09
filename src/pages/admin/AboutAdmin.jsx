@@ -606,10 +606,8 @@ const AboutAdmin = () => {
             <Form.Control
               size="lg"
               type="file"
-              accept="image/*"
               name="picture"
               onChange={handleFormChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="description">

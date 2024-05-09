@@ -10,7 +10,6 @@ const PenyakitAdmin = () => {
   const [code, setCode] = useState("");
   const [picture, setPicture] = useState(null);
   const [solution, setSolution] = useState("");
-  const [probability, setProbability] = useState("");
   const [penyakit, setPenyakit] = useState([]);
   const [alert, setAlert] = useState({
     show: false,
@@ -32,7 +31,6 @@ const PenyakitAdmin = () => {
     name: "",
     picture: null,
     solution: "",
-    probability: "",
   });
 
   const [deleteConfirmation, setDeleteConfirmation] = useState({
@@ -105,7 +103,6 @@ const PenyakitAdmin = () => {
                 <th className="col-2">Nama Gejala</th>
                 <th className="col-1">Picture</th>
                 <th className="col-5">Solusi</th>
-                <th className="col-1">Probabilitas</th>
                 <th className="col-1">Aksi</th>
               </tr>
             </thead>
@@ -124,7 +121,6 @@ const PenyakitAdmin = () => {
                     />
                   </td>
                   <td>{item.solution}</td>
-                  <td>{item.probability}</td>
                   <td>
                     <div className="d-flex">
                       <Button
@@ -190,7 +186,6 @@ const PenyakitAdmin = () => {
       formData.append("name", name);
       formData.append("picture", picture);
       formData.append("solution", solution);
-      formData.append("probability", probability);
 
       const config = {
         headers: {
@@ -241,7 +236,6 @@ const PenyakitAdmin = () => {
         name: penyakitToUpdate.name,
         picture: null,
         solution: penyakitToUpdate.solution,
-        probability: penyakitToUpdate.probability,
       });
       setShowUpdateModal(true);
     }
@@ -278,7 +272,6 @@ const PenyakitAdmin = () => {
         formData.append("picture", updateHospitalsData.picture);
       }
       formData.append("solution", updateHospitalsData.solution);
-      formData.append("probability", updateHospitalsData.probability);
 
       const config = {
         headers: {
@@ -427,20 +420,6 @@ const PenyakitAdmin = () => {
                       required
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3" control="probability">
-                    <Form.Label className="fw-semibold">
-                      Nilai Probabilitas
-                    </Form.Label>
-                    <Form.Control
-                      size="lg"
-                      type="text"
-                      name="probability"
-                      value={probability}
-                      onChange={(e) => setProbability(e.target.value)}
-                      placeholder="Nilai Probabilitas..."
-                      required
-                    />
-                  </Form.Group>
                   <Button className="save mb-4 fw-bold" type="submit">
                     Simpan
                   </Button>
@@ -495,19 +474,6 @@ const PenyakitAdmin = () => {
                       type="text"
                       name="solution"
                       value={updateHospitalsData.solution}
-                      onChange={handleUpdateInputChange}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="probability">
-                    <Form.Label className="fw-semibold">
-                      Nilai Probabilitas
-                    </Form.Label>
-                    <Form.Control
-                      size="lg"
-                      type="text"
-                      name="probability"
-                      value={updateHospitalsData.probability}
                       onChange={handleUpdateInputChange}
                       required
                     />

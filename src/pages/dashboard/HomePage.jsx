@@ -1,20 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Nav, Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../../../public/wp-4.webp";
-import stunting from "../../../public/conten.jpg";
 import hpv from "../../../public/istockphoto-1435661834-1024x1024.jpg";
-import diabet from "../../../public/diabet.jpg";
-import liver from "../../../public/Liver.jpg";
-import stroke from "../../../public/stroke.webp";
-import hpv2 from "../../../public/hpv.jpg";
-import ejakulasi from "../../../public/ejakulasi.webp";
 import stunting2 from "../../../public/stunting 2.jpg";
 import stroke2 from "../../../public/stroke.jpg";
 import { FaStar, FaMapMarkerAlt } from "react-icons/fa";
 import { IoDiamond } from "react-icons/io5";
 
 const HomePage = () => {
+  const [diseases, setDiseases] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/v1/diseases/get")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data.disease) {
+          setDiseases(data.disease.slice(0, 6));
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching diseases:", error);
+      });
+  }, []);
   return (
     <div className="home-page w-100 overflow-hidden">
       <Row className="">
@@ -60,51 +68,24 @@ const HomePage = () => {
             </div>
           </div>
           <div className="d-flex">
-            <div className="card-penyakit col-2 mt-2">
-              <div className="d-flex justify-content-center">
-                <img className="justify-content-center" src={stunting} alt="" />
-              </div>
-              <div className="text-center mt-2 fw-semibold">Stunting</div>
-            </div>
-
-            <div className="card-penyakit col-2 mt-2">
-              <div className="d-flex justify-content-center">
-                <img className="justify-content-center" src={hpv2} alt="" />
-              </div>
-              <div className="text-center mt-2 fw-semibold">HPV</div>
-            </div>
-
-            <div className="card-penyakit col-2 mt-2">
-              <div className="d-flex justify-content-center">
-                <img className="justify-content-center" src={liver} alt="" />
-              </div>
-              <div className="text-center mt-2 fw-semibold">Kanker Hati</div>
-            </div>
-
-            <div className="card-penyakit col-2 mt-2">
-              <div className="d-flex justify-content-center">
-                <img className="justify-content-center" src={diabet} alt="" />
-              </div>
-              <div className="text-center mt-2 fw-semibold">Diabetes</div>
-            </div>
-
-            <div className="card-penyakit col-2 mt-2">
-              <div className="d-flex justify-content-center">
-                <img
-                  className="justify-content-center"
-                  src={ejakulasi}
-                  alt=""
-                />
-              </div>
-              <div className="text-center mt-2 fw-semibold">Ejakulasi Dini</div>
-            </div>
-
-            <div className="card-penyakit col-2 mt-2">
-              <div className="d-flex justify-content-center">
-                <img className="justify-content-center" src={stroke} alt="" />
-              </div>
-              <div className="text-center mt-2 fw-semibold">Stroke</div>
-            </div>
+            {diseases.map((disease) => (
+              <Link
+                key={disease.id}
+                to={`/dashboard/detail-diagnosa/${disease.id}`}
+                className="card-penyakit col-2 mt-2"
+              >
+                <div className="d-flex justify-content-center">
+                  <img
+                    className="justify-content-center"
+                    src={disease.picture}
+                    alt={disease.name}
+                  />
+                </div>
+                <div className="text-center mt-2 fw-semibold">
+                  {disease.name}
+                </div>
+              </Link>
+            ))}
           </div>
         </Col>
       </div>

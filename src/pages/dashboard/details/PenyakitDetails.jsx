@@ -3,18 +3,25 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import logo from "../../../../public/p3k.png";
-import stunting from "../../../../public/conten.jpg";
 import mental from "../../../../public/mental.jpg";
-import diabet from "../../../../public/diabet.jpg";
-import liver from "../../../../public/Liver.jpg";
-import stroke from "../../../../public/stroke.webp";
-import hpv2 from "../../../../public/hpv.jpg";
-import ejakulasi from "../../../../public/ejakulasi.webp";
-import { render } from "react-dom";
 
 const PenyakitDetails = () => {
   const [motoData, setMotoData] = useState([]);
   const [activeTab, setActiveTab] = useState("resiko-penyakit");
+  const [diseases, setDiseases] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/v1/diseases/get")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data.disease) {
+          setDiseases(data.disease);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching diseases:", error);
+      });
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,69 +46,24 @@ const PenyakitDetails = () => {
           <div>
             <div className="d-flex">
               <Row>
-                <Col lg="4">
-                  <div className="card-diagnosa d-flex align-items-center mb-3">
-                    <div className="me-3 mt-2 mb-2 ms-2">
-                      <img src={stunting} alt="" />
-                    </div>
-                    <div className="mt-2">
-                      <h5 className="fw-semibold">Deteksi Dini Stunting</h5>
-                    </div>
-                  </div>
-                </Col>
-                <Col lg="4">
-                  <div className="card-diagnosa d-flex align-items-center mb-3">
-                    <div className="me-3 mt-2 mb-2 ms-2">
-                      <img src={hpv2} alt="" />
-                    </div>
-                    <div className="mt-2">
-                      <h5 className="fw-semibold">Deteksi Dini HPV</h5>
-                    </div>
-                  </div>
-                </Col>
-                <Col lg="4">
-                  <div className="card-diagnosa d-flex align-items-center mb-3">
-                    <div className="me-3 mt-2 mb-2 ms-2">
-                      <img src={liver} alt="" />
-                    </div>
-                    <div className="mt-2">
-                      <h5 className="fw-semibold">Deteksi Dini Kanker Hati</h5>
-                    </div>
-                  </div>
-                </Col>
-                <Col lg="4">
-                  <div className="card-diagnosa d-flex align-items-center mb-3">
-                    <div className="me-3 mt-2 mb-2 ms-2">
-                      <img src={diabet} alt="" />
-                    </div>
-                    <div className="mt-2">
-                      <h5 className="fw-semibold">Deteksi Dini Diabetes</h5>
-                    </div>
-                  </div>
-                </Col>
-
-                <Col lg="4">
-                  <div className="card-diagnosa d-flex align-items-center mb-3">
-                    <div className="me-3 mt-2 mb-2 ms-2">
-                      <img src={ejakulasi} alt="" />
-                    </div>
-                    <div className="mt-2">
-                      <h5 className="fw-semibold">
-                        Deteksi Dini Ejakulasi Dini
-                      </h5>
-                    </div>
-                  </div>
-                </Col>
-                <Col lg="4">
-                  <div className="card-diagnosa d-flex align-items-center mb-3">
-                    <div className="me-3 mt-2 mb-2 ms-2">
-                      <img src={stroke} alt="" />
-                    </div>
-                    <div className="mt-2">
-                      <h5 className="fw-semibold">Deteksi Dini Stroke</h5>
-                    </div>
-                  </div>
-                </Col>
+                {diseases.map((disease) => (
+                  <Col lg="4">
+                    <Link
+                      key={disease.id}
+                      to={`/dashboard/detail-diagnosa`}
+                      className="card-diagnosa d-flex align-items-center mb-3"
+                    >
+                      <div className="me-3 mt-2 mb-2 ms-2">
+                        <img src={disease.picture} alt={disease.name} />
+                      </div>
+                      <div className="mt-2">
+                        <h5 className="fw-semibold text-black">
+                          Deteksi Dini {disease.name}
+                        </h5>
+                      </div>
+                    </Link>
+                  </Col>
+                ))}
               </Row>
             </div>
           </div>

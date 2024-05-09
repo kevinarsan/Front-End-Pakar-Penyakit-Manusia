@@ -8,11 +8,11 @@ import { BiSearchAlt } from "react-icons/bi";
 
 const navLinks = [
   {
-    to: "/notification",
+    to: "/dashboard/notification",
     label: <IoMdNotificationsOutline className="fs-4 fw-bold" />,
   },
   {
-    to: "/profiles",
+    to: "/dashboard/profiles",
     label: (
       <div className="me-1">
         <FiUser className="fs-4 ms-1 me-3 mb-1 fw-bold" />
