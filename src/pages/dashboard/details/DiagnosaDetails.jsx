@@ -24,13 +24,24 @@ const DiagnosaDetails = () => {
   const [diagnoseResult, setDiagnoseResult] = useState(null);
   const [showResultModal, setShowResultModal] = useState(false);
   const [allSymptoms, setAllSymptoms] = useState([]);
+  const [showModalGejala, setShowModalGejala] = useState(false);
+  const [currentSymptomIndex, setCurrentSymptomIndex] = useState(0);
+
+  const [biodata, setBiodata] = useState({
+    name: "",
+    age: "",
+    gender: "",
+  });
 
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/rule-base/get")
       .then((response) => response.json())
       .then((data) => {
         if (data && data.rule) {
-          setAllSymptoms(data.rule);
+          const filteredSymptoms = data.rule.filter(
+            (symptom) => symptom.diseasesId === parseInt(id)
+          );
+          setAllSymptoms(filteredSymptoms);
         }
       })
       .catch((error) => {
@@ -51,6 +62,7 @@ const DiagnosaDetails = () => {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
+    setBiodata({ ...biodata, [name]: value });
     if (name === "symptomIds") {
       setFormData({ ...formData, [name]: JSON.parse(value) });
     } else {
@@ -60,6 +72,7 @@ const DiagnosaDetails = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    const dataToSend = { ...formData, ...biodata };
     axios
       .post("http://localhost:5000/api/v1/diagnoses/create", formData)
       .then((response) => {
@@ -67,6 +80,7 @@ const DiagnosaDetails = () => {
         setDiagnoseResult(response.data.diagnoses);
         setShowModal1(false);
         setShowResultModal(true);
+        setShowModalGejala(true);
       })
       .catch((error) => {
         console.error("Error posting diagnosa data:", error);
@@ -89,24 +103,53 @@ const DiagnosaDetails = () => {
     window.location.reload();
   };
 
-  const renderSymptoms = () => {
-    return allSymptoms.map((rule) => {
-      if (rule.diseasesId === parseInt(id)) {
-        return (
-          <div key={rule.id} className="mb-3">
+  const handleNextSymptom = () => {
+    setCurrentSymptomIndex(currentSymptomIndex + 1);
+  };
+
+  const handlePreviousSymptom = () => {
+    setCurrentSymptomIndex(currentSymptomIndex - 1);
+  };
+
+  const renderSymptom = () => {
+    const symptom = allSymptoms[currentSymptomIndex];
+    if (symptom && symptom.diseasesId === parseInt(id)) {
+      const isChecked = formData.symptomIds.includes(symptom.symptomId);
+      return (
+        <div className="modal-gejala mb-3">
+          <div className="d-flex justify-content-center col-12">
+            <Modal.Title className="ms-2 fw-semibold col-sm-9 mb-4">
+              {symptom.symptom.name}
+            </Modal.Title>
+          </div>
+
+          <div className="d-flex justify-content-center col-12">
             <Form.Check
+              className="fs-5 mb-2 col-sm-8"
               type="checkbox"
-              id={`symptom-${rule.symptomId}`}
-              label={rule.symptom.name}
+              id={`symptom-${symptom.symptomId}`}
+              label="Ya"
+              checked={isChecked}
               onChange={(e) =>
-                handleSymptomChange(rule.symptomId, e.target.checked)
+                handleSymptomChange(symptom.symptomId, e.target.checked)
               }
             />
           </div>
-        );
-      }
-      return null;
-    });
+          <div className="d-flex justify-content-center">
+            <Form.Check
+              className="fs-5 col-sm-8"
+              type="checkbox"
+              label="Tidak"
+              checked={!isChecked}
+              onChange={(e) =>
+                handleSymptomChange(symptom.symptomId, !e.target.checked)
+              }
+            />
+          </div>
+        </div>
+      );
+    }
+    return null;
   };
 
   const handleSymptomChange = (symptomId, checked) => {
@@ -140,7 +183,7 @@ const DiagnosaDetails = () => {
             <p className="fs-2 ms-3 fw-bold">
               Apakah Anda Beresiko
               <br />
-              Terkana {disease.name}?
+              Terkana {disease.name} ?
             </p>
             <div className="oleh fw-semibold ms-3 mb-3">
               Ditinjau oleh <a href="">Kevin Arsan Kamto</a> pada 12 Maret 2024
@@ -196,6 +239,7 @@ const DiagnosaDetails = () => {
         </div>
       </div>
 
+      {/* MODAL BIODATA */}
       <div className="modal-1">
         <Modal
           className=""
@@ -205,7 +249,7 @@ const DiagnosaDetails = () => {
         >
           <Modal.Header closeButton></Modal.Header>
           <Modal.Title className="ms-2 fw-semibold col-sm-9 text-center mb-3">
-            1. Hai, Silahkan isi biodata anda.
+            Hai, Silahkan isi biodata anda.
           </Modal.Title>
           <div className="modal-diagnosa container">
             <div className="row justify-content-center">
@@ -253,20 +297,15 @@ const DiagnosaDetails = () => {
                         <option value="perempuan">Perempuan</option>
                       </Form.Select>
                     </Form.Group>
-                    {renderSymptoms()}
-                    <div className="text-end">
-                      <Button
-                        className="btn-diagnosaa mb-4 fw-bold me-2"
-                        onClick={handleCloseModal1}
-                      >
-                        <FaAngleLeft className="me-2" />
-                        Kembali
-                      </Button>
+                    <div className="col-12 text-end">
                       <Button
                         className="btn-diagnosaa mb-4 fw-bold ms-2"
-                        type="submit"
+                        onClick={() => {
+                          setShowModalGejala(true);
+                          handleCloseModal1();
+                        }}
                       >
-                        Diagnosa
+                        Lanjut
                         <FaAngleRight className="ms-2" />
                       </Button>
                     </div>
@@ -278,17 +317,58 @@ const DiagnosaDetails = () => {
         </Modal>
       </div>
 
+      {/* MODAL GEJALA */}
+      <Modal
+        className=""
+        size="lg"
+        show={showModalGejala}
+        onHide={() => setShowModalGejala(false)}
+      >
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleFormSubmit}>
+            {renderSymptom()}
+            <div className="text-end col-10">
+              {currentSymptomIndex > 0 && (
+                <Button
+                  className="btn-diagnosaa mb-4 fw-bold me-2"
+                  onClick={handlePreviousSymptom}
+                >
+                  <FaAngleLeft className="me-2" />
+                  Sebelumnya
+                </Button>
+              )}
+              {currentSymptomIndex < allSymptoms.length - 1 && (
+                <Button
+                  className="btn-diagnosaa mb-4 fw-bold ms-2"
+                  onClick={handleNextSymptom}
+                >
+                  Lanjut
+                  <FaAngleRight className="ms-2" />
+                </Button>
+              )}
+              {currentSymptomIndex === allSymptoms.length - 1 && (
+                <Button
+                  className="btn-diagnosaa mb-4 fw-bold ms-2"
+                  type="submit"
+                >
+                  Diagnosa
+                  <FaAngleRight className="ms-2" />
+                </Button>
+              )}
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      {/* MODAL HASIL */}
       <Modal
         className=""
         size="lg"
         show={showResultModal}
         onHide={handleRefreshPage}
       >
-        <Modal.Header closeButton>
-          {/* <Modal.Title className="ms-2 fw-semibold col-sm-12 text-center mb-3">
-            Hasil Diagnosa
-          </Modal.Title> */}
-        </Modal.Header>
+        <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           {diagnoseResult && (
             <div className="hasil-diagnosa">
@@ -304,9 +384,9 @@ const DiagnosaDetails = () => {
               </p>
               <div className="d-flex justify-content-center col-12 fs-5">
                 <p className="text-center col-9">
-                  {diagnoseResult.name} anda beresiko {diagnoseResult.status}{" "}
+                  {diagnoseResult.name} anda {diagnoseResult.status}{" "}
                   {disease.name}. Kami sarankan Anda untuk melakukan pemeriksaan
-                  lanjutan ke dokter terdekat. cari dokter terdekat{" "}
+                  lanjutan ke dokter terdekat. Cari dokter terdekat{" "}
                   <a href="#">disini</a>, dan cari tahu informasi lainnya
                   seputar {disease.name} <a href="#">disini</a>{" "}
                 </p>
