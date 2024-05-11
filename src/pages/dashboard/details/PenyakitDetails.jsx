@@ -50,7 +50,7 @@ const PenyakitDetails = () => {
                   <Col lg="4">
                     <Link
                       key={disease.id}
-                      to={`/dashboard/detail-diagnosa`}
+                      to={`/dashboard/detail-diagnosa/${disease.id}`}
                       className="card-diagnosa d-flex align-items-center mb-3"
                     >
                       <div className="me-3 mt-2 mb-2 ms-2">
