@@ -41,8 +41,10 @@ import DashboardDokter from "./pages/dokter/DashboardDokter";
 // DETAILS
 import DetailDokterPages from "./pages/details/DokterDetailPages";
 
-// HOME PAGES LOGIN
-import HomePages from "./pages/HomePages";
+const PrivateRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" />;
+};
 
 function App() {
   return (
@@ -272,52 +274,60 @@ function App() {
       <Route
         path="/dashboard/home-page"
         element={
-          <LayoutDashboard>
-            <HomePage />
-          </LayoutDashboard>
+          <PrivateRoute>
+            <LayoutDashboard>
+              <HomePage />
+            </LayoutDashboard>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/dashboard/notification"
         element={
-          <LayoutDashboard>
-            <NotificationPage />
-          </LayoutDashboard>
+          <PrivateRoute>
+            <LayoutDashboard>
+              <NotificationPage />
+            </LayoutDashboard>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/dashboard/profiles"
         element={
-          <LayoutDashboard>
-            <ProfilesPage />
-          </LayoutDashboard>
+          <PrivateRoute>
+            <LayoutDashboard>
+              <ProfilesPage />
+            </LayoutDashboard>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/dashboard/detail-penyakit"
         element={
-          <LayoutDashboard>
-            <PenyakitDetails />
-          </LayoutDashboard>
+          <PrivateRoute>
+            <LayoutDashboard>
+              <PenyakitDetails />
+            </LayoutDashboard>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/dashboard/detail-diagnosa/:id"
         element={
-          <LayoutDashboard>
-            <DiagnosaDetails />
-          </LayoutDashboard>
+          <PrivateRoute>
+            <LayoutDashboard>
+              <DiagnosaDetails />
+            </LayoutDashboard>
+          </PrivateRoute>
         }
       />
       {/* DASHBOARD END */}
 
       {/* DASHBOARD HOME LOGIN */}
-
-      <Route path="/dashboard/home" element={<HomePages />} />
 
       {/* DASHBOARD HOME LOGIN END */}
 

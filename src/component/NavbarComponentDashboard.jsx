@@ -5,18 +5,26 @@ import logo from "../../public/nm.png";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { FiUser } from "react-icons/fi";
 import { BiSearchAlt } from "react-icons/bi";
+import axios from "axios";
 
 const navLinks = [
   {
     to: "/dashboard/notification",
-    label: <IoMdNotificationsOutline className="fs-4 fw-bold" />,
+    label: (
+      <div className="position-relative">
+        <IoMdNotificationsOutline className="fs-4 fw-bold" />
+        <div className="amount-notif">
+          <div className="notification-badge"></div>
+        </div>
+      </div>
+    ),
   },
   {
     to: "/dashboard/profiles",
     label: (
       <div className="me-1">
         <FiUser className="fs-4 ms-1 me-3 mb-1 fw-bold" />
-        Kevinarsn_
+        <span id="usernamePlaceholder"></span>
       </div>
     ),
   },
@@ -24,8 +32,10 @@ const navLinks = [
 
 const NavbarComponentDashboard = () => {
   const [changeColor, setChangeColor] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [username, setUsername] = useState("");
 
-  const changeBackgoundColor = () => {
+  const changeBackgroundColor = () => {
     if (window.scrollY > 10) {
       setChangeColor(true);
     } else {
@@ -34,12 +44,65 @@ const NavbarComponentDashboard = () => {
   };
 
   useEffect(() => {
-    changeBackgoundColor();
-    window.addEventListener("scroll", changeBackgoundColor);
+    changeBackgroundColor();
+    window.addEventListener("scroll", changeBackgroundColor);
     return () => {
-      window.removeEventListener("scroll", changeBackgoundColor);
+      window.removeEventListener("scroll", changeBackgroundColor);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/auth/me",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUsername(response.data.me.username);
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/notifications/me",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const sortedNotifications = response.data.myNotif.sort(
+          (a, b) => new Date(b.time) - new Date(a.time)
+        );
+        setNotifications(sortedNotifications);
+      } catch (err) {
+        console.error("Error fetching notifications:", err);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  const unreadCount = notifications.filter(
+    (notification) => !notification.isRead
+  ).length;
+
+  useEffect(() => {
+    document.getElementById("usernamePlaceholder").innerText = username;
+  }, [username]);
 
   return (
     <Navbar expand="lg" className={`${changeColor ? "color-active" : ""}`}>
@@ -78,7 +141,14 @@ const NavbarComponentDashboard = () => {
                 className="nav-link"
                 activeClassName="active"
               >
-                {link.label}
+                {link.to === "/dashboard/notification" && unreadCount > 0 ? (
+                  <div className="position-relative">
+                    {link.label}
+                    <span className="notification-badge">{unreadCount}</span>
+                  </div>
+                ) : (
+                  link.label
+                )}
               </NavLink>
             ))}
           </Nav>
