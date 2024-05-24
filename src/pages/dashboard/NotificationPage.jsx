@@ -55,15 +55,13 @@ const NotificationPage = () => {
 
   const formatTanggalModal = (tanggalString) => {
     const tanggal = new Date(tanggalString);
-    const options = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    };
+    const options = { day: "numeric", month: "long", year: "numeric" };
     const tanggalFormatted = tanggal.toLocaleDateString("id-ID", options);
-    return tanggalFormatted;
+    const jamFormatted = tanggal.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return `${tanggalFormatted}. ${jamFormatted}`;
   };
 
   const markNotificationAsRead = async (notificationId) => {
@@ -194,15 +192,38 @@ const NotificationPage = () => {
         </div>
       </Row>
       <Modal size="lg" show={modalShow} onHide={() => setModalShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Detail Notifikasi</Modal.Title>
+        <Modal.Header className="modal-notif" closeButton>
+          <Modal.Title className="fw-bold">Detail Notifikasi</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selectedNotification && (
             <>
-              <p>Pengirim: {senderName}</p> {/* Menampilkan nama pengirim */}
-              <p>Pesan: {selectedNotification.message}</p>
-              <p>Waktu: {formatTanggalModal(selectedNotification.time)}</p>
+              <div>
+                <div className="fs-3 fw-semibold mb-1 ms-2">Diagnosify</div>
+                <p className="ms-2">
+                  {formatTanggalModal(selectedNotification.time)}
+                </p>
+              </div>
+              <div className="modal-notif-content mt-4">
+                <p className="ms-4 me-4 content-notif-modal mt-2">
+                  {senderName}
+                </p>
+                <p></p>
+                <p className="ms-4 me-4">{selectedNotification.message}</p>
+
+                <div className="content-notif-modal ms-4 me-4 mt-5">
+                  Kevin Arsan Kamto
+                </div>
+                <div className="content-notif-modal ms-4 me-4">
+                  Admin Diagnosify
+                </div>
+                <a
+                  href="mailto:admin@diagnosify.com"
+                  className="mb-5 text-primary pointer content-notif-modal ms-4 me-4"
+                >
+                  admin@diagnosify.com
+                </a>
+              </div>
             </>
           )}
         </Modal.Body>

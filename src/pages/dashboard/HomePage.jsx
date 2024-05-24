@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Nav, Row, Col, Card, Button } from "react-bootstrap";
+import { Nav, Row, Col, Card, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../../../public/wp-4.webp";
 import hpv from "../../../public/istockphoto-1435661834-1024x1024.jpg";
@@ -10,6 +10,7 @@ import { IoDiamond } from "react-icons/io5";
 
 const HomePage = () => {
   const [diseases, setDiseases] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/diseases/get")
@@ -23,6 +24,14 @@ const HomePage = () => {
         console.error("Error fetching diseases:", error);
       });
   }, []);
+
+  const handleCardClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
   return (
     <div className="home-page w-100 overflow-hidden">
       <Row className="">
@@ -99,7 +108,7 @@ const HomePage = () => {
             </div>
           </div>
           <div className="d-flex">
-            <Card className="col-4 me-1 ms-1 mt-3">
+            <Card className="col-4 me-1 ms-1 mt-3" onClick={handleCardClick}>
               <Card.Img variant="top" src={stunting2} />
               <div>
                 <div className="d-flex col-12">
@@ -126,7 +135,7 @@ const HomePage = () => {
               </div>
             </Card>
 
-            <Card className="col-4 me-1 ms-1 mt-3">
+            <Card className="col-4 me-1 ms-1 mt-3" onClick={handleCardClick}>
               <Card.Img variant="top" src={hpv} />
               <div>
                 <div className="d-flex col-12">
@@ -151,7 +160,7 @@ const HomePage = () => {
               </div>
             </Card>
 
-            <Card className="col-4 me-1 ms-1 mt-3">
+            <Card className="col-4 me-1 ms-1 mt-3" onClick={handleCardClick}>
               <Card.Img variant="top" src={stroke2} />
               <div>
                 <div className="d-flex col-12">
@@ -180,7 +189,7 @@ const HomePage = () => {
           </div>
 
           <div className="d-flex">
-            <Card className="col-4 me-1 ms-1 mt-3">
+            <Card className="col-4 me-1 ms-1 mt-3" onClick={handleCardClick}>
               <Card.Img variant="top" src={hpv} />
               <div>
                 <div className="d-flex col-12">
@@ -205,7 +214,7 @@ const HomePage = () => {
               </div>
             </Card>
 
-            <Card className="col-4 me-1 ms-1 mt-3">
+            <Card className="col-4 me-1 ms-1 mt-3" onClick={handleCardClick}>
               <Card.Img variant="top" src={hpv} />
               <div>
                 <div className="d-flex col-12">
@@ -230,7 +239,7 @@ const HomePage = () => {
               </div>
             </Card>
 
-            <Card className="col-4 me-1 ms-1 mt-3">
+            <Card className="col-4 me-1 ms-1 mt-3" onClick={handleCardClick}>
               <Card.Img variant="top" src={hpv} />
               <div>
                 <div className="d-flex col-12">
@@ -257,6 +266,20 @@ const HomePage = () => {
           </div>
         </Col>
       </div>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Informasi</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Maaf, fitur pengobatan belum tersedia, silahkan coba beberapa saat
+          lagi.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Tutup
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
-
 import { NavLink, Link } from "react-router-dom";
 import logo from "../../public/nm.png";
 import { FaArrowRightToBracket } from "react-icons/fa6";
+import axios from "axios"; // Import axios for making API calls
 
 const navLinks = [
   { to: "/", label: "Tentang Kami" },
@@ -15,6 +15,7 @@ const navLinks = [
 
 const NavbarComponent = () => {
   const [changeColor, setChangeColor] = useState(false);
+  const [username, setUsername] = useState(null);
 
   const changeBackgoundColor = () => {
     if (window.scrollY > 10) {
@@ -26,9 +27,34 @@ const NavbarComponent = () => {
 
   useEffect(() => {
     changeBackgoundColor();
-
     window.addEventListener("scroll", changeBackgoundColor);
-  });
+    return () => {
+      window.removeEventListener("scroll", changeBackgoundColor);
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const response = await axios.get(
+            "http://localhost:5000/api/v1/auth/me",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setUsername(response.data.me.username);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   return (
     <div>
@@ -57,10 +83,16 @@ const NavbarComponent = () => {
             </Nav>
 
             <div className="text-center">
-              <Nav.Link as={Link} to="/login">
-                <FaArrowRightToBracket className="me-2" />
-                Masuk
-              </Nav.Link>
+              {username ? (
+                <Nav.Link as={Link} to="/dashboard/profiles">
+                  {username}
+                </Nav.Link>
+              ) : (
+                <Nav.Link as={Link} to="/login">
+                  <FaArrowRightToBracket className="me-2" />
+                  Masuk
+                </Nav.Link>
+              )}
             </div>
           </Navbar.Collapse>
         </Container>

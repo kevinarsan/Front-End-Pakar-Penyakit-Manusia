@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   FaArrowLeft,
   FaRightFromBracket,
@@ -7,16 +9,119 @@ import {
   FaUserPen,
   FaCartShopping,
 } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
-import img from "../../../public/kevin.jpg";
 
 const ProfilesPages = () => {
   const [selectedMenu, setSelectedMenu] = useState("profile");
+  const [profileData, setProfileData] = useState({
+    name: "",
+    phone: "",
+    picture: "",
+    city: "",
+    province: "",
+    country: "",
+  });
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [profilePicFile, setProfilePicFile] = useState(null);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+  const fetchProfileData = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/v1/profiles/get-me",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const { data } = response.data;
+      setProfileData(data.profile);
+    } catch (error) {
+      console.log("Error fetching profile data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfileData();
+  }, []);
+
+  const handleProfileChange = (e) => {
+    const { name, value } = e.target;
+    setProfileData({ ...profileData, [name]: value });
+  };
+
+  const handleProfilePicChange = (e) => {
+    setProfilePicFile(e.target.files[0]);
+  };
+
+  const handleProfileSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+    for (const key in profileData) {
+      if (profileData[key]) formData.append(key, profileData[key]);
+    }
+    if (profilePicFile) {
+      formData.append("picture", profilePicFile);
+    }
+
+    try {
+      await axios.put(
+        "http://localhost:5000/api/v1/profiles/update-users",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      alert("Profile berhasil diubah");
+    } catch (error) {
+      console.log("Error updating profile:", error);
+      setError("Gagal mengubah profile.");
+    }
+  };
+
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      setError("Konfirmasi password tidak cocok dengan password baru.");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/v1/auth/reset-password",
+        {
+          oldPassword,
+          newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const isConfirmed = window.confirm(
+        "Password berhasil diubah. Silakan logout dulu."
+      );
+      if (isConfirmed) {
+        handleLogout();
+      }
+    } catch (error) {
+      console.log(error);
+      setError("Gagal mengubah password. Pastikan password lama benar.");
+    }
   };
 
   const renderContent = () => {
@@ -24,16 +129,43 @@ const ProfilesPages = () => {
       case "profile":
         return (
           <div className="col-12 d-flex justify-content-center">
-            <Form className="col-12">
-              <div className="image-profile d-flex justify-content-center mt-3">
-                <img src={img} alt="" />
+            <Form className="col-12" onSubmit={handleProfileSubmit}>
+              <div className="image-profile d-flex justify-content-center mt-3 position-relative">
+                <img src={profileData.picture} alt="Profile" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleProfilePicChange}
+                  style={{
+                    position: "absolute",
+                    bottom: "10px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    opacity: 0,
+                    cursor: "pointer",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                />
+                <FaUserPen
+                  style={{
+                    position: "absolute",
+                    bottom: "10px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    cursor: "pointer",
+                  }}
+                />
               </div>
               <div className="mt-3">
                 <div className="ms-1 mb-1">Nama</div>
                 <Form.Control
                   className="fw-semibold"
                   type="text"
-                  placeholder="Kevin Arsan Kamto"
+                  placeholder="Nama"
+                  name="name"
+                  value={profileData.name}
+                  onChange={handleProfileChange}
                 />
               </div>
               <div className="mt-2">
@@ -41,7 +173,10 @@ const ProfilesPages = () => {
                 <Form.Control
                   className="fw-semibold"
                   type="text"
-                  placeholder="+62 81218187958"
+                  placeholder="Nomor Telepon"
+                  name="phone"
+                  value={profileData.phone}
+                  onChange={handleProfileChange}
                 />
               </div>
               <div className="mt-2">
@@ -49,7 +184,10 @@ const ProfilesPages = () => {
                 <Form.Control
                   className="fw-semibold"
                   type="text"
-                  placeholder="Indonesia"
+                  placeholder="Negara"
+                  name="country"
+                  value={profileData.country}
+                  onChange={handleProfileChange}
                 />
               </div>
               <div className="mt-2">
@@ -57,7 +195,10 @@ const ProfilesPages = () => {
                 <Form.Control
                   className="fw-semibold"
                   type="text"
-                  placeholder="Jawa Timur"
+                  placeholder="Provinsi"
+                  name="province"
+                  value={profileData.province}
+                  onChange={handleProfileChange}
                 />
               </div>
               <div className="mt-2">
@@ -65,7 +206,10 @@ const ProfilesPages = () => {
                 <Form.Control
                   className="fw-semibold"
                   type="text"
-                  placeholder="Blitar"
+                  placeholder="Kota"
+                  name="city"
+                  value={profileData.city}
+                  onChange={handleProfileChange}
                 />
               </div>
               <Button
@@ -80,31 +224,35 @@ const ProfilesPages = () => {
       case "password":
         return (
           <div className="col-12 d-flex justify-content-center">
-            <Form className="col-12">
+            <Form className="col-12" onSubmit={handlePasswordChange}>
               <div className="mt-3">
                 <div className="ms-1 mb-1">Password Lama</div>
                 <Form.Control
-                  className="fw-semibold"
                   type="password"
                   placeholder="Password Lama"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
                 />
               </div>
               <div className="mt-3">
                 <div className="ms-1 mb-1">Password Baru</div>
                 <Form.Control
-                  className="fw-semibold"
                   type="password"
                   placeholder="Password Baru"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                 />
               </div>
               <div className="mt-3">
                 <div className="ms-1 mb-1">Konfirmasi Password Baru</div>
                 <Form.Control
-                  className="fw-semibold"
                   type="password"
                   placeholder="Konfirmasi Password Baru"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
+              {error && <div className="text-danger mt-2">{error}</div>}
               <Button
                 className="col-12 save-home mb-4 fw-bold mt-3"
                 type="submit"
@@ -119,13 +267,18 @@ const ProfilesPages = () => {
           <div className="col-12 d-flex justify-content-center">
             <div className="col-12">
               <h5>Riwayat</h5>
-              <p>Content for riwayat goes here...</p>
+              <p>Riwayat Pembayaran Belum Tersedia</p>
             </div>
           </div>
         );
       default:
         return null;
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   return (
@@ -143,8 +296,8 @@ const ProfilesPages = () => {
               </a>
             </div>
             <div className="d-flex mt-3 justify-content-center">
-              <div className="judul mt-4 col-9 d-flex justify-content-center align-items-center">
-                <p className="fs-5 text-white text-center mb-0 fw-bold">Akun</p>
+              <div class="judul mt-4 col-9 d-flex justify-content-center align-items-center">
+                <p class="fs-5 text-white text-center mb-0 fw-bold">Akun</p>
               </div>
             </div>
           </Container>
@@ -155,7 +308,6 @@ const ProfilesPages = () => {
         <div className="profile">
           <Container className="d-flex justify-content-center">
             <div className="row cek col-9 d-flex">
-              {/* NAVBAR PROFILE */}
               <Col lg="6">
                 <div className="mt-2">
                   <div
@@ -200,7 +352,6 @@ const ProfilesPages = () => {
                   </div>
                 </div>
               </Col>
-              {/* NAVBAR PROFILE */}
 
               <Col lg="6" className="mb-4">
                 <div className="content col-10">{renderContent()}</div>
