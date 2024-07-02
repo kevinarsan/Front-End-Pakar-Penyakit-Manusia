@@ -33,7 +33,7 @@ const DaftarDokterPages = () => {
     const fetchData = async () => {
       try {
         const responseDokter = await axios.get(
-          "http://localhost:5000/api/v1/about/description-team"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/description-team"
         );
         const dokterItems = responseDokter.data.about.filter(
           (item) => item.name === "Daftar Dokter"
@@ -42,7 +42,7 @@ const DaftarDokterPages = () => {
         setDataDokter(dokterItems);
 
         const response = await axios.get(
-          "http://localhost:5000/api/v1/profiles/get-all-doctor"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/profiles/get-all-doctor"
         );
         setDokterData(response.data.get);
 
@@ -69,7 +69,7 @@ const DaftarDokterPages = () => {
         );
 
         const responseReview = await axios.get(
-          "http://localhost:5000/api/v1/profiles/doctor"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/profiles/doctor"
         );
 
         setReviewData(responseReview.data.get);

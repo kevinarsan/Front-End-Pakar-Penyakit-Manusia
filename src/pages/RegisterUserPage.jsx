@@ -18,7 +18,7 @@ const RegisterUserPage = () => {
     setError("");
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/register-users",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/auth/register-users",
         {
           username,
           email,

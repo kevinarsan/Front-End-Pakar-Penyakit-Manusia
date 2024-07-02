@@ -17,7 +17,7 @@ const AboutPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/about/visi-misi"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/visi-misi"
         );
 
         const visiItems = response.data.existingVisi.filter(
@@ -32,7 +32,7 @@ const AboutPage = () => {
         setMisiData(misiItems);
 
         const responsee = await axios.get(
-          "http://localhost:5000/api/v1/about/description-team"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/description-team"
         );
         const motoItems = responsee.data.about.filter(
           (item) => item.name === "Our Team"
@@ -41,7 +41,7 @@ const AboutPage = () => {
         setDescriptionTeam(motoItems);
 
         const responseTeam = await axios.get(
-          "http://localhost:5000/api/v1/about/teams"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/teams"
         );
         setTeamData(responseTeam.data.teams);
       } catch (error) {

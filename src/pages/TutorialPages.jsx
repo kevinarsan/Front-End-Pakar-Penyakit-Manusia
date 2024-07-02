@@ -10,7 +10,7 @@ const TutorialPages = () => {
     const fetchData = async () => {
       try {
         const responseMoto = await axios.get(
-          "http://localhost:5000/api/v1/about/description-team"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/description-team"
         );
 
         const motoItems = responseMoto.data.about.filter(
@@ -20,7 +20,7 @@ const TutorialPages = () => {
         setMotoData(motoItems);
 
         const responseVideo = await axios.get(
-          "http://localhost:5000/api/v1/about/tutorials"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/tutorials"
         );
         setVideoData(responseVideo.data.videos);
       } catch (error) {

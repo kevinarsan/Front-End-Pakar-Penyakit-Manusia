@@ -14,7 +14,7 @@ const FaqPage = () => {
     const fetchData = async () => {
       try {
         const responseMoto = await axios.get(
-          "http://localhost:5000/api/v1/about/description-team"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/description-team"
         );
 
         const motoItems = responseMoto.data.about.filter(
@@ -24,7 +24,7 @@ const FaqPage = () => {
         setMotoData(motoItems);
 
         const responseFaq = await axios.get(
-          "http://localhost:5000/api/v1/about/faq"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/faq"
         );
         setDataFaq(responseFaq.data.FAQ);
       } catch (error) {

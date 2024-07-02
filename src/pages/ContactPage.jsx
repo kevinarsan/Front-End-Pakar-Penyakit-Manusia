@@ -10,7 +10,7 @@ const ContactKami = () => {
     const fetchData = async () => {
       try {
         const responseMoto = await axios.get(
-          "http://localhost:5000/api/v1/about/description-team"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/description-team"
         );
 
         const motoItams = responseMoto.data.about.filter(
@@ -20,7 +20,7 @@ const ContactKami = () => {
         setMotoData(motoItams);
 
         const responsecontact = await axios.get(
-          "http://localhost:5000/api/v1/about/contact"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/contact"
         );
 
         setContactData(responsecontact.data.contacts);
