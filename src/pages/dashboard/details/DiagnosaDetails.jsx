@@ -34,11 +34,17 @@ const DiagnosaDetails = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/rule-base/get")
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.rule) {
-          const filteredSymptoms = data.rule.filter(
+    const token = localStorage.getItem("token");
+
+    axios
+      .get("http://localhost:5000/api/v1/rule-base/get", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.data && response.data.rule) {
+          const filteredSymptoms = response.data.rule.filter(
             (symptom) => symptom.diseasesId === parseInt(id)
           );
           setAllSymptoms(filteredSymptoms);
@@ -48,11 +54,15 @@ const DiagnosaDetails = () => {
         console.error("Error fetching symptoms:", error);
       });
 
-    fetch(`http://localhost:5000/api/v1/diseases/get/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.disease) {
-          setDisease(data.disease);
+    axios
+      .get(`http://localhost:5000/api/v1/diseases/get/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.data && response.data.disease) {
+          setDisease(response.data.disease);
         }
       })
       .catch((error) => {
@@ -72,9 +82,14 @@ const DiagnosaDetails = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
     const dataToSend = { ...formData, ...biodata };
     axios
-      .post("http://localhost:5000/api/v1/diagnoses/create", formData)
+      .post("http://localhost:5000/api/v1/diagnoses/create", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         console.log("Diagnosa berhasil:", response.data);
         setDiagnoseResult(response.data.diagnoses);

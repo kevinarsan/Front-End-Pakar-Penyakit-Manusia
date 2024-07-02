@@ -551,14 +551,14 @@ const AturanAdmin = () => {
           {alert.message}
         </Alert>
         <div className="d-flex mb-1">
-          <h5 className="mt-2 fw-bold text-black col-4">Daftar Gejala</h5>
+          <h5 className="mt-2 fw-bold text-black col-4">Daftar Aturan </h5>
           <div className="col-8 d-flex justify-content-end align-items-center">
             <Button
               className="tambah me-2 fw-semibold d-flex align-items-center"
               onClick={handleTambahClick}
             >
               <FaPlus className="me-2" />
-              Tambah Gejala
+              Tambah Rule Base
             </Button>
             <Button className="filter me-2 ms-2 fw-semibold d-flex align-items-center">
               <FaFilter className="me-2" />

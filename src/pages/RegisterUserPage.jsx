@@ -113,7 +113,6 @@ const RegisterUserPage = () => {
               />
             </Form.Group>
 
-            {error && <div className="text-danger mt-2">{error}</div>}
             <button type="submit" className="btn col-12 mt-3 fw-semibold">
               Daftar
             </button>
@@ -134,6 +133,13 @@ const RegisterUserPage = () => {
                 onError={handleGoogleLoginError}
               />
             </div>
+            {error && (
+              <div className="d-flex justify-content-center col-12">
+                <div className="alert-error col-8 mt-4 d-flex justify-content-center align-items-center">
+                  {error}
+                </div>
+              </div>
+            )}
           </Form>
         </Col>
         <Col className="d-flex justify-content-center align-items-center">

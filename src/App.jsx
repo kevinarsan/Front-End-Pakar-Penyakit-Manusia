@@ -20,6 +20,7 @@ import NotificationPage from "./pages/dashboard/NotificationPage";
 import ProfilesPage from "./pages/dashboard/ProfilesPage";
 import PenyakitDetails from "./pages/dashboard/details/PenyakitDetails";
 import DiagnosaDetails from "./pages/dashboard/details/DiagnosaDetails";
+import RiwayatDetails from "./pages/dashboard/details/RiwayatDetails";
 
 // ADMIN
 import AboutAdmin from "./pages/admin/AboutAdmin";
@@ -321,6 +322,17 @@ function App() {
           <PrivateRoute>
             <LayoutDashboard>
               <DiagnosaDetails />
+            </LayoutDashboard>
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/detail-riwayat/:id"
+        element={
+          <PrivateRoute>
+            <LayoutDashboard>
+              <RiwayatDetails />
             </LayoutDashboard>
           </PrivateRoute>
         }

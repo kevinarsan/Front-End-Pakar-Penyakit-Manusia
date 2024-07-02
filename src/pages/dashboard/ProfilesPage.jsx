@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Container, Form, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Row, Col, Container, Form, Button, Card } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   FaArrowLeft,
@@ -25,6 +25,7 @@ const ProfilesPages = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [profilePicFile, setProfilePicFile] = useState(null);
+  const [diagnoses, setDiagnoses] = useState([]);
   const navigate = useNavigate();
 
   const fetchProfileData = async () => {
@@ -47,8 +48,31 @@ const ProfilesPages = () => {
     }
   };
 
+  const fetchDiagnoses = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/v1/diagnoses/get-me",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const { diagnoses } = response.data;
+      setDiagnoses(
+        diagnoses.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      );
+    } catch (error) {
+      console.log("Error fetching diagnoses:", error);
+    }
+  };
+
   useEffect(() => {
     fetchProfileData();
+    fetchDiagnoses();
   }, []);
 
   const handleProfileChange = (e) => {
@@ -124,6 +148,17 @@ const ProfilesPages = () => {
     }
   };
 
+  const formatTanggal = (tanggalString) => {
+    const tanggal = new Date(tanggalString);
+    const options = { day: "numeric", month: "long" };
+    const tanggalFormatted = tanggal.toLocaleDateString("id-ID", options);
+    const jamFormatted = tanggal.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return `${tanggalFormatted}, ${jamFormatted}`;
+  };
+
   const renderContent = () => {
     switch (selectedMenu) {
       case "profile":
@@ -131,7 +166,11 @@ const ProfilesPages = () => {
           <div className="col-12 d-flex justify-content-center">
             <Form className="col-12" onSubmit={handleProfileSubmit}>
               <div className="image-profile d-flex justify-content-center mt-3 position-relative">
-                <img src={profileData.picture} alt="Profile" />
+                <img
+                  className="img-profile"
+                  src={profileData.picture}
+                  alt="Profile"
+                />
                 <input
                   type="file"
                   accept="image/*"
@@ -225,6 +264,7 @@ const ProfilesPages = () => {
         return (
           <div className="col-12 d-flex justify-content-center">
             <Form className="col-12" onSubmit={handlePasswordChange}>
+              <div className="fs-4 mt-3 fw-bold text-center">Ubah Password</div>
               <div className="mt-3">
                 <div className="ms-1 mb-1">Password Lama</div>
                 <Form.Control
@@ -266,8 +306,44 @@ const ProfilesPages = () => {
         return (
           <div className="col-12 d-flex justify-content-center">
             <div className="col-12">
-              <h5>Riwayat</h5>
-              <p>Riwayat Pembayaran Belum Tersedia</p>
+              <div className="fs-4 mt-3 fw-bold text-center">Riwayat</div>
+              {diagnoses.map((diagnosis) => (
+                <Link
+                  key={diagnosis.id}
+                  to={`/dashboard/detail-riwayat/${diagnosis.id}`}
+                >
+                  <div className="d-flex justify-content-center mt-3">
+                    <Card
+                      className="card-riwayat col-12"
+                      style={{
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Card.Img
+                        variant="top"
+                        src={diagnosis.diseases.picture}
+                        style={{
+                          height: "8rem",
+                        }}
+                      />
+                      <Card.Body>
+                        <Card.Title className="title-riwayat fs-6 fw-semibold">
+                          Diagnosa {diagnosis.diseases.name}
+                        </Card.Title>
+                        <div className="d-flex">
+                          <div className="p-riwayat col-7">
+                            {diagnosis.name}
+                          </div>
+                          <div className="p-riwayat col-4 text-end">
+                            {formatTanggal(diagnosis.createdAt)}
+                          </div>
+                        </div>
+                        <div className="p-riwayat">{diagnosis.status}</div>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         );
