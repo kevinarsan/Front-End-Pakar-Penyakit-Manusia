@@ -35,7 +35,7 @@ const NavbarAdminComponent = ({ children }) => {
         };
 
         const responseUser = await axios.get(
-          "http://localhost:5000/api/v1/profiles/get",
+          "https://api-penyakit-manusia.up.railway.app/api/v1/profiles/get",
           config
         );
 
@@ -50,7 +50,7 @@ const NavbarAdminComponent = ({ children }) => {
         setTotalDokter(totalDokterItem);
 
         const responseHospitals = await axios.get(
-          "http://localhost:5000/api/v1/hospitals/get",
+          "https://api-penyakit-manusia.up.railway.app/api/v1/hospitals/get",
           config
         );
 

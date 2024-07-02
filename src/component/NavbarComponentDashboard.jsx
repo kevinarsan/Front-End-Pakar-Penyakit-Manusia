@@ -56,7 +56,7 @@ const NavbarComponentDashboard = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:5000/api/v1/auth/me",
+          "https://api-penyakit-manusia.up.railway.app/api/v1/auth/me",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ const NavbarComponentDashboard = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:5000/api/v1/notifications/me",
+          "https://api-penyakit-manusia.up.railway.app/api/v1/notifications/me",
           {
             headers: {
               Authorization: `Bearer ${token}`,
