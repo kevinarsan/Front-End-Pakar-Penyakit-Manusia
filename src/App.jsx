@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import Layout from "./Layout";
@@ -49,306 +49,308 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   return (
-    <Routes>
-      {/* <Route path="/login" element={<LoginPages />} /> */}
-      <Route
-        path="/login"
-        element={
-          <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
-            <LoginPages />
-          </GoogleOAuthProvider>
-        }
-      />
+    <BrowserRouter>
+      <Routes>
+        {/* <Route path="/login" element={<LoginPages />} /> */}
+        <Route
+          path="/login"
+          element={
+            <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+              <LoginPages />
+            </GoogleOAuthProvider>
+          }
+        />
 
-      <Route
-        path="/register-user"
-        element={
-          <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
-            <RegisterUserPage />
-          </GoogleOAuthProvider>
-        }
-      />
+        <Route
+          path="/register-user"
+          element={
+            <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+              <RegisterUserPage />
+            </GoogleOAuthProvider>
+          }
+        />
 
-      <Route
-        path="/"
-        element={
-          <Layout>
-            <AboutPage />
-          </Layout>
-        }
-      />
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <AboutPage />
+            </Layout>
+          }
+        />
 
-      <Route
-        path="/daftar-dokter"
-        element={
-          <Layout>
-            <DaftarDokterPages />
-          </Layout>
-        }
-      />
+        <Route
+          path="/daftar-dokter"
+          element={
+            <Layout>
+              <DaftarDokterPages />
+            </Layout>
+          }
+        />
 
-      <Route
-        path="/diagnosa"
-        element={
-          <Layout>
-            <DiagnosaPage />
-          </Layout>
-        }
-      />
+        <Route
+          path="/diagnosa"
+          element={
+            <Layout>
+              <DiagnosaPage />
+            </Layout>
+          }
+        />
 
-      <Route
-        path="/cara-penggunaan"
-        element={
-          <Layout>
-            <TutorialPages />
-          </Layout>
-        }
-      />
+        <Route
+          path="/cara-penggunaan"
+          element={
+            <Layout>
+              <TutorialPages />
+            </Layout>
+          }
+        />
 
-      <Route
-        path="/faq"
-        element={
-          <Layout>
-            <FaqPage />
-          </Layout>
-        }
-      />
+        <Route
+          path="/faq"
+          element={
+            <Layout>
+              <FaqPage />
+            </Layout>
+          }
+        />
 
-      <Route
-        path="/kontak-kami"
-        element={
-          <Layout>
-            <ContactKami />
-          </Layout>
-        }
-      />
+        <Route
+          path="/kontak-kami"
+          element={
+            <Layout>
+              <ContactKami />
+            </Layout>
+          }
+        />
 
-      {/* DETAILS */}
+        {/* DETAILS */}
 
-      <Route
-        path="/admin/daftar-dokter/details/:id"
-        element={
-          <Layout>
-            <DetailDokterPages />
-          </Layout>
-        }
-      />
+        <Route
+          path="/admin/daftar-dokter/details/:id"
+          element={
+            <Layout>
+              <DetailDokterPages />
+            </Layout>
+          }
+        />
 
-      {/* DETAILS END */}
+        {/* DETAILS END */}
 
-      {/* ADMIN */}
-      <Route path="/admin/login-admin" element={<LoginAdmin />} />
+        {/* ADMIN */}
+        <Route path="/admin/login-admin" element={<LoginAdmin />} />
 
-      <Route
-        path="/admin/about"
-        element={
-          localStorage.getItem("role") === "admin" ? (
-            <LayoutAdmin>
-              <AboutAdmin />
-            </LayoutAdmin>
-          ) : (
-            <Navigate to="/admin/login-admin" />
-          )
-        }
-      />
+        <Route
+          path="/admin/about"
+          element={
+            localStorage.getItem("role") === "admin" ? (
+              <LayoutAdmin>
+                <AboutAdmin />
+              </LayoutAdmin>
+            ) : (
+              <Navigate to="/admin/login-admin" />
+            )
+          }
+        />
 
-      <Route
-        path="/admin/dashboard"
-        element={
-          localStorage.getItem("role") === "admin" ? (
-            <LayoutAdmin>
-              <DashboardAdmin />
-            </LayoutAdmin>
-          ) : (
-            <Navigate to="/admin/login-admin" />
-          )
-        }
-      />
+        <Route
+          path="/admin/dashboard"
+          element={
+            localStorage.getItem("role") === "admin" ? (
+              <LayoutAdmin>
+                <DashboardAdmin />
+              </LayoutAdmin>
+            ) : (
+              <Navigate to="/admin/login-admin" />
+            )
+          }
+        />
 
-      <Route
-        path="/admin/daftar-gejala"
-        element={
-          localStorage.getItem("role") === "admin" ? (
-            <LayoutAdmin>
-              <GejalaAdmin />
-            </LayoutAdmin>
-          ) : (
-            <Navigate to="/admin/login-admin" />
-          )
-        }
-      />
+        <Route
+          path="/admin/daftar-gejala"
+          element={
+            localStorage.getItem("role") === "admin" ? (
+              <LayoutAdmin>
+                <GejalaAdmin />
+              </LayoutAdmin>
+            ) : (
+              <Navigate to="/admin/login-admin" />
+            )
+          }
+        />
 
-      <Route
-        path="/admin/daftar-penyakit"
-        element={
-          localStorage.getItem("role") === "admin" ? (
-            <LayoutAdmin>
-              <PenyakitAdmin />
-            </LayoutAdmin>
-          ) : (
-            <Navigate to="/admin/login-admin" />
-          )
-        }
-      />
+        <Route
+          path="/admin/daftar-penyakit"
+          element={
+            localStorage.getItem("role") === "admin" ? (
+              <LayoutAdmin>
+                <PenyakitAdmin />
+              </LayoutAdmin>
+            ) : (
+              <Navigate to="/admin/login-admin" />
+            )
+          }
+        />
 
-      <Route
-        path="/admin/basis-aturan"
-        element={
-          localStorage.getItem("role") === "admin" ? (
-            <LayoutAdmin>
-              <AturanAdmin />
-            </LayoutAdmin>
-          ) : (
-            <Navigate to="/admin/login-admin" />
-          )
-        }
-      />
+        <Route
+          path="/admin/basis-aturan"
+          element={
+            localStorage.getItem("role") === "admin" ? (
+              <LayoutAdmin>
+                <AturanAdmin />
+              </LayoutAdmin>
+            ) : (
+              <Navigate to="/admin/login-admin" />
+            )
+          }
+        />
 
-      <Route
-        path="/admin/laporan"
-        element={
-          localStorage.getItem("role") === "admin" ? (
-            <LayoutAdmin>
-              <LaporanAdmin />
-            </LayoutAdmin>
-          ) : (
-            <Navigate to="/admin/login-admin" />
-          )
-        }
-      />
+        <Route
+          path="/admin/laporan"
+          element={
+            localStorage.getItem("role") === "admin" ? (
+              <LayoutAdmin>
+                <LaporanAdmin />
+              </LayoutAdmin>
+            ) : (
+              <Navigate to="/admin/login-admin" />
+            )
+          }
+        />
 
-      <Route
-        path="/admin/transaksi"
-        element={
-          localStorage.getItem("role") === "admin" ? (
-            <LayoutAdmin>
-              <TransaksiAdmin />
-            </LayoutAdmin>
-          ) : (
-            <Navigate to="/admin/login-admin" />
-          )
-        }
-      />
+        <Route
+          path="/admin/transaksi"
+          element={
+            localStorage.getItem("role") === "admin" ? (
+              <LayoutAdmin>
+                <TransaksiAdmin />
+              </LayoutAdmin>
+            ) : (
+              <Navigate to="/admin/login-admin" />
+            )
+          }
+        />
 
-      <Route
-        path="/admin/daftar-hospitals"
-        element={
-          localStorage.getItem("role") === "admin" ? (
-            <LayoutAdmin>
-              <HospitalsAdmin />
-            </LayoutAdmin>
-          ) : (
-            <Navigate to="/admin/login-admin" />
-          )
-        }
-      />
+        <Route
+          path="/admin/daftar-hospitals"
+          element={
+            localStorage.getItem("role") === "admin" ? (
+              <LayoutAdmin>
+                <HospitalsAdmin />
+              </LayoutAdmin>
+            ) : (
+              <Navigate to="/admin/login-admin" />
+            )
+          }
+        />
 
-      <Route
-        path="/admin/daftar-doctors"
-        element={
-          localStorage.getItem("role") === "admin" ? (
-            <LayoutAdmin>
-              <DoctorActive />
-            </LayoutAdmin>
-          ) : (
-            <Navigate to="/admin/login-admin" />
-          )
-        }
-      />
+        <Route
+          path="/admin/daftar-doctors"
+          element={
+            localStorage.getItem("role") === "admin" ? (
+              <LayoutAdmin>
+                <DoctorActive />
+              </LayoutAdmin>
+            ) : (
+              <Navigate to="/admin/login-admin" />
+            )
+          }
+        />
 
-      <Route
-        path="/admin/daftar-users"
-        element={
-          localStorage.getItem("role") === "admin" ? (
-            <LayoutAdmin>
-              <UserActive />
-            </LayoutAdmin>
-          ) : (
-            <Navigate to="/admin/login-admin" />
-          )
-        }
-      />
+        <Route
+          path="/admin/daftar-users"
+          element={
+            localStorage.getItem("role") === "admin" ? (
+              <LayoutAdmin>
+                <UserActive />
+              </LayoutAdmin>
+            ) : (
+              <Navigate to="/admin/login-admin" />
+            )
+          }
+        />
 
-      {/* ADMIN END */}
+        {/* ADMIN END */}
 
-      {/* DASHBOARD */}
-      <Route
-        path="/dashboard/home-page"
-        element={
-          <PrivateRoute>
-            <LayoutDashboard>
-              <HomePage />
-            </LayoutDashboard>
-          </PrivateRoute>
-        }
-      />
+        {/* DASHBOARD */}
+        <Route
+          path="/dashboard/home-page"
+          element={
+            <PrivateRoute>
+              <LayoutDashboard>
+                <HomePage />
+              </LayoutDashboard>
+            </PrivateRoute>
+          }
+        />
 
-      <Route
-        path="/dashboard/notification"
-        element={
-          <PrivateRoute>
-            <LayoutDashboard>
-              <NotificationPage />
-            </LayoutDashboard>
-          </PrivateRoute>
-        }
-      />
+        <Route
+          path="/dashboard/notification"
+          element={
+            <PrivateRoute>
+              <LayoutDashboard>
+                <NotificationPage />
+              </LayoutDashboard>
+            </PrivateRoute>
+          }
+        />
 
-      <Route
-        path="/dashboard/profiles"
-        element={
-          <PrivateRoute>
-            <LayoutDashboard>
-              <ProfilesPage />
-            </LayoutDashboard>
-          </PrivateRoute>
-        }
-      />
+        <Route
+          path="/dashboard/profiles"
+          element={
+            <PrivateRoute>
+              <LayoutDashboard>
+                <ProfilesPage />
+              </LayoutDashboard>
+            </PrivateRoute>
+          }
+        />
 
-      <Route
-        path="/dashboard/detail-penyakit"
-        element={
-          <PrivateRoute>
-            <LayoutDashboard>
-              <PenyakitDetails />
-            </LayoutDashboard>
-          </PrivateRoute>
-        }
-      />
+        <Route
+          path="/dashboard/detail-penyakit"
+          element={
+            <PrivateRoute>
+              <LayoutDashboard>
+                <PenyakitDetails />
+              </LayoutDashboard>
+            </PrivateRoute>
+          }
+        />
 
-      <Route
-        path="/dashboard/detail-diagnosa/:id"
-        element={
-          <PrivateRoute>
-            <LayoutDashboard>
-              <DiagnosaDetails />
-            </LayoutDashboard>
-          </PrivateRoute>
-        }
-      />
+        <Route
+          path="/dashboard/detail-diagnosa/:id"
+          element={
+            <PrivateRoute>
+              <LayoutDashboard>
+                <DiagnosaDetails />
+              </LayoutDashboard>
+            </PrivateRoute>
+          }
+        />
 
-      <Route
-        path="/dashboard/detail-riwayat/:id"
-        element={
-          <PrivateRoute>
-            <LayoutDashboard>
-              <RiwayatDetails />
-            </LayoutDashboard>
-          </PrivateRoute>
-        }
-      />
-      {/* DASHBOARD END */}
+        <Route
+          path="/dashboard/detail-riwayat/:id"
+          element={
+            <PrivateRoute>
+              <LayoutDashboard>
+                <RiwayatDetails />
+              </LayoutDashboard>
+            </PrivateRoute>
+          }
+        />
+        {/* DASHBOARD END */}
 
-      {/* DASHBOARD HOME LOGIN */}
+        {/* DASHBOARD HOME LOGIN */}
 
-      {/* DASHBOARD HOME LOGIN END */}
+        {/* DASHBOARD HOME LOGIN END */}
 
-      {/* DOKTER */}
+        {/* DOKTER */}
 
-      <Route path="/dokter/dashboard" element={<DashboardDokter />} />
+        <Route path="/dokter/dashboard" element={<DashboardDokter />} />
 
-      {/* DOKTER END */}
-    </Routes>
+        {/* DOKTER END */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
