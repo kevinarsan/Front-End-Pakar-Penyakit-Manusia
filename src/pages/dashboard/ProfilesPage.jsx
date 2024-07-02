@@ -33,7 +33,7 @@ const ProfilesPages = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/v1/profiles/get-me",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/profiles/get-me",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ const ProfilesPages = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/v1/diagnoses/get-me",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/diagnoses/get-me",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -98,7 +98,7 @@ const ProfilesPages = () => {
 
     try {
       await axios.put(
-        "http://localhost:5000/api/v1/profiles/update-users",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/profiles/update-users",
         formData,
         {
           headers: {
@@ -125,7 +125,7 @@ const ProfilesPages = () => {
 
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/v1/auth/reset-password",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/auth/reset-password",
         {
           oldPassword,
           newPassword,

@@ -69,7 +69,7 @@ const LaporanAdmin = () => {
       };
 
       const response = await axios.get(
-        "http://localhost:5000/api/v1/diagnoses/get",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/diagnoses/get",
         config
       );
 
@@ -196,7 +196,7 @@ const LaporanAdmin = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/symptom/create",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/symptom/create",
         {
           code: name,
           name: age,
@@ -284,7 +284,7 @@ const LaporanAdmin = () => {
       };
 
       const response = await axios.delete(
-        `http://localhost:5000/api/v1/symptom/delete/${deleteConfirmation.idToDelete}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/symptom/delete/${deleteConfirmation.idToDelete}`,
         config
       );
 

@@ -62,7 +62,7 @@ const GejalaAdmin = () => {
       };
 
       const response = await axios.get(
-        "http://localhost:5000/api/v1/symptom/get",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/symptom/get",
         config
       );
 
@@ -178,7 +178,7 @@ const GejalaAdmin = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/symptom/create",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/symptom/create",
         {
           code,
           name,
@@ -275,7 +275,7 @@ const GejalaAdmin = () => {
       };
 
       const response = await axios.put(
-        `http://localhost:5000/api/v1/symptom/update/${updateGejalaData.id}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/symptom/update/${updateGejalaData.id}`,
         formData,
         config
       );
@@ -338,7 +338,7 @@ const GejalaAdmin = () => {
       };
 
       const response = await axios.delete(
-        `http://localhost:5000/api/v1/symptom/delete/${deleteConfirmation.idToDelete}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/symptom/delete/${deleteConfirmation.idToDelete}`,
         config
       );
 

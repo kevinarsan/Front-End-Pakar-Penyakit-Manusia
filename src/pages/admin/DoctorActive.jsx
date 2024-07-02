@@ -105,9 +105,10 @@ const UserActive = () => {
       let url = "";
 
       if (dataType === "Biodata Dokter") {
-        url = "http://localhost:5000/api/v1/profiles/get";
+        url = "https://api-penyakit-manusia.up.railway.app/api/v1/profiles/get";
       } else if (dataType === "Jadwal Dokter") {
-        url = "http://localhost:5000/api/v1/profiles/doctor";
+        url =
+          "https://api-penyakit-manusia.up.railway.app/api/v1/profiles/doctor";
       }
 
       const token = localStorage.getItem("token");
@@ -360,14 +361,16 @@ const UserActive = () => {
     let config = {};
 
     if (dataType === "Biodata Dokter") {
-      url = "http://localhost:5000/api/v1/auth/register-admin";
+      url =
+        "https://api-penyakit-manusia.up.railway.app/api/v1/auth/register-admin";
       config = {
         headers: {
           "Content-Type": "application/json",
         },
       };
     } else if (dataType === "Jadwal Dokter") {
-      url = "http://localhost:5000/api/v1/practice/create";
+      url =
+        "https://api-penyakit-manusia.up.railway.app/api/v1/practice/create";
       config = {
         headers: {
           "Content-Type": "application/json",
@@ -633,7 +636,7 @@ const UserActive = () => {
     let config = {};
 
     if (dataType === "Biodata Dokter") {
-      url = `http://localhost:5000/api/v1/profiles/update-doctor/${updateUserData.id}`;
+      url = `https://api-penyakit-manusia.up.railway.app/api/v1/profiles/update-doctor/${updateUserData.id}`;
       config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -641,7 +644,7 @@ const UserActive = () => {
         },
       };
     } else if (dataType === "Jadwal Dokter") {
-      url = `http://localhost:5000/api/v1/practice/update/${updateUserData.practiceId}`;
+      url = `https://api-penyakit-manusia.up.railway.app/api/v1/practice/update/${updateUserData.practiceId}`;
       config = {
         headers: {
           "Content-Type": "application/json",
@@ -879,9 +882,9 @@ const UserActive = () => {
     let deleteUrl = "";
 
     if (dataType === "Biodata Dokter") {
-      deleteUrl = `http://localhost:5000/api/v1/profiles/delete/${deleteConfirmation.idToDelete}`;
+      deleteUrl = `https://api-penyakit-manusia.up.railway.app/api/v1/profiles/delete/${deleteConfirmation.idToDelete}`;
     } else if (dataType === "Jadwal Dokter") {
-      deleteUrl = `http://localhost:5000/api/v1/practice/delete/${deleteConfirmation.idToDelete}`;
+      deleteUrl = `https://api-penyakit-manusia.up.railway.app/api/v1/practice/delete/${deleteConfirmation.idToDelete}`;
     }
 
     try {

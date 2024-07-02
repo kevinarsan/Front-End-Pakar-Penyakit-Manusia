@@ -73,17 +73,21 @@ const AboutAdmin = () => {
       let url = "";
 
       if (dataType === "Visi & Misi") {
-        url = "http://localhost:5000/api/v1/about/visi-misi";
+        url =
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/visi-misi";
       } else if (dataType === "Teams") {
-        url = "http://localhost:5000/api/v1/about/teams";
+        url = "https://api-penyakit-manusia.up.railway.app/api/v1/about/teams";
       } else if (dataType === "Moto") {
-        url = "http://localhost:5000/api/v1/about/description-team";
+        url =
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/description-team";
       } else if (dataType === "Tutorials") {
-        url = "http://localhost:5000/api/v1/about/tutorials";
+        url =
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/tutorials";
       } else if (dataType === "FAQ") {
-        url = "http://localhost:5000/api/v1/about/faq";
+        url = "https://api-penyakit-manusia.up.railway.app/api/v1/about/faq";
       } else if (dataType === "Kontak") {
-        url = "http://localhost:5000/api/v1/about/contact";
+        url =
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/contact";
       }
 
       const token = localStorage.getItem("token");
@@ -391,42 +395,42 @@ const AboutAdmin = () => {
 
     if (selectedData) {
       if (dataType === "Visi & Misi") {
-        url = `http://localhost:5000/api/v1/about/visi-misi/${selectedData.id}`;
+        url = `https://api-penyakit-manusia.up.railway.app/api/v1/about/visi-misi/${selectedData.id}`;
         config = {
           headers: {
             "Content-Type": "application/json",
           },
         };
       } else if (dataType === "Teams") {
-        url = `http://localhost:5000/api/v1/about/teams/${selectedData.id}`;
+        url = `https://api-penyakit-manusia.up.railway.app/api/v1/about/teams/${selectedData.id}`;
         config = {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         };
       } else if (dataType === "Moto") {
-        url = `http://localhost:5000/api/v1/about/moto-team/${selectedData.id}`;
+        url = `https://api-penyakit-manusia.up.railway.app/api/v1/about/moto-team/${selectedData.id}`;
         config = {
           headers: {
             "Content-Type": "application/json",
           },
         };
       } else if (dataType === "Tutorials") {
-        url = `http://localhost:5000/api/v1/about/tutorials/${selectedData.id}`;
+        url = `https://api-penyakit-manusia.up.railway.app/api/v1/about/tutorials/${selectedData.id}`;
         config = {
           headers: {
             "Content-Type": "application/json",
           },
         };
       } else if (dataType === "FAQ") {
-        url = `http://localhost:5000/api/v1/about/faq/${selectedData.id}`;
+        url = `https://api-penyakit-manusia.up.railway.app/api/v1/about/faq/${selectedData.id}`;
         config = {
           headers: {
             "Content-Type": "application/json",
           },
         };
       } else if (dataType === "Kontak") {
-        url = `http://localhost:5000/api/v1/about/contact/${selectedData.id}`;
+        url = `https://api-penyakit-manusia.up.railway.app/api/v1/about/contact/${selectedData.id}`;
         config = {
           headers: {
             "Content-Type": "application/json",
@@ -435,42 +439,46 @@ const AboutAdmin = () => {
       }
     } else {
       if (dataType === "Visi & Misi") {
-        url = "http://localhost:5000/api/v1/about/visi-misi";
+        url =
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/visi-misi";
         config = {
           headers: {
             "Content-Type": "application/json",
           },
         };
       } else if (dataType === "Teams") {
-        url = "http://localhost:5000/api/v1/about/teams";
+        url = "https://api-penyakit-manusia.up.railway.app/api/v1/about/teams";
         config = {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         };
       } else if (dataType === "Moto") {
-        url = "http://localhost:5000/api/v1/about/description-team";
+        url =
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/description-team";
         config = {
           headers: {
             "Content-Type": "application/json",
           },
         };
       } else if (dataType === "Tutorials") {
-        url = "http://localhost:5000/api/v1/about/tutorials";
+        url =
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/tutorials";
         config = {
           headers: {
             "Content-Type": "application/json",
           },
         };
       } else if (dataType === "FAQ") {
-        url = "http://localhost:5000/api/v1/about/faq";
+        url = "https://api-penyakit-manusia.up.railway.app/api/v1/about/faq";
         config = {
           headers: {
             "Content-Type": "application/json",
           },
         };
       } else if (dataType === "Kontak") {
-        url = "http://localhost:5000/api/v1/about/contact";
+        url =
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/contact";
         config = {
           headers: {
             "Content-Type": "application/json",
@@ -763,17 +771,17 @@ const AboutAdmin = () => {
     let deleteUrl = "";
 
     if (dataType === "Visi & Misi") {
-      deleteUrl = `http://localhost:5000/api/v1/about/visi-misi/${deleteConfirmation.idToDelete}`;
+      deleteUrl = `https://api-penyakit-manusia.up.railway.app/api/v1/about/visi-misi/${deleteConfirmation.idToDelete}`;
     } else if (dataType === "Teams") {
-      deleteUrl = `http://localhost:5000/api/v1/about/teams/${deleteConfirmation.idToDelete}`;
+      deleteUrl = `https://api-penyakit-manusia.up.railway.app/api/v1/about/teams/${deleteConfirmation.idToDelete}`;
     } else if (dataType === "Moto") {
-      deleteUrl = `http://localhost:5000/api/v1/about/moto-team/${deleteConfirmation.idToDelete}`;
+      deleteUrl = `https://api-penyakit-manusia.up.railway.app/api/v1/about/moto-team/${deleteConfirmation.idToDelete}`;
     } else if (dataType === "Tutorials") {
-      deleteUrl = `http://localhost:5000/api/v1/about/tutorials/${deleteConfirmation.idToDelete}`;
+      deleteUrl = `https://api-penyakit-manusia.up.railway.app/api/v1/about/tutorials/${deleteConfirmation.idToDelete}`;
     } else if (dataType === "FAQ") {
-      deleteUrl = `http://localhost:5000/api/v1/about/faq/${deleteConfirmation.idToDelete}`;
+      deleteUrl = `https://api-penyakit-manusia.up.railway.app/api/v1/about/faq/${deleteConfirmation.idToDelete}`;
     } else if (dataType === "Kontak") {
-      deleteUrl = `http://localhost:5000/api/v1/about/contact/${deleteConfirmation.idToDelete}`;
+      deleteUrl = `https://api-penyakit-manusia.up.railway.app/api/v1/about/contact/${deleteConfirmation.idToDelete}`;
     }
 
     try {

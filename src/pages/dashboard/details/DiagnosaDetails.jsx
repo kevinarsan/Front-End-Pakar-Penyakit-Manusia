@@ -37,7 +37,7 @@ const DiagnosaDetails = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .get("http://localhost:5000/api/v1/rule-base/get", {
+      .get("https://api-penyakit-manusia.up.railway.app/api/v1/rule-base/get", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -55,11 +55,14 @@ const DiagnosaDetails = () => {
       });
 
     axios
-      .get(`http://localhost:5000/api/v1/diseases/get/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `https://api-penyakit-manusia.up.railway.app/api/v1/diseases/get/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         if (response.data && response.data.disease) {
           setDisease(response.data.disease);
@@ -85,11 +88,15 @@ const DiagnosaDetails = () => {
     const token = localStorage.getItem("token");
     const dataToSend = { ...formData, ...biodata };
     axios
-      .post("http://localhost:5000/api/v1/diagnoses/create", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .post(
+        "https://api-penyakit-manusia.up.railway.app/api/v1/diagnoses/create",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         console.log("Diagnosa berhasil:", response.data);
         setDiagnoseResult(response.data.diagnoses);

@@ -24,7 +24,7 @@ const DashboardAdmin = () => {
       };
 
       const response = await axios.get(
-        "http://localhost:5000/api/v1/hospitals/get",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/hospitals/get",
         config
       );
 

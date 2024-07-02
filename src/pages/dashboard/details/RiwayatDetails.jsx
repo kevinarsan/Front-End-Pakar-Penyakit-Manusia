@@ -14,7 +14,7 @@ const RiwayatDetails = () => {
       const token = localStorage.getItem("token");
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/diagnoses/get/${id}`,
+          `https://api-penyakit-manusia.up.railway.app/api/v1/diagnoses/get/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

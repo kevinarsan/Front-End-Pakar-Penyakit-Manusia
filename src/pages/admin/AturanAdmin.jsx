@@ -62,20 +62,20 @@ const AturanAdmin = () => {
       };
 
       const response = await axios.get(
-        "http://localhost:5000/api/v1/rule-base/get",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/rule-base/get",
         config
       );
 
       setAturan(response.data.rule);
 
       const diseasesResponse = await axios.get(
-        "http://localhost:5000/api/v1/diseases/get",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/diseases/get",
         config
       );
       setDiseases(diseasesResponse.data.disease);
 
       const symptomsResponse = await axios.get(
-        "http://localhost:5000/api/v1/symptom/get",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/symptom/get",
         config
       );
       setSymptoms(symptomsResponse.data.symptoms);
@@ -199,7 +199,7 @@ const AturanAdmin = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:5000/api/v1/rule-base/create",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/rule-base/create",
         {
           diseasesId: parseInt(diseasesId),
           symptomId: parseInt(symptomId),
@@ -289,7 +289,7 @@ const AturanAdmin = () => {
       };
 
       const response = await axios.put(
-        `http://localhost:5000/api/v1/rule-base/update/${updateRulesData.id}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/rule-base/update/${updateRulesData.id}`,
         {
           diseasesId: parseInt(updateRulesData.diseasesId),
           symptomId: parseInt(updateRulesData.symptomId),
@@ -355,7 +355,7 @@ const AturanAdmin = () => {
       };
 
       const response = await axios.delete(
-        `http://localhost:5000/api/v1/rule-base/delete/${deleteConfirmation.idToDelete}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/rule-base/delete/${deleteConfirmation.idToDelete}`,
         config
       );
 

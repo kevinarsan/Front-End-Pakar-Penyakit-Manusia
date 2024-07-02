@@ -70,7 +70,7 @@ const HospitalsAdmin = () => {
       };
 
       const response = await axios.get(
-        "http://localhost:5000/api/v1/hospitals/get",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/hospitals/get",
         config
       );
 
@@ -208,7 +208,7 @@ const HospitalsAdmin = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:5000/api/v1/hospitals/create",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/hospitals/create",
         formData,
         config
       );
@@ -300,7 +300,7 @@ const HospitalsAdmin = () => {
       };
 
       const response = await axios.put(
-        `http://localhost:5000/api/v1/hospitals/update/${updateHospitalsData.id}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/hospitals/update/${updateHospitalsData.id}`,
         formData,
         config
       );
@@ -347,7 +347,7 @@ const HospitalsAdmin = () => {
       };
 
       const response = await axios.delete(
-        `http://localhost:5000/api/v1/hospitals/delete/${deleteConfirmation.idToDelete}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/hospitals/delete/${deleteConfirmation.idToDelete}`,
         config
       );
 

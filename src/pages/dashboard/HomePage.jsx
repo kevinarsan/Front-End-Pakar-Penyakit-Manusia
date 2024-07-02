@@ -13,7 +13,7 @@ const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/diseases/get")
+    fetch("https://api-penyakit-manusia.up.railway.app/api/v1/diseases/get")
       .then((response) => response.json())
       .then((data) => {
         if (data && data.disease) {

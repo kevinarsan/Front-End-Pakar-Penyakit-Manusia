@@ -11,7 +11,7 @@ const PenyakitDetails = () => {
   const [diseases, setDiseases] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/diseases/get")
+    fetch("https://api-penyakit-manusia.up.railway.app/api/v1/diseases/get")
       .then((response) => response.json())
       .then((data) => {
         if (data && data.disease) {
@@ -27,7 +27,7 @@ const PenyakitDetails = () => {
     const fetchData = async () => {
       try {
         const responseMoto = await axios.get(
-          "http://localhost:5000/api/v1/about/description-team"
+          "https://api-penyakit-manusia.up.railway.app/api/v1/about/description-team"
         );
 
         const motoItems = responseMoto.data.about.filter(

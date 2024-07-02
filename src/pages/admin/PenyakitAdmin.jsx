@@ -64,7 +64,7 @@ const PenyakitAdmin = () => {
       };
 
       const response = await axios.get(
-        "http://localhost:5000/api/v1/diseases/get",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/diseases/get",
         config
       );
 
@@ -195,7 +195,7 @@ const PenyakitAdmin = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:5000/api/v1/diseases/create",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/diseases/create",
         formData,
         config
       );
@@ -281,7 +281,7 @@ const PenyakitAdmin = () => {
       };
 
       const response = await axios.put(
-        `http://localhost:5000/api/v1/diseases/update/${updateHospitalsData.id}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/diseases/update/${updateHospitalsData.id}`,
         formData,
         config
       );
@@ -328,7 +328,7 @@ const PenyakitAdmin = () => {
       };
 
       const response = await axios.delete(
-        `http://localhost:5000/api/v1/diseases/delete/${deleteConfirmation.idToDelete}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/diseases/delete/${deleteConfirmation.idToDelete}`,
         config
       );
 

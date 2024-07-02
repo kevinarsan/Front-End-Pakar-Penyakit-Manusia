@@ -25,7 +25,7 @@ const DetailDokterPages = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/profiles/doctor/${id}`
+          `https://api-penyakit-manusia.up.railway.app/api/v1/profiles/doctor/${id}`
         );
         setDetailDokter(response.data.get);
       } catch (error) {

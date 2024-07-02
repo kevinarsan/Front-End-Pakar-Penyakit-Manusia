@@ -15,7 +15,7 @@ const NotificationPage = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:5000/api/v1/notifications/me",
+          "https://api-penyakit-manusia.up.railway.app/api/v1/notifications/me",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ const NotificationPage = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.get(
-        `http://localhost:5000/api/v1/notifications/get/${notificationId}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/notifications/get/${notificationId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -85,7 +85,7 @@ const NotificationPage = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5000/api/v1/notifications/get/${notification.id}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/notifications/get/${notification.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -104,7 +104,7 @@ const NotificationPage = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:5000/api/v1/notifications/delete/${notificationId}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/notifications/delete/${notificationId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
