@@ -284,7 +284,7 @@ const LaporanAdmin = () => {
       };
 
       const response = await axios.delete(
-        `https://api-penyakit-manusia.up.railway.app/api/v1/symptom/delete/${deleteConfirmation.idToDelete}`,
+        `https://api-penyakit-manusia.up.railway.app/api/v1/diagnoses/delete/${deleteConfirmation.idToDelete}`,
         config
       );
 
