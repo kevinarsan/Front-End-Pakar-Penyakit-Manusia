@@ -1374,7 +1374,7 @@ a {
 }
 
 .home-view a:hover {
-  font-size: 15px;
+  font-size: 0.94rem;
   transition: 0.5s white ease-in-out;
 }
 
@@ -1406,21 +1406,21 @@ a {
 
 .home-page .card .review,
 .home-page .card .rs {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .home-page .card .judul {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--logo-color-1);
 }
 
 .home-page .card .dktr {
-  font-size: 10px;
+  font-size: 0.62rem;
   color: var(--text-footer);
 }
 
 .home-page .card .alamat {
-  font-size: 10px;
+  font-size: 0.62rem;
   color: var(--logo-color-1);
 }
 
@@ -1435,7 +1435,7 @@ a {
 
 .home-page .btn-buy .dm,
 .home-page .btn-buy .rp {
-  font-size: 12px;
+  font-size: 0.65rem;
 }
 
 .home-page .btn-buy:hover {

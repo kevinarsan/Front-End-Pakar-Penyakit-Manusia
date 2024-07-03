@@ -257,7 +257,7 @@ const HomePage = () => {
                 </div>
                 <Button className="btn-buy col-6 d-flex ms-2 mb-2">
                   <div className="dm text-start col-5 me-1 fw-bold">
-                    <IoDiamond className="me-1 fw-bold mb-1" /> Biaya
+                    <IoDiamond className="dm me-1 fw-bold mb-1" /> Biaya
                   </div>
                   <div className="rp col-7 text-end fw-bold">Rp.100.000</div>
                 </Button>

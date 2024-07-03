@@ -11,11 +11,6 @@ import {
 
 const LaporanAdmin = () => {
   const [show, setShow] = useState(false);
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setgender] = useState("");
-  const [probabilityResult, setProbabilityResult] = useState("");
-  const [status, setStatus] = useState("");
   const [gejala, setGejala] = useState([]);
   const [alert, setAlert] = useState({
     show: false,
@@ -29,14 +24,6 @@ const LaporanAdmin = () => {
   };
 
   const handleShow = () => setShow(true);
-
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [updateGejalaData, setUpdateGejalaData] = useState({
-    id: null,
-    code: null,
-    name: null,
-    probability: null,
-  });
 
   const [deleteConfirmation, setDeleteConfirmation] = useState({
     show: false,
@@ -179,96 +166,6 @@ const LaporanAdmin = () => {
     );
   };
 
-  const handleTambahClick = () => {
-    setShow(true);
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-
-    const token = localStorage.getItem("token");
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    try {
-      const response = await axios.post(
-        "https://api-penyakit-manusia.up.railway.app/api/v1/symptom/create",
-        {
-          code: name,
-          name: age,
-          probability: gender,
-        },
-        config
-      );
-
-      if (response.status === 200) {
-        console.log("Data berhasil disimpan");
-        setAlert({
-          show: true,
-          variant: "success",
-          message: "Data berhasil disimpan.",
-        });
-        handleClose();
-        fetchData();
-      } else {
-        console.log("Gagal menyimpan data");
-        setAlert({
-          show: true,
-          variant: "danger",
-          message: "Gagal menyimpan data.",
-        });
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      if (error.response) {
-        if (error.response.status === 404) {
-          setAlert({
-            show: true,
-            variant: "danger",
-            message: "Not Found",
-          });
-        } else {
-          setAlert({
-            show: true,
-            variant: "danger",
-            message: "Terjadi kesalahan. Mohon coba lagi.",
-          });
-        }
-      } else {
-        setAlert({
-          show: true,
-          variant: "danger",
-          message: "Terjadi kesalahan. Mohon coba lagi.",
-        });
-      }
-    }
-  };
-
-  const handleUpdateClick = (id) => {
-    const gejalaToUpdate = gejala.find((gejala) => gejala.id === id);
-    if (gejalaToUpdate) {
-      setUpdateGejalaData({
-        id: gejalaToUpdate.id,
-        code: gejalaToUpdate.code,
-        name: gejalaToUpdate.name,
-        probability: gejalaToUpdate.probability,
-      });
-      setShowUpdateModal(true);
-    }
-  };
-
-  const handleUpdateInputChange = (e) => {
-    const { name, value } = e.target;
-    setUpdateGejalaData((prevGejalaData) => ({
-      ...prevGejalaData,
-      [name]: value,
-    }));
-  };
-
   const handleDeleteClick = async (id) => {
     handleDeleteConfirmationShow(id);
   };
@@ -318,65 +215,6 @@ const LaporanAdmin = () => {
 
   return (
     <div>
-      {/* TAMBAH DATA */}
-      <Modal size="lg" show={show} onHide={handleClose}>
-        <Modal.Header closeButton></Modal.Header>
-        <Modal.Title className="fw-semibold text-center">
-          Tambah Data Gejala
-        </Modal.Title>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-sm-9">
-              <Modal.Body>
-                <Form onSubmit={handleFormSubmit}>
-                  {/* <Form.Group className="mb-3" control="code">
-                    <Form.Label className="fw-semibold">Kode Gejala</Form.Label>
-                    <Form.Control
-                      size="lg"
-                      type="text"
-                      name="code"
-                      value={code}
-                      onChange={(e) => setCode(e.target.value)}
-                      placeholder="Kode Gejala..."
-                      required
-                    />
-                  </Form.Group> */}
-                  <Form.Group className="mb-3" control="name">
-                    <Form.Label className="fw-semibold">Nama Gejala</Form.Label>
-                    <Form.Control
-                      size="lg"
-                      type="text"
-                      name="name"
-                      value={age}
-                      onChange={(e) => setAge(e.target.value)}
-                      placeholder="Nama Gejala..."
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" control="probability">
-                    <Form.Label className="fw-semibold">
-                      Nilai Probabilitas
-                    </Form.Label>
-                    <Form.Control
-                      size="lg"
-                      type="text"
-                      name="probability"
-                      value={gender}
-                      onChange={(e) => setgender(e.target.value)}
-                      placeholder="Nilai Probabilitas..."
-                      required
-                    />
-                  </Form.Group>
-                  <Button className="save mb-4 fw-bold" type="submit">
-                    Simpan
-                  </Button>
-                </Form>
-              </Modal.Body>
-            </div>
-          </div>
-        </div>
-      </Modal>
-
       {/* CORFIRMATION DELETE */}
       <Modal
         show={deleteConfirmation.show}
@@ -416,13 +254,6 @@ const LaporanAdmin = () => {
         <div className="d-flex mb-1">
           <h5 className="mt-2 fw-bold text-black col-4">Laporan Diagnosa</h5>
           <div className="col-8 d-flex justify-content-end align-items-center">
-            <Button
-              className="tambah me-2 fw-semibold d-flex align-items-center"
-              onClick={handleTambahClick}
-            >
-              <FaPlus className="me-2" />
-              Cek Diagnosa
-            </Button>
             <Button className="filter me-2 ms-2 fw-semibold d-flex align-items-center">
               <FaFilter className="me-2" />
               Filter

@@ -1,11 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Modal, Form, Alert } from "react-bootstrap";
 import axios from "axios";
 import { FaSearch, FaFilter, FaPlus } from "react-icons/fa";
-import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
+import { FaAnglesLeft, FaAnglesRight, FaCircleCheck } from "react-icons/fa6";
 
 const DashboardAdmin = () => {
-  const [hospitals, setHospitals] = useState([]);
+  const [show, setShow] = useState(false);
+  const [gejala, setGejala] = useState([]);
+  const [alert, setAlert] = useState({
+    show: false,
+    variant: "success",
+    message: "",
+  });
+
+  const handleClose = () => {
+    setShow(false);
+    setAlert({ show: false, variant: "success", message: "" });
+  };
+
+  const handleShow = () => setShow(true);
+
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    show: false,
+    idToDelete: null,
+  });
+
+  const handleDeleteConfirmationClose = () => {
+    setDeleteConfirmation({ show: false, idToDelete: null });
+  };
+
+  const handleDeleteConfirmationShow = (id) => {
+    setDeleteConfirmation({ show: true, idToDelete: id });
+  };
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -24,21 +51,21 @@ const DashboardAdmin = () => {
       };
 
       const response = await axios.get(
-        "https://api-penyakit-manusia.up.railway.app/api/v1/hospitals/get",
+        "https://api-penyakit-manusia.up.railway.app/api/v1/diagnoses/get",
         config
       );
 
-      setHospitals(response.data.hospitals);
+      setGejala(response.data.diagnose);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
   const renderTable = () => {
-    const totalPages = Math.ceil(hospitals.length / itemsPerPage);
+    const totalPages = Math.ceil(gejala.length / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentData = hospitals.slice(indexOfFirstItem, indexOfLastItem);
+    const currentData = gejala.slice(indexOfFirstItem, indexOfLastItem);
 
     const handleNextPage = () => {
       if (currentPage < totalPages) {
@@ -57,45 +84,44 @@ const DashboardAdmin = () => {
         <div className="table-admin overflow-auto">
           <Table>
             <thead>
-              <tr className="hospital">
-                <th className="col-3">Nama Rumah Sakit</th>
-                <th className="col-1">Gambar</th>
-                <th className="col-1">Kota</th>
-                <th className="col-1">Provinsi</th>
-                <th className="col-1">Negara</th>
-                <th className="col-3">Detail Lokasi</th>
-                <th className="col-2">Link Gmap</th>
-                <th className="col-1">Aksi</th>
+              <tr>
+                <th>No</th>
+                <th style={{ minWidth: "10rem" }}>Nama Pasien</th>
+                <th style={{ minWidth: "7rem" }}>Umur</th>
+                <th style={{ minWidth: "7rem" }}>Jenis Kelamin</th>
+                <th style={{ minWidth: "7rem" }}>Nama Penyakit</th>
+                <th>Nama Gejala</th>
+                <th>Probabilitas</th>
+                <th>Status</th>
+                <th>Aksi</th>
               </tr>
             </thead>
 
             <tbody>
-              {currentData.map((item) => (
+              {currentData.map((item, index) => (
                 <tr key={item.id}>
+                  <td>{index + 1}</td>
                   <td>{item.name}</td>
+                  <td>{item.age} Bulan</td>
+                  <td>{item.gender}</td>
+                  <td>{item.diseases.name}</td>
                   <td>
-                    <img
-                      src={item.picture}
-                      alt={item.name}
-                      style={{ height: "50px", width: "50px" }}
-                    />
+                    {item.diagnosesTo.map((diagnose, idx) => (
+                      <div key={idx} className="mb-1">
+                        <FaCircleCheck className="mb-1" />{" "}
+                        {diagnose.symptom.name}
+                      </div>
+                    ))}
                   </td>
-                  <td>{item.city}</td>
-                  <td>{item.province}</td>
-                  <td>{item.country}</td>
-                  <td>{item.details}</td>
-                  <td>{item.location}</td>
+                  <td>{item.probabilityResult.toFixed(2)}</td>
+                  <td>
+                    {item.status} {item.diseases.name}
+                  </td>
                   <td>
                     <div className="d-flex">
                       <Button
-                        className="update d-flex justify-content-center align-items-center me-1"
-                        // onClick={() => handleShowUpdateModal(item.id)}
-                      >
-                        Ubah
-                      </Button>
-                      <Button
                         className="delete d-flex justify-content-center align-items-center ms-1"
-                        // onClick={() => handleDeleteUser(item.id)}
+                        onClick={() => handleDeleteClick(item.id)}
                       >
                         Hapus
                       </Button>
@@ -135,19 +161,96 @@ const DashboardAdmin = () => {
     );
   };
 
+  const handleDeleteClick = async (id) => {
+    handleDeleteConfirmationShow(id);
+  };
+
+  const handleDeleteConfirmed = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const response = await axios.delete(
+        `https://api-penyakit-manusia.up.railway.app/api/v1/diagnoses/delete/${deleteConfirmation.idToDelete}`,
+        config
+      );
+
+      if (response.status === 200) {
+        console.log("Data berhasil dihapus");
+        setAlert({
+          show: true,
+          variant: "success",
+          message: "Data berhasil dihapus.",
+        });
+        fetchData();
+      } else {
+        console.log("Gagal menghapus data");
+        setAlert({
+          show: true,
+          variant: "danger",
+          message: "Gagal menghapus data.",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setAlert({
+        show: true,
+        variant: "danger",
+        message: "Terjadi kesalahan. Mohon coba lagi.",
+      });
+    }
+
+    handleDeleteConfirmationClose();
+  };
+
   return (
     <div>
+      {/* CORFIRMATION DELETE */}
+      <Modal
+        show={deleteConfirmation.show}
+        onHide={handleDeleteConfirmationClose}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className="fw-semibold">
+            Konfirmasi Penghapusan
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Yakin ingin menghapus data?</Modal.Body>
+        <Modal.Footer>
+          <Button
+            className="cencel fw-bold"
+            onClick={handleDeleteConfirmationClose}
+          >
+            Batal
+          </Button>
+          <Button className="hapus fw-bold" onClick={handleDeleteConfirmed}>
+            Hapus
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* GET DATA */}
       <div className="col-10 offset-1 mt-4">
+        <Alert
+          show={alert.show}
+          variant={alert.variant}
+          onClose={() =>
+            setAlert({ show: false, variant: "success", message: "" })
+          }
+          dismissible
+        >
+          {alert.message}
+        </Alert>
         <div className="d-flex mb-1">
-          <h5 className="mt-2 fw-bold text-black col-4">Status Pembayaran</h5>
+          <h5 className="mt-2 fw-bold text-black col-4">
+            Status Pembayaran & Diagnosa
+          </h5>
           <div className="col-8 d-flex justify-content-end align-items-center">
-            <Button
-              className="tambah me-2 fw-semibold d-flex align-items-center"
-              // onClick={handleTambahClick}
-            >
-              <FaPlus className="me-2" />
-              Tambah Users
-            </Button>
             <Button className="filter me-2 ms-2 fw-semibold d-flex align-items-center">
               <FaFilter className="me-2" />
               Filter
